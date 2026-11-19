@@ -25,7 +25,9 @@ create table routines (
   position int not null,
   name text not null,
   "templateId" text,
-  exercises jsonb not null default '[]'
+  exercises jsonb not null default '[]',
+  -- Exercises for the next time only, set by the coach; cleared when that session starts.
+  override jsonb
 );
 
 -- One time the student trained a routine. routineId has no FK and position/routineName
@@ -36,6 +38,8 @@ create table sessions (
   "routineId" text not null,
   position int not null,
   "routineName" text not null,
+  -- What was planned that day (the routine or its override).
+  exercises jsonb not null default '[]',
   "startedAt" timestamptz not null default now(),
   "finishedAt" timestamptz
 );

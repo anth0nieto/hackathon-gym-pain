@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { dueRoutine, lastActivity, sessionsThisWeek, studentsOf, useDB } from '../../data/store';
+import { dayOf, today } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
 
-const daysSince = (iso?: string) => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000) : null);
+/** Calendar days since a timestamp: yesterday at 23:00 is 1, not 0. */
+const daysSince = (iso?: string) => (iso ? Math.round((Date.parse(today()) - Date.parse(dayOf(iso))) / 86_400_000) : null);
 
 export function CoachHome() {
   const db = useDB();

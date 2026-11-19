@@ -172,6 +172,9 @@ export function dueRoutine(d: DB, studentId: string, now = Date.now()): Routine 
   return routines.find((r) => r.position > last.position) ?? routines[0];
 }
 
+/** What the student has to do next time for this routine: the coach's one-off change, or the routine. */
+export const plannedExercises = (routine: Routine) => routine.override ?? routine.exercises;
+
 export const logsOf = (d: DB, sessionId: string) => d.logs.filter((l) => l.sessionId === sessionId);
 
 export const logFor = (d: DB, sessionId: string | undefined, exerciseId: string) =>
@@ -201,10 +204,15 @@ export function startSession(studentId: string, routine: Routine): string {
     routineId: routine.id,
     position: routine.position,
     routineName: routine.name,
+    exercises: plannedExercises(routine),
     startedAt: new Date().toISOString(),
     finishedAt: null,
   };
-  commit({ ...db, sessions: [...db.sessions, session] });
+  commit({
+    ...db,
+    sessions: [...db.sessions, session],
+    routines: routine.override ? db.routines.map((r) => (r.id === routine.id ? { ...r, override: null } : r)) : db.routines,
+  });
   return session.id;
 }
 
@@ -275,6 +283,51 @@ export function saveRoutine(routine: Routine) {
   commit({ ...db, routines: exists ? db.routines.map((r) => (r.id === routine.id ? routine : r)) : [...db.routines, routine] });
 }
 
+/**
+ * Changes the exercises for one day only, without touching the routine: today's session if the
+ * student already started it, otherwise the next time they do this routine. `null` undoes the change.
+ */
+export function customizeNext(routineId: string, exercises: PlannedExercise[] | null) {
+  const routine = db.routines.find((r) => r.id === routineId);
+  if (!routine) return;
+  const open = openSession(db, routine.studentId);
+  if (open?.routineId === routineId) {
+    const planned = exercises ?? routine.exercises;
+    commit({ ...db, sessions: db.sessions.map((s) => (s.id === open.id ? { ...s, exercises: planned } : s)) });
+  } else {
+    commit({ ...db, routines: db.routines.map((r) => (r.id === routineId ? { ...r, override: exercises } : r)) });
+  }
+}
+
+/** Swaps a routine with the one before (-1) or after (+1) it. */
+export function moveRoutine(id: string, direction: -1 | 1) {
+  const routine = db.routines.find((r) => r.id === id);
+  if (!routine) return;
+  const other = db.routines.find((r) => r.studentId === routine.studentId && r.position === routine.position + direction);
+  if (!other) return;
+  commit({
+    ...db,
+    routines: db.routines.map((r) =>
+      r.id === routine.id ? { ...r, position: other.position } : r.id === other.id ? { ...r, position: routine.position } : r,
+    ),
+  });
+}
+
+/** Weight per session for each exercise the student did, oldest first. */
+export function progressOf(d: DB, studentId: string): { exercise: string; points: { day: string; weight: number }[] }[] {
+  const sessions = new Map(sessionsOf(d, studentId).map((s) => [s.id, s]));
+  const byExercise = new Map<string, { day: string; weight: number }[]>();
+  d.logs
+    .filter((l) => l.status === 'done' && sessions.has(l.sessionId))
+    .sort((a, b) => sessions.get(a.sessionId)!.startedAt.localeCompare(sessions.get(b.sessionId)!.startedAt))
+    .forEach((l) => {
+      const points = byExercise.get(l.exerciseName) ?? [];
+      points.push({ day: sessions.get(l.sessionId)!.startedAt, weight: l.weight });
+      byExercise.set(l.exerciseName, points);
+    });
+  return [...byExercise].map(([exercise, points]) => ({ exercise, points }));
+}
+
 /** Deletes a routine and renumbers the student's remaining routines 1..n. History is kept. */
 export function deleteRoutine(id: string) {
   const routine = db.routines.find((r) => r.id === id);
@@ -331,7 +384,3 @@ export const fromTemplate = (routine: Routine, template: RoutineTemplate): Routi
   templateId: template.id,
   exercises: copyExercises(template.exercises),
 });
-
-export function resetDB() {
-  commit(fresh());
-}

@@ -16,9 +16,10 @@ Una web responsive con dos roles, coach y alumno, sobre Supabase. No hay registr
 
 - Le arma a cada alumno tantas rutinas como días por semana va a entrenar. Si va 3 veces, tiene Rutina 1, 2 y 3. Si va 5, tiene 5 rutinas.
 - Cada rutina tiene 4 o 5 ejercicios con series, repeticiones y peso sugeridos.
-- Puede editar una rutina, cambiar un ejercicio puntual, o reemplazar la rutina por otra de su biblioteca "Mis rutinas".
+- Puede editar una rutina, cambiar un ejercicio puntual, reemplazar la rutina por otra de su biblioteca "Mis rutinas", o cambiarla de lugar en el orden.
+- Puede cambiar los ejercicios **solo por un día**, sin tocar la rutina. Si el alumno ya empezó la rutina, el cambio vale para hoy. Si no, vale para la próxima vez que la haga.
 - También puede cargar las rutinas desde un CSV exportado de Google Sheets.
-- Ve el historial de cada alumno: qué rutina hizo cada día y con qué valores.
+- Ve el historial de cada alumno, qué rutina hizo cada día y con qué valores, y el progreso de peso de cada ejercicio.
 
 **Alumno**
 
@@ -62,19 +63,23 @@ La rutina del coach no se pisa con lo que carga el alumno. Cada vez que el alumn
 
 La sesión guarda el número y el nombre de la rutina, y cada registro guarda el nombre del ejercicio. Si el coach edita o borra una rutina, el historial del alumno no cambia.
 
-### 5. Una sesión sin finalizar se cierra sola a las 6 horas
+### 5. Un cambio de un día no toca la rutina
+
+Si un día el alumno tiene que hacer otro ejercicio, el coach lo cambia solo para esa vez. Se guarda aparte de la rutina y se borra cuando el alumno empieza esa sesión. La sesión guarda los ejercicios que tocaban ese día, así el historial compara contra lo que realmente estaba planificado.
+
+### 6. Una sesión sin finalizar se cierra sola a las 6 horas
 
 Si el alumno se olvida de tocar "Finalizar", no queda trabado en la misma rutina. A las 6 horas de empezada, la sesión cuenta como terminada con lo que marcó.
 
-### 6. Biblioteca "Mis rutinas"
+### 7. Biblioteca "Mis rutinas"
 
 El coach arma rutinas una vez, por ejemplo "Principiante" o "Avanzado", y se las asigna a varios alumnos. Cada alumno recibe una copia que el coach puede ajustar sin tocar la original.
 
-### 7. Avisar quién no está registrando
+### 8. Avisar quién no está registrando
 
 La home del coach muestra para cada alumno cuántas veces entrenó esta semana, qué rutina le toca y "Último registro hace X días", resaltado cuando pasan más de 3.
 
-### 8. Un formato de CSV fijo, con plantilla
+### 9. Un formato de CSV fijo, con plantilla
 
 Una fila por ejercicio:
 

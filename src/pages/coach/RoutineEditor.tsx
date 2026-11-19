@@ -25,7 +25,7 @@ export function RoutineEditor() {
           studentId: student.id,
           position: nextPosition(db, student.id),
           name: '',
-          exercises: [blankExercise()],
+          exercises: Array.from({ length: 4 }, blankExercise),
         }
       }
       isNew={!existing}

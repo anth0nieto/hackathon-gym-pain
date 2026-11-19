@@ -40,11 +40,13 @@ export interface Routine {
   position: number;
   name: string;
   exercises: PlannedExercise[];
+  /** Exercises for the next time only, set by the coach. Cleared when that session starts. */
+  override?: PlannedExercise[] | null;
   templateId?: string;
 }
 
 /**
- * One time the student trained a routine. `position` and `routineName` are copied at start,
+ * One time the student trained a routine. `position`, `routineName` and `exercises` are copied at start,
  * so history survives the coach editing or deleting the routine.
  */
 export interface Session {
@@ -53,6 +55,8 @@ export interface Session {
   routineId: string;
   position: number;
   routineName: string;
+  /** What was planned that day: the routine's exercises, or its override. */
+  exercises: PlannedExercise[];
   startedAt: string;
   finishedAt?: string | null;
 }

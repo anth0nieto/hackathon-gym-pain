@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { StatusBadge } from '../../components/StatusBadge';
 import { WeekNav } from '../../components/WeekNav';
 import { WeekStrip, type DayMark } from '../../components/WeekStrip';
-import { dueRoutine, openSession, routinesOf, sessionStatus, sessionsOf, useDB } from '../../data/store';
+import { dueRoutine, openSession, plannedExercises, routinesOf, sessionStatus, sessionsOf, useDB } from '../../data/store';
 import { dayOf, formatDay, isValidISO, startOfWeek, today } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
 import type { Session } from '../../types';
@@ -54,7 +54,7 @@ export function StudentDay() {
         <section className="card stack-sm">
           <p className="muted small">{isToday ? (open ? 'Estás haciendo' : 'Te toca') : 'Tu próxima rutina'}</p>
           <h1>Rutina {due.position} de {total} · {due.name}</h1>
-          <p className="muted">{due.exercises.map((e) => e.name).join(' · ')}</p>
+          <p className="muted">{plannedExercises(due).map((e) => e.name).join(' · ')}</p>
           {isToday ? (
             <Link to="/alumno/entrenar" className="btn btn-block">{open ? 'Seguir' : 'Empezar'}</Link>
           ) : (

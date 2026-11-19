@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { deleteStudent, getUser, normalizeDni, saveStudent, useDB } from '../../data/store';
+import { uid } from '../../lib/id';
 import { useCurrentUser } from '../../session';
 
 export function StudentForm() {
@@ -22,9 +23,10 @@ export function StudentForm() {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!valid) return;
-    const result = saveStudent({ id: existing?.id, name, dni, daysPerWeek: days, coachId: coach.id });
+    const id = existing?.id ?? uid();
+    const result = saveStudent({ id, name, dni, daysPerWeek: days, coachId: coach.id });
     setDniTaken(result === 'dni-taken');
-    if (result === 'ok') back();
+    if (result === 'ok') navigate(`/coach/alumno/${id}`);
   };
 
   const remove = () => {

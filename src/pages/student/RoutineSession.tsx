@@ -4,7 +4,7 @@ import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
 import {
-  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, routinesOf, saveLog, sessionStatus, startSession, useDB,
+  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, plannedExercises, routinesOf, saveLog, sessionStatus, startSession, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
@@ -28,8 +28,11 @@ export function RoutineSession() {
   if (pastId ? past?.studentId !== user.id : !routine) return <Navigate to="/alumno" replace />;
 
   const logs = session ? logsOf(db, session.id) : [];
-  const exercises: PlannedExercise[] =
-    routine?.exercises ?? logs.map((l) => ({ id: l.exerciseId, name: l.exerciseName, sets: l.sets, reps: l.reps, weight: l.weight }));
+  const exercises: PlannedExercise[] = session?.exercises.length
+    ? session.exercises
+    : routine
+      ? plannedExercises(routine)
+      : logs.map((l) => ({ id: l.exerciseId, name: l.exerciseName, sets: l.sets, reps: l.reps, weight: l.weight }));
   const position = session?.position ?? routine!.position;
   const name = session?.routineName ?? routine!.name;
   const total = routinesOf(db, user.id).length;

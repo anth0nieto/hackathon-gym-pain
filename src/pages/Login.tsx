@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Navigate } from 'react-router-dom';
-import { resetDB, useDB } from '../data/store';
+import { useDB } from '../data/store';
 import { useSession } from '../session';
 
 const COACH = { id: 'c1', user: 'coach', password: 'coach123' };
@@ -40,9 +40,6 @@ export function Login() {
           <button key={u.id} className="btn btn-block btn-secondary" onClick={() => login(u.id)}>{u.name}</button>
         ))}
       </section>
-      <button className="btn-link muted" onClick={() => confirm('¿Borrar todos los datos y volver al ejemplo?') && resetDB()}>
-        Reiniciar datos de ejemplo
-      </button>
     </div>
   );
 }
