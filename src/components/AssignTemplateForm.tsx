@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { assignTemplate, studentsOf, templatesOf, useDB } from '../data/store';
 import { fold } from '../lib/text';
-import { useCurrentUser } from '../session';
+import { useCurrentUser, useGym } from '../session';
 
 const PAGE_SIZE = 8;
 
@@ -14,6 +14,7 @@ interface Props {
 export function AssignTemplateForm({ initialTemplateId, initialStudentIds = [], onDone }: Props) {
   const db = useDB();
   const coach = useCurrentUser();
+  const { gym } = useGym();
   const templates = templatesOf(db, coach.id);
   const [templateId, setTemplateId] = useState(initialTemplateId ?? '');
   const [selected, setSelected] = useState(new Set(initialStudentIds));
@@ -23,7 +24,7 @@ export function AssignTemplateForm({ initialTemplateId, initialStudentIds = [], 
   // The student the coach came from goes first; the order doesn't change as boxes get ticked.
   const preselected = new Set(initialStudentIds);
   const q = fold(query.trim());
-  const students = studentsOf(db, coach.id)
+  const students = studentsOf(db, coach.id, gym?.id)
     .filter((s) => !q || fold(s.name).includes(q) || (s.dni ?? '').includes(q))
     .sort((a, b) => Number(preselected.has(b.id)) - Number(preselected.has(a.id)) || a.name.localeCompare(b.name));
   const pages = Math.max(1, Math.ceil(students.length / PAGE_SIZE));

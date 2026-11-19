@@ -41,7 +41,8 @@ export interface CsvResult {
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
-export function parseRoutinesCsv(text: string, coachId: string, students: User[]): CsvResult {
+/** New students are created at `gymId`; existing ones are matched across all the coach's gyms. */
+export function parseRoutinesCsv(text: string, coachId: string, gymId: string, students: User[]): CsvResult {
   const rows = parseRows(text);
   const errors: string[] = [];
   if (rows.length < 2) return { routines: [], newStudents: [], errors: ['El CSV está vacío.'] };
@@ -71,7 +72,7 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
       ? known.find((s) => s.dni === dni)
       : known.find((s) => s.name.toLowerCase() === who || s.id.toLowerCase() === who);
     if (!student && dni && who) {
-      student = { id: uid(), name: get('alumno'), role: 'student', coachId, dni, daysPerWeek: days };
+      student = { id: uid(), name: get('alumno'), role: 'student', coachId, gymId, dni, daysPerWeek: days };
       newStudents.push(student);
     }
     if (!student) return errors.push(`Fila ${line}: no encuentro al alumno "${get('alumno')}". Agregá su DNI en la columna "dni" para crearlo.`);

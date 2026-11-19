@@ -1,9 +1,9 @@
 import { useSyncExternalStore } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import type { ExerciseLog, PlannedExercise, Prescription, Routine, RoutineTemplate, Session, SessionStatus, User } from '../types';
+import type { ExerciseLog, Gym, PlannedExercise, Prescription, Routine, RoutineTemplate, Session, SessionStatus, User } from '../types';
 import { getExercise } from './exercises';
 import type { Plan } from './plans';
-import { seedRoutines, seedTemplates, seedUsers } from './seed';
+import { seedGyms, seedRoutines, seedTemplates, seedUsers } from './seed';
 import { dayOf, startOfWeek, today } from '../lib/dates';
 import { uid } from '../lib/id';
 
@@ -13,6 +13,7 @@ import { uid } from '../lib/id';
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
 export interface DB {
+  gyms: Gym[];
   users: User[];
   templates: RoutineTemplate[];
   routines: Routine[];
@@ -24,8 +25,9 @@ type Table = keyof DB;
 type Row = Record<string, unknown>;
 
 // Insert order respects foreign keys; deletes run in reverse.
-const TABLES: Table[] = ['users', 'templates', 'routines', 'sessions', 'logs'];
+const TABLES: Table[] = ['gyms', 'users', 'templates', 'routines', 'sessions', 'logs'];
 const PRIMARY_KEY: Record<Table, string[]> = {
+  gyms: ['id'],
   users: ['id'],
   templates: ['id'],
   routines: ['id'],
@@ -36,12 +38,12 @@ const PRIMARY_KEY: Record<Table, string[]> = {
 const rows = (d: DB, t: Table) => d[t] as unknown as Row[];
 const keyOf = (t: Table, row: Row) => PRIMARY_KEY[t].map((k) => row[k]).join('|');
 
-const EMPTY: DB = { users: [], templates: [], routines: [], sessions: [], logs: [] };
+const EMPTY: DB = { gyms: [], users: [], templates: [], routines: [], sessions: [], logs: [] };
 const listeners = new Set<() => void>();
 let db: DB = EMPTY;
 
 function fresh(): DB {
-  return { users: seedUsers, templates: seedTemplates, routines: seedRoutines, sessions: [], logs: [] };
+  return { gyms: seedGyms, users: seedUsers, templates: seedTemplates, routines: seedRoutines, sessions: [], logs: [] };
 }
 
 function emit(next: DB) {
@@ -170,8 +172,19 @@ export const studentByDni = (d: DB, dni: string) => {
   return wanted ? d.users.find((u) => u.role === 'student' && u.dni === wanted) : undefined;
 };
 
-export const studentsOf = (d: DB, coachId: string) =>
-  d.users.filter((u) => u.role === 'student' && u.coachId === coachId);
+/** The coach's students; only those at `gymId` when given. */
+export const studentsOf = (d: DB, coachId: string, gymId?: string) =>
+  d.users.filter((u) => u.role === 'student' && u.coachId === coachId && (!gymId || u.gymId === gymId));
+
+export const coaches = (d: DB) => d.users.filter((u) => u.role === 'coach').sort((a, b) => a.name.localeCompare(b.name));
+
+export const gymsSorted = (d: DB) => [...d.gyms].sort((a, b) => a.name.localeCompare(b.name));
+
+/** The gyms the admin assigned to this coach, by name. */
+export const gymsOf = (d: DB, coach: User) => gymsSorted(d).filter((g) => coach.gymIds?.includes(g.id));
+
+export const coachByLogin = (d: DB, username: string, password: string) =>
+  d.users.find((u) => u.role === 'coach' && u.username === username.trim() && u.password === password);
 
 export const templatesOf = (d: DB, coachId: string) =>
   d.templates.filter((t) => t.coachId === coachId).sort((a, b) => a.name.localeCompare(b.name));
@@ -308,11 +321,20 @@ export function saveStudent(student: {
   dni: string;
   daysPerWeek: number;
   coachId: string;
+  gymId: string;
 }): 'ok' | 'dni-taken' {
   const dni = normalizeDni(student.dni);
   const id = student.id ?? uid();
   if (db.users.some((u) => u.dni === dni && u.id !== id)) return 'dni-taken';
-  const user: User = { id, name: student.name.trim(), role: 'student', coachId: student.coachId, dni, daysPerWeek: student.daysPerWeek };
+  const user: User = {
+    id,
+    name: student.name.trim(),
+    role: 'student',
+    coachId: student.coachId,
+    gymId: student.gymId,
+    dni,
+    daysPerWeek: student.daysPerWeek,
+  };
   const exists = db.users.some((u) => u.id === id);
   commit({ ...db, users: exists ? db.users.map((u) => (u.id === id ? user : u)) : [...db.users, user] });
   return 'ok';
@@ -466,3 +488,21 @@ export const fromTemplate = (routine: Routine, template: RoutineTemplate): Routi
   templateId: template.id,
   exercises: copyExercises(template.exercises),
 });
+
+// ---------- admin actions ----------
+
+export function saveGym(gym: Gym) {
+  const exists = db.gyms.some((g) => g.id === gym.id);
+  commit({ ...db, gyms: exists ? db.gyms.map((g) => (g.id === gym.id ? gym : g)) : [...db.gyms, gym] });
+}
+
+/** Creates or updates a coach. Returns 'username-taken' without saving if another coach has that username. */
+export function saveCoach(coach: { id?: string; name: string; username: string; password: string; gymIds: string[] }): 'ok' | 'username-taken' {
+  const id = coach.id ?? uid();
+  const username = coach.username.trim();
+  if (db.users.some((u) => u.username === username && u.id !== id)) return 'username-taken';
+  const user: User = { id, name: coach.name.trim(), role: 'coach', username, password: coach.password, gymIds: coach.gymIds };
+  const exists = db.users.some((u) => u.id === id);
+  commit({ ...db, users: exists ? db.users.map((u) => (u.id === id ? user : u)) : [...db.users, user] });
+  return 'ok';
+}

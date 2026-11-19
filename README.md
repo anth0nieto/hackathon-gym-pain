@@ -14,7 +14,7 @@ npm run dev      # http://localhost:5173 (con --host, accesible desde el celular
 npm run build
 ```
 
-No hay registro. El coach entra con usuario `coach` y contraseña `coach123`, fijos en `src/pages/Login.tsx`. El alumno elige su usuario de la lista (Flor y Eze lo cambian por el DNI). Si la base está vacía, la app la llena con el seed de `src/data/seed.ts`.
+No hay registro. El admin entra con `admin` / `admin123` (fijos en `src/session.tsx`) y desde `/admin` crea gimnasios y coaches. Los coaches entran con el usuario y la contraseña que les crea el admin; la coach de ejemplo entra con `coach` / `coach123`. El alumno elige su usuario de la lista (Flor y Eze lo cambian por el DNI). Si la base está vacía, la app la llena con el seed de `src/data/seed.ts`.
 
 ## Estructura
 

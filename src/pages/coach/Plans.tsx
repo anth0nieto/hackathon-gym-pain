@@ -5,7 +5,7 @@ import '../../components/exercises.css';
 import { getExercise } from '../../data/exercises';
 import { LEVELS, planFor, type Level } from '../../data/plans';
 import { assignPlan, getUser, routinesOf, studentsOf, useDB } from '../../data/store';
-import { useCurrentUser } from '../../session';
+import { useCurrentUser, useGym } from '../../session';
 
 const DAYS = [1, 2, 3, 4, 5, 6, 7];
 
@@ -13,9 +13,10 @@ const DAYS = [1, 2, 3, 4, 5, 6, 7];
 export function Plans() {
   const db = useDB();
   const coach = useCurrentUser();
+  const { gym } = useGym();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const students = studentsOf(db, coach.id);
+  const students = studentsOf(db, coach.id, gym?.id);
   const preset = getUser(db, params.get('alumno'));
 
   const [level, setLevel] = useState<Level>('principiante');

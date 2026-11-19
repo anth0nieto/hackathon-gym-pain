@@ -263,6 +263,10 @@ code { font-size: 0.85em; }
 .sidebar-logo { display: block; height: 30px; width: auto; margin-bottom: 6px; }
 .sidebar-brand span { font-size: 0.85rem; opacity: 0.75; }
 .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+.sidebar-gym { display: flex; flex-direction: column; gap: 6px; padding: 0 14px; font-size: 0.9rem; }
+.sidebar-gym span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; }
+.sidebar-gym select { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: inherit; font: inherit; }
+.sidebar-gym option { color: var(--text); background: var(--surface); }
 .sidebar-link {
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 14px; border-radius: 12px; border: 1px solid transparent;
@@ -346,6 +350,8 @@ details.card[open] > summary { margin-bottom: 10px; }
   .sidebar-brand { padding: 0; }
   .sidebar-logo { height: 24px; margin: 0; }
   .sidebar-brand span, .sidebar-user-name { display: none; }
+  .sidebar-gym { padding: 0; flex-direction: row; align-items: center; }
+  .sidebar-gym span { display: none; }
   .sidebar-nav { order: 3; width: 100%; min-width: 0; flex-direction: row; overflow-x: auto; }
   .sidebar-link { padding: 8px 12px; font-size: 0.9rem; white-space: nowrap; }
   .sidebar-user { margin: 0 0 0 auto; padding: 0; }

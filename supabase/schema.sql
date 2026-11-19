@@ -1,12 +1,23 @@
 -- Schema applied to the hackathon-gym-pain Supabase project.
 -- Column names are camelCase so rows map 1:1 to src/types.ts with no mapping layer.
+create table gyms (
+  id text primary key,
+  name text not null
+);
+
 create table users (
   id text primary key,
   name text not null,
   role text not null check (role in ('coach', 'student')),
   "coachId" text references users(id),
   dni text unique,
-  "daysPerWeek" int check ("daysPerWeek" between 1 and 7)
+  "daysPerWeek" int check ("daysPerWeek" between 1 and 7),
+  -- Students: the gym they train at. Coaches: the gyms the admin assigned them (JSON array of ids).
+  "gymId" text references gyms(id),
+  "gymIds" jsonb,
+  -- Coaches only, created by the admin. Plain text: demo only, like the open RLS below.
+  username text unique,
+  password text
 );
 
 create table templates (
@@ -59,15 +70,17 @@ create table logs (
 );
 
 -- Demo only: no per-user auth yet (DNI login), so the publishable key can read and write everything.
+alter table gyms enable row level security;
 alter table users enable row level security;
 alter table templates enable row level security;
 alter table routines enable row level security;
 alter table sessions enable row level security;
 alter table logs enable row level security;
+create policy demo_all on gyms for all to anon using (true) with check (true);
 create policy demo_all on users for all to anon using (true) with check (true);
 create policy demo_all on templates for all to anon using (true) with check (true);
 create policy demo_all on routines for all to anon using (true) with check (true);
 create policy demo_all on sessions for all to anon using (true) with check (true);
 create policy demo_all on logs for all to anon using (true) with check (true);
 
-alter publication supabase_realtime add table users, templates, routines, sessions, logs;
+alter publication supabase_realtime add table gyms, users, templates, routines, sessions, logs;

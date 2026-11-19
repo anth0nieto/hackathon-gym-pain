@@ -1,33 +1,51 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getUser, useDB } from './data/store';
-import type { Role, User } from './types';
+import { getUser, gymsOf, useDB } from './data/store';
+import type { Gym, Role, User } from './types';
 
 const KEY = 'gym-pain-session';
+const GYM_KEY = 'gym-pain-gym';
+
+// Demo only: the single admin ships in the bundle and isn't stored in the database.
+export const ADMIN: User & { username: string; password: string } = {
+  id: 'admin',
+  name: 'Administrador',
+  role: 'admin',
+  username: 'admin',
+  password: 'admin123',
+};
+
+export const homeOf = (role: Role) => (role === 'admin' ? '/admin' : role === 'coach' ? '/coach' : '/alumno');
 
 interface Session {
   user?: User;
   login: (id: string) => void;
   logout: () => void;
+  /** The gym the coach is working at on this device. */
+  gymId: string | null;
+  setGymId: (id: string) => void;
 }
 
 const SessionContext = createContext<Session | null>(null);
 
-function readStored(): string | null {
-  try { return localStorage.getItem(KEY); } catch { return null; }
+function readStored(key: string): string | null {
+  try { return localStorage.getItem(key); } catch { return null; }
 }
 
-function writeStored(id: string | null) {
-  try { id ? localStorage.setItem(KEY, id) : localStorage.removeItem(KEY); } catch { /* ignore */ }
+function writeStored(key: string, id: string | null) {
+  try { id ? localStorage.setItem(key, id) : localStorage.removeItem(key); } catch { /* ignore */ }
 }
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const db = useDB();
-  const [userId, setUserId] = useState<string | null>(readStored);
+  const [userId, setUserId] = useState<string | null>(() => readStored(KEY));
+  const [gymId, setGym] = useState<string | null>(() => readStored(GYM_KEY));
   const value: Session = {
-    user: getUser(db, userId),
-    login: (id) => { writeStored(id); setUserId(id); },
-    logout: () => { writeStored(null); setUserId(null); },
+    user: userId === ADMIN.id ? ADMIN : getUser(db, userId),
+    login: (id) => { writeStored(KEY, id); setUserId(id); },
+    logout: () => { writeStored(KEY, null); setUserId(null); },
+    gymId,
+    setGymId: (id) => { writeStored(GYM_KEY, id); setGym(id); },
   };
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }
@@ -48,6 +66,15 @@ export function useCurrentUser(): User {
 export function RequireRole({ role, children }: { role: Role; children: ReactNode }) {
   const { user } = useSession();
   if (!user) return <Navigate to="/" replace />;
-  if (user.role !== role) return <Navigate to={user.role === 'coach' ? '/coach' : '/alumno'} replace />;
+  if (user.role !== role) return <Navigate to={homeOf(user.role)} replace />;
   return <>{children}</>;
+}
+
+/** The coach's gyms and the one they're working at: the last picked on this device, else the first. */
+export function useGym(): { gym?: Gym; gyms: Gym[]; setGymId: (id: string) => void } {
+  const db = useDB();
+  const coach = useCurrentUser();
+  const { gymId, setGymId } = useSession();
+  const gyms = gymsOf(db, coach);
+  return { gym: gyms.find((g) => g.id === gymId) ?? gyms[0], gyms, setGymId };
 }
