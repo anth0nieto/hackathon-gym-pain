@@ -52,6 +52,8 @@ create table logs (
   sets int not null,
   reps int not null,
   weight numeric not null,
+  -- Every set as done: [{ "reps": 8, "weight": 60 }, ...]. sets/reps/weight keep the count and the last set.
+  "setDetails" jsonb,
   "updatedAt" timestamptz not null default now(),
   primary key ("sessionId", "exerciseId")
 );

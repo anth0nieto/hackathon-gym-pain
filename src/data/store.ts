@@ -275,7 +275,12 @@ export function finishSession(sessionId: string) {
 }
 
 /** Saves one exercise as done or skipped. Saving it again replaces the previous values. */
-export function saveLog(sessionId: string, exercise: PlannedExercise, status: ExerciseLog['status'], values: Prescription) {
+export function saveLog(
+  sessionId: string,
+  exercise: PlannedExercise,
+  status: ExerciseLog['status'],
+  values: Prescription & Pick<ExerciseLog, 'setDetails'>,
+) {
   const log: ExerciseLog = {
     sessionId,
     exerciseId: exercise.id,

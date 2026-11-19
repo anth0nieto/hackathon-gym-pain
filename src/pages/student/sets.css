@@ -1,0 +1,42 @@
+.sets { display: flex; flex-direction: column; gap: 6px; }
+.set-row { display: grid; grid-template-columns: 20px 1fr 1fr 34px 18px; gap: 6px; align-items: center; }
+.set-head { font-size: 0.75rem; color: var(--muted); }
+.set-head span:nth-child(2), .set-head span:nth-child(3) { text-align: center; }
+.set-num { text-align: center; font-weight: 700; color: var(--muted); }
+.set-row .btn-step { flex-basis: 32px; height: 40px; }
+.set-row .stepper input { min-height: 40px; }
+.set-remove {
+  width: 18px; height: 24px; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer;
+}
+
+.set-check {
+  width: 34px; height: 34px; padding: 0; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--surface);
+  color: transparent; font-weight: 700; cursor: pointer;
+}
+.set-check[aria-pressed='true'] { background: var(--ok); border-color: var(--ok); color: #fff; }
+.set-row.is-checked .set-num { color: var(--ok); }
+.set-row.is-checked .stepper input { color: var(--ok); }
+
+.rest {
+  position: fixed; z-index: 15;
+  left: 12px; right: 12px; bottom: calc(68px + env(safe-area-inset-bottom));
+  max-width: 616px; margin: 0 auto;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border-radius: var(--radius);
+  background: var(--nav-bg, #12205a); color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+.rest.is-over { background: var(--ok); }
+.rest-info { flex: 1; display: flex; flex-direction: column; line-height: 1.1; }
+.rest-label { font-size: 0.8rem; opacity: 0.85; }
+.rest-value { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rest-btn {
+  min-height: 40px; padding: 0 12px; border: 0; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 700; cursor: pointer;
+}
+.rest-close { width: 32px; height: 40px; border: 0; background: none; color: #fff; font-size: 1.4rem; cursor: pointer; }
+.rest-spacer { height: 72px; }
+.set-row.is-checked .btn-step:disabled { opacity: 0.35; cursor: default; }
+.set-row.is-checked .stepper input { background: var(--ok-bg); }
