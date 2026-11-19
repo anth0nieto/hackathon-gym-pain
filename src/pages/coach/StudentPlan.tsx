@@ -3,7 +3,7 @@ import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { ExerciseSummary } from '../../components/ExerciseSummary';
 import { StatusBadge } from '../../components/StatusBadge';
 import {
-  customizeNext, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, sessionStatus, sessionsOf, useDB,
+  customizeNext, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, stalledExercises, sessionStatus, sessionsOf, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
@@ -30,6 +30,7 @@ export function StudentPlan() {
   const sessions = sessionsOf(db, student.id);
   const progress = progressOf(db, student.id).filter((p) => p.points.some((x) => x.weight > 0));
   const expected = student.daysPerWeek;
+  const stalled = stalledExercises(db, student.id);
 
   return (
     <div className="stack">
@@ -38,6 +39,19 @@ export function StudentPlan() {
         <h1>{student.name}</h1>
         <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
       </div>
+
+      {stalled.length > 0 && (
+        <div className="notice stack-sm">
+          <strong>Hace un mes o más que levanta los mismos pesos. Revisá la rutina o subile los pesos.</strong>
+          <ul>
+            {stalled.map((x) => (
+              <li key={x.exercise}>
+                {x.exercise}: {x.weight} kg desde el {new Date(x.since).toLocaleDateString('es-AR', { day: 'numeric', month: 'long' })}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="tabs" role="tablist" aria-label="Secciones del alumno">
         {TABS.map((t) => (

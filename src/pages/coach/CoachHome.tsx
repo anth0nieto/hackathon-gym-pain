@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, studentsOf, useDB, type ActivityStatus } from '../../data/store';
+import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, stalledExercises, studentsOf, useDB, type ActivityStatus } from '../../data/store';
 import { fold } from '../../lib/text';
 import { useCurrentUser, useGym } from '../../session';
 import type { User } from '../../types';
@@ -17,7 +17,7 @@ const STATUS: Record<ActivityStatus, { label: string; tone: string }> = {
 
 const lastLabel = (idle: number | null) => (idle === null ? 'Nunca' : idle === 0 ? 'Hoy' : idle === 1 ? 'Ayer' : `Hace ${idle} días`);
 
-type Filter = 'all' | 'risk' | 'ok' | 'empty';
+type Filter = 'all' | 'risk' | 'ok' | 'stalled' | 'empty';
 
 const PAGE_SIZE = 20;
 
@@ -38,6 +38,7 @@ export function CoachHome() {
       week: sessionsThisWeek(db, s.id).length,
       due: dueRoutine(db, s.id),
       routines: routinesOf(db, s.id).length,
+      stalled: stalledExercises(db, s.id).length > 0,
     }))
     .sort((a, b) => (b.activity.idleDays ?? Infinity) - (a.activity.idleDays ?? Infinity) || a.s.name.localeCompare(b.s.name));
 
@@ -45,12 +46,14 @@ export function CoachHome() {
     all: () => true,
     risk: (r) => r.activity.status === 'risk' || r.activity.status === 'inactive',
     ok: (r) => r.activity.status === 'ok',
+    stalled: (r) => r.stalled,
     empty: (r) => r.routines === 0,
   };
   const chips: { key: Filter; label: string }[] = [
     { key: 'all', label: 'Todos' },
     { key: 'risk', label: 'En riesgo' },
     { key: 'ok', label: 'Al día' },
+    { key: 'stalled', label: 'Mismos pesos' },
     { key: 'empty', label: 'Sin rutinas' },
   ];
 
@@ -60,6 +63,7 @@ export function CoachHome() {
   const current = Math.min(page, pages - 1);
   const shown = filtered.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE);
   const open = (s: User) => navigate(`/coach/alumno/${s.id}`);
+  const stalled = rows.filter((r) => r.stalled);
 
   return (
     <div className="stack page-wide">
@@ -70,6 +74,16 @@ export function CoachHome() {
         </div>
         <Link to="/coach/alumnos/nuevo" className="btn">+ Alumno</Link>
       </div>
+
+      {stalled.length > 0 && (
+        <p className="notice">
+          <strong>{stalled.length === 1 ? '1 alumno lleva' : `${stalled.length} alumnos llevan`} un mes o más levantando los mismos pesos.</strong>{' '}
+          Revisá su rutina o subile los pesos:{' '}
+          {stalled.map(({ s }, i) => (
+            <span key={s.id}>{i > 0 && ', '}<Link to={`/coach/alumno/${s.id}?tab=progreso`}>{s.name}</Link></span>
+          ))}
+        </p>
+      )}
 
       <div className="toolbar">
         <div className="chips" role="group" aria-label="Filtrar alumnos">
@@ -105,7 +119,7 @@ export function CoachHome() {
               </tr>
             </thead>
             <tbody>
-              {shown.map(({ s, activity, week, due }) => (
+              {shown.map(({ s, activity, week, due, stalled }) => (
                 <tr key={s.id} onClick={() => open(s)}>
                   <td>
                     <div className="person">
@@ -122,14 +136,17 @@ export function CoachHome() {
                   </td>
                   <td>{due ? `Rutina ${due.position} · ${due.name}` : <span className="muted">Sin rutinas</span>}</td>
                   <td>{lastLabel(activity.idleDays)}</td>
-                  <td><span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span></td>
+                  <td>
+                    <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
+                    {stalled && <> <span className="badge tone-warn" title="Hace un mes o más que levanta los mismos pesos">Mismos pesos</span></>}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           <ul className="table-cards">
-            {shown.map(({ s, activity, week, due }) => (
+            {shown.map(({ s, activity, week, due, stalled }) => (
               <li key={s.id}>
                 <Link to={`/coach/alumno/${s.id}`} className="card card-link stack-sm">
                   <div className="row-between">
@@ -137,7 +154,10 @@ export function CoachHome() {
                       <span className="avatar" aria-hidden="true">{initials(s.name)}</span>
                       <strong>{s.name}</strong>
                     </div>
-                    <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
+                    <span>
+                      <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
+                      {stalled && <> <span className="badge tone-warn">Mismos pesos</span></>}
+                    </span>
                   </div>
                   <div className="row-between small muted">
                     <span>Esta semana: {week} de {s.daysPerWeek ?? '?'} · {lastLabel(activity.idleDays)}</span>
