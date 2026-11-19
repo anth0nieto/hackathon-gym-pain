@@ -27,7 +27,7 @@ export function ImportCsv() {
     if (!file) return;
     setFileName(file.name);
     if (!/\.csv$/i.test(file.name) && file.type !== 'text/csv') {
-      setResult({ routines: [], newStudents: [], errors: [`"${file.name}" no es un CSV. En Sheets usá Archivo → Descargar → Valores separados por comas (.csv).`] });
+      setResult({ routines: [], newStudents: [], phones: {}, errors: [`"${file.name}" no es un CSV. En Sheets usá Archivo → Descargar → Valores separados por comas (.csv).`] });
       return;
     }
     parse(await file.text());
@@ -48,7 +48,7 @@ export function ImportCsv() {
       if (!res.ok) throw new Error(String(res.status));
       parse(await res.text());
     } catch {
-      setResult({ routines: [], newStudents: [], errors: ['No pude leer esa URL. En Sheets usá Archivo → Compartir → Publicar en la web → CSV, o descargá el archivo y subilo.'] });
+      setResult({ routines: [], newStudents: [], phones: {}, errors: ['No pude leer esa URL. En Sheets usá Archivo → Compartir → Publicar en la web → CSV, o descargá el archivo y subilo.'] });
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ export function ImportCsv() {
         <summary>Formato del CSV</summary>
         <div className="stack-sm small muted">
           <p>Columnas: <code>{CSV_COLUMNS.join(', ')}</code>, y opcionales <code>{OPTIONAL_COLUMNS.join(', ')}</code>. Una fila por ejercicio.</p>
-          <p>Con el DNI, los alumnos que todavía no están en la app se crean al importar.</p>
+          <p>Con el DNI, los alumnos que todavía no están en la app se crean al importar. Con <code>telefono</code> (con código de país, por ejemplo 5491122334455) los podés contactar por WhatsApp.</p>
           <p>Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía.</p>
           <p>Cada ejercicio tiene que estar en la <Link to="/coach/ejercicios">lista de ejercicios</Link>.</p>
         </div>
@@ -115,7 +115,7 @@ export function ImportCsv() {
             </div>
           )}
           {result.routines.length > 0 && !done && (
-            <button className="btn btn-block" onClick={() => { replaceRoutines(result.routines, result.newStudents); setDone(true); }}>
+            <button className="btn btn-block" onClick={() => { replaceRoutines(result.routines, result.newStudents, result.phones); setDone(true); }}>
               Importar {result.routines.length} rutina{result.routines.length === 1 ? '' : 's'}
               {result.newStudents.length ? ` y crear ${result.newStudents.length} alumno${result.newStudents.length === 1 ? '' : 's'}` : ''}
             </button>

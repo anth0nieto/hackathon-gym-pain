@@ -1,26 +1,26 @@
-alumno,dni,dias,rutina,ejercicio,series,reps,peso
-Valentina Ríos,31997000,3,Piernas,Sentadilla,4,10,30
-Valentina Ríos,31997000,3,Piernas,Prensa,4,10,130
-Valentina Ríos,31997000,3,Piernas,Camilla femoral,4,10,35
-Valentina Ríos,31997000,3,Piernas,Sillón cuádriceps,4,10,42.5
-Valentina Ríos,31997000,3,Piernas,Gemelos,4,15,17.5
-Valentina Ríos,31997000,3,Empuje,Press banca,4,10,55
-Valentina Ríos,31997000,3,Empuje,Press inclinado,4,10,17.5
-Valentina Ríos,31997000,3,Empuje,Press militar,4,10,30
-Valentina Ríos,31997000,3,Empuje,Vuelos laterales,4,15,7.5
-Valentina Ríos,31997000,3,Empuje,Fondos,4,8,
-Valentina Ríos,31997000,3,Tirón,Dominadas,4,8,
-Valentina Ríos,31997000,3,Tirón,Jalón al pecho,4,10,47.5
-Valentina Ríos,31997000,3,Tirón,Remo con mancuerna,4,10,20
-Valentina Ríos,31997000,3,Tirón,Curl de bíceps,4,10,12.5
-Valentina Ríos,31997000,3,Tirón,Martillo,4,10,12.5
-Lucía Benítez,46704936,2,Full body A,Sentadilla,3,12,17.5
-Lucía Benítez,46704936,2,Full body A,Press banca,3,12,27.5
-Lucía Benítez,46704936,2,Full body A,Jalón al pecho,3,12,25
-Lucía Benítez,46704936,2,Full body A,Vuelos laterales,3,15,5
-Lucía Benítez,46704936,2,Full body A,Curl de bíceps,3,12,7.5
-Lucía Benítez,46704936,2,Full body B,Prensa,3,12,70
-Lucía Benítez,46704936,2,Full body B,Press inclinado,3,12,12.5
-Lucía Benítez,46704936,2,Full body B,Remo sentado,3,12,27.5
-Lucía Benítez,46704936,2,Full body B,Press militar,3,12,17.5
-Lucía Benítez,46704936,2,Full body B,Transnuca,3,12,7.5
+alumno,dni,telefono,dias,rutina,ejercicio,series,reps,peso
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Sentadilla,4,10,30
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Prensa,4,10,130
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Camilla femoral,4,10,35
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Sillón cuádriceps,4,10,42.5
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Gemelos,4,15,17.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press banca,4,10,55
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press inclinado,4,10,17.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press militar,4,10,30
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Vuelos laterales,4,15,7.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Fondos,4,8,
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Dominadas,4,8,
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Jalón al pecho,4,10,47.5
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Remo con mancuerna,4,10,20
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Curl de bíceps,4,10,12.5
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Martillo,4,10,12.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Sentadilla,3,12,17.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Press banca,3,12,27.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Jalón al pecho,3,12,25
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Vuelos laterales,3,15,5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Curl de bíceps,3,12,7.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Prensa,3,12,70
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Press inclinado,3,12,12.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Remo sentado,3,12,27.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Press militar,3,12,17.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Transnuca,3,12,7.5

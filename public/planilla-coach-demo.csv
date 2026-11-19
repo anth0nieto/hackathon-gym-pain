@@ -1,370 +1,370 @@
-alumno,dni,dias,rutina,ejercicio,series,reps,peso
-Valentina Ríos,31997000,3,Piernas,Sentadilla,4,10,30
-Valentina Ríos,31997000,3,Piernas,Prensa,4,10,130
-Valentina Ríos,31997000,3,Piernas,Camilla femoral,4,10,35
-Valentina Ríos,31997000,3,Piernas,Sillón cuádriceps,4,10,42.5
-Valentina Ríos,31997000,3,Piernas,Gemelos,4,15,17.5
-Valentina Ríos,31997000,3,Empuje,Press banca,4,10,55
-Valentina Ríos,31997000,3,Empuje,Press inclinado,4,10,17.5
-Valentina Ríos,31997000,3,Empuje,Press militar,4,10,30
-Valentina Ríos,31997000,3,Empuje,Vuelos laterales,4,15,7.5
-Valentina Ríos,31997000,3,Empuje,Fondos,4,8,
-Valentina Ríos,31997000,3,Tirón,Dominadas,4,8,
-Valentina Ríos,31997000,3,Tirón,Jalón al pecho,4,10,47.5
-Valentina Ríos,31997000,3,Tirón,Remo con mancuerna,4,10,20
-Valentina Ríos,31997000,3,Tirón,Curl de bíceps,4,10,12.5
-Valentina Ríos,31997000,3,Tirón,Martillo,4,10,12.5
-Martín Aguirre,42800692,4,Tren superior A,Press banca,4,8,65
-Martín Aguirre,42800692,4,Tren superior A,Jalón al pecho,4,8,62.5
-Martín Aguirre,42800692,4,Tren superior A,Press militar,4,8,37.5
-Martín Aguirre,42800692,4,Tren superior A,Curl de bíceps,4,8,17.5
-Martín Aguirre,42800692,4,Tren superior A,Transnuca,4,8,17.5
-Martín Aguirre,42800692,4,Tren inferior A,Sentadilla,4,8,42.5
-Martín Aguirre,42800692,4,Tren inferior A,Camilla femoral,4,8,50
-Martín Aguirre,42800692,4,Tren inferior A,Sillón cuádriceps,4,8,55
-Martín Aguirre,42800692,4,Tren inferior A,Gemelos,4,15,20
-Martín Aguirre,42800692,4,Tren superior B,Press inclinado,4,8,22.5
-Martín Aguirre,42800692,4,Tren superior B,Remo sentado,4,8,67.5
-Martín Aguirre,42800692,4,Tren superior B,Vuelos laterales,4,15,10
-Martín Aguirre,42800692,4,Tren superior B,Martillo,4,8,17.5
-Martín Aguirre,42800692,4,Tren superior B,Fondos,4,10,
-Martín Aguirre,42800692,4,Tren inferior B,Prensa,4,8,177.5
-Martín Aguirre,42800692,4,Tren inferior B,Camilla femoral,4,8,47.5
-Martín Aguirre,42800692,4,Tren inferior B,Sillón cuádriceps,4,8,50
-Martín Aguirre,42800692,4,Tren inferior B,Gemelos,4,15,20
-Lucía Benítez,46704936,2,Full body A,Sentadilla,3,12,17.5
-Lucía Benítez,46704936,2,Full body A,Press banca,3,12,27.5
-Lucía Benítez,46704936,2,Full body A,Jalón al pecho,3,12,25
-Lucía Benítez,46704936,2,Full body A,Vuelos laterales,3,15,5
-Lucía Benítez,46704936,2,Full body A,Curl de bíceps,3,12,7.5
-Lucía Benítez,46704936,2,Full body B,Prensa,3,12,70
-Lucía Benítez,46704936,2,Full body B,Press inclinado,3,12,12.5
-Lucía Benítez,46704936,2,Full body B,Remo sentado,3,12,27.5
-Lucía Benítez,46704936,2,Full body B,Press militar,3,12,17.5
-Lucía Benítez,46704936,2,Full body B,Transnuca,3,12,7.5
-Santiago Ferreyra,46604222,5,Piernas,Sentadilla,4,8,40
-Santiago Ferreyra,46604222,5,Piernas,Prensa,4,8,150
-Santiago Ferreyra,46604222,5,Piernas,Camilla femoral,4,8,47.5
-Santiago Ferreyra,46604222,5,Piernas,Sillón cuádriceps,4,8,57.5
-Santiago Ferreyra,46604222,5,Piernas,Gemelos,4,15,22.5
-Santiago Ferreyra,46604222,5,Pecho y tríceps,Press banca,4,8,67.5
-Santiago Ferreyra,46604222,5,Pecho y tríceps,Press inclinado,4,8,27.5
-Santiago Ferreyra,46604222,5,Pecho y tríceps,Pec deck,4,8,45
-Santiago Ferreyra,46604222,5,Pecho y tríceps,Transnuca,4,8,17.5
-Santiago Ferreyra,46604222,5,Pecho y tríceps,Fondos,4,10,
-Santiago Ferreyra,46604222,5,Espalda y bíceps,Dominadas,4,10,
-Santiago Ferreyra,46604222,5,Espalda y bíceps,Jalón al pecho,4,8,65
-Santiago Ferreyra,46604222,5,Espalda y bíceps,Remo sentado,4,8,60
-Santiago Ferreyra,46604222,5,Espalda y bíceps,Curl de bíceps,4,8,17.5
-Santiago Ferreyra,46604222,5,Espalda y bíceps,Martillo,4,8,15
-Santiago Ferreyra,46604222,5,Hombros,Press militar,4,8,37.5
-Santiago Ferreyra,46604222,5,Hombros,Vuelos laterales,4,15,7.5
-Santiago Ferreyra,46604222,5,Hombros,Vuelos frontales,4,15,7.5
-Santiago Ferreyra,46604222,5,Hombros,Remo con mancuerna,4,8,27.5
-Santiago Ferreyra,46604222,5,Full body,Sentadilla,4,8,42.5
-Santiago Ferreyra,46604222,5,Full body,Press banca,4,8,62.5
-Santiago Ferreyra,46604222,5,Full body,Jalón al pecho,4,8,62.5
-Santiago Ferreyra,46604222,5,Full body,Press militar,4,8,40
-Camila Ortega,44177031,3,Piernas,Sentadilla,3,12,20
-Camila Ortega,44177031,3,Piernas,Prensa,3,12,77.5
-Camila Ortega,44177031,3,Piernas,Camilla femoral,3,12,20
-Camila Ortega,44177031,3,Piernas,Sillón cuádriceps,3,12,25
-Camila Ortega,44177031,3,Piernas,Gemelos,3,15,10
-Camila Ortega,44177031,3,Empuje,Press banca,3,12,32.5
-Camila Ortega,44177031,3,Empuje,Press inclinado,3,12,12.5
-Camila Ortega,44177031,3,Empuje,Press militar,3,12,20
-Camila Ortega,44177031,3,Empuje,Vuelos laterales,3,15,5
-Camila Ortega,44177031,3,Empuje,Fondos,3,6,
-Camila Ortega,44177031,3,Tirón,Dominadas,3,6,
-Camila Ortega,44177031,3,Tirón,Jalón al pecho,3,12,27.5
-Camila Ortega,44177031,3,Tirón,Remo con mancuerna,3,12,12.5
-Camila Ortega,44177031,3,Tirón,Curl de bíceps,3,12,7.5
-Camila Ortega,44177031,3,Tirón,Martillo,3,12,7.5
-Joaquín Paz,44068979,3,Piernas,Sentadilla,4,10,32.5
-Joaquín Paz,44068979,3,Piernas,Prensa,4,10,117.5
-Joaquín Paz,44068979,3,Piernas,Camilla femoral,4,10,32.5
-Joaquín Paz,44068979,3,Piernas,Sillón cuádriceps,4,10,42.5
-Joaquín Paz,44068979,3,Piernas,Gemelos,4,15,15
-Joaquín Paz,44068979,3,Empuje,Press banca,4,10,47.5
-Joaquín Paz,44068979,3,Empuje,Press inclinado,4,10,20
-Joaquín Paz,44068979,3,Empuje,Press militar,4,10,32.5
-Joaquín Paz,44068979,3,Empuje,Vuelos laterales,4,15,7.5
-Joaquín Paz,44068979,3,Empuje,Fondos,4,8,
-Joaquín Paz,44068979,3,Tirón,Dominadas,4,8,
-Joaquín Paz,44068979,3,Tirón,Jalón al pecho,4,10,50
-Joaquín Paz,44068979,3,Tirón,Remo con mancuerna,4,10,20
-Joaquín Paz,44068979,3,Tirón,Curl de bíceps,4,10,12.5
-Joaquín Paz,44068979,3,Tirón,Martillo,4,10,12.5
-Florencia Medina,43658380,2,Full body A,Sentadilla,4,10,30
-Florencia Medina,43658380,2,Full body A,Press banca,4,10,52.5
-Florencia Medina,43658380,2,Full body A,Jalón al pecho,4,10,47.5
-Florencia Medina,43658380,2,Full body A,Vuelos laterales,4,15,7.5
-Florencia Medina,43658380,2,Full body A,Curl de bíceps,4,10,12.5
-Florencia Medina,43658380,2,Full body B,Prensa,4,10,127.5
-Florencia Medina,43658380,2,Full body B,Press inclinado,4,10,17.5
-Florencia Medina,43658380,2,Full body B,Remo sentado,4,10,50
-Florencia Medina,43658380,2,Full body B,Press militar,4,10,27.5
-Florencia Medina,43658380,2,Full body B,Transnuca,4,10,15
-Tomás Quiroga,45286348,4,Tren superior A,Press banca,4,10,47.5
-Tomás Quiroga,45286348,4,Tren superior A,Jalón al pecho,4,10,50
-Tomás Quiroga,45286348,4,Tren superior A,Press militar,4,10,27.5
-Tomás Quiroga,45286348,4,Tren superior A,Curl de bíceps,4,10,12.5
-Tomás Quiroga,45286348,4,Tren superior A,Transnuca,4,10,15
-Tomás Quiroga,45286348,4,Tren inferior A,Sentadilla,4,10,32.5
-Tomás Quiroga,45286348,4,Tren inferior A,Camilla femoral,4,10,35
-Tomás Quiroga,45286348,4,Tren inferior A,Sillón cuádriceps,4,10,42.5
-Tomás Quiroga,45286348,4,Tren inferior A,Gemelos,4,15,15
-Tomás Quiroga,45286348,4,Tren superior B,Press inclinado,4,10,17.5
-Tomás Quiroga,45286348,4,Tren superior B,Remo sentado,4,10,47.5
-Tomás Quiroga,45286348,4,Tren superior B,Vuelos laterales,4,15,7.5
-Tomás Quiroga,45286348,4,Tren superior B,Martillo,4,10,12.5
-Tomás Quiroga,45286348,4,Tren superior B,Fondos,4,8,
-Tomás Quiroga,45286348,4,Tren inferior B,Prensa,4,10,110
-Tomás Quiroga,45286348,4,Tren inferior B,Camilla femoral,4,10,35
-Tomás Quiroga,45286348,4,Tren inferior B,Sillón cuádriceps,4,10,40
-Tomás Quiroga,45286348,4,Tren inferior B,Gemelos,4,15,17.5
-Agustina Luna,34670342,3,Piernas,Sentadilla,4,8,37.5
-Agustina Luna,34670342,3,Piernas,Prensa,4,8,165
-Agustina Luna,34670342,3,Piernas,Camilla femoral,4,8,50
-Agustina Luna,34670342,3,Piernas,Sillón cuádriceps,4,8,60
-Agustina Luna,34670342,3,Piernas,Gemelos,4,15,22.5
-Agustina Luna,34670342,3,Empuje,Press banca,4,8,70
-Agustina Luna,34670342,3,Empuje,Press inclinado,4,8,22.5
-Agustina Luna,34670342,3,Empuje,Press militar,4,8,40
-Agustina Luna,34670342,3,Empuje,Vuelos laterales,4,15,10
-Agustina Luna,34670342,3,Empuje,Fondos,4,10,
-Agustina Luna,34670342,3,Tirón,Dominadas,4,10,
-Agustina Luna,34670342,3,Tirón,Jalón al pecho,4,8,65
-Agustina Luna,34670342,3,Tirón,Remo con mancuerna,4,8,30
-Agustina Luna,34670342,3,Tirón,Curl de bíceps,4,8,15
-Agustina Luna,34670342,3,Tirón,Martillo,4,8,17.5
-Nicolás Herrera,32525304,2,Full body A,Sentadilla,3,12,17.5
-Nicolás Herrera,32525304,2,Full body A,Press banca,3,12,30
-Nicolás Herrera,32525304,2,Full body A,Jalón al pecho,3,12,25
-Nicolás Herrera,32525304,2,Full body A,Vuelos laterales,3,15,5
-Nicolás Herrera,32525304,2,Full body A,Curl de bíceps,3,12,7.5
-Nicolás Herrera,32525304,2,Full body B,Prensa,3,12,70
-Nicolás Herrera,32525304,2,Full body B,Press inclinado,3,12,10
-Nicolás Herrera,32525304,2,Full body B,Remo sentado,3,12,25
-Nicolás Herrera,32525304,2,Full body B,Press militar,3,12,17.5
-Nicolás Herrera,32525304,2,Full body B,Transnuca,3,12,10
-Sofía Carrizo,38267801,4,Tren superior A,Press banca,4,10,50
-Sofía Carrizo,38267801,4,Tren superior A,Jalón al pecho,4,10,45
-Sofía Carrizo,38267801,4,Tren superior A,Press militar,4,10,27.5
-Sofía Carrizo,38267801,4,Tren superior A,Curl de bíceps,4,10,12.5
-Sofía Carrizo,38267801,4,Tren superior A,Transnuca,4,10,12.5
-Sofía Carrizo,38267801,4,Tren inferior A,Sentadilla,4,10,32.5
-Sofía Carrizo,38267801,4,Tren inferior A,Camilla femoral,4,10,35
-Sofía Carrizo,38267801,4,Tren inferior A,Sillón cuádriceps,4,10,37.5
-Sofía Carrizo,38267801,4,Tren inferior A,Gemelos,4,15,17.5
-Sofía Carrizo,38267801,4,Tren superior B,Press inclinado,4,10,17.5
-Sofía Carrizo,38267801,4,Tren superior B,Remo sentado,4,10,50
-Sofía Carrizo,38267801,4,Tren superior B,Vuelos laterales,4,15,7.5
-Sofía Carrizo,38267801,4,Tren superior B,Martillo,4,10,10
-Sofía Carrizo,38267801,4,Tren superior B,Fondos,4,8,
-Sofía Carrizo,38267801,4,Tren inferior B,Prensa,4,10,120
-Sofía Carrizo,38267801,4,Tren inferior B,Camilla femoral,4,10,37.5
-Sofía Carrizo,38267801,4,Tren inferior B,Sillón cuádriceps,4,10,40
-Sofía Carrizo,38267801,4,Tren inferior B,Gemelos,4,15,17.5
-Mateo Domínguez,44695667,5,Piernas,Sentadilla,4,10,32.5
-Mateo Domínguez,44695667,5,Piernas,Prensa,4,10,122.5
-Mateo Domínguez,44695667,5,Piernas,Camilla femoral,4,10,37.5
-Mateo Domínguez,44695667,5,Piernas,Sillón cuádriceps,4,10,37.5
-Mateo Domínguez,44695667,5,Piernas,Gemelos,4,15,15
-Mateo Domínguez,44695667,5,Pecho y tríceps,Press banca,4,10,50
-Mateo Domínguez,44695667,5,Pecho y tríceps,Press inclinado,4,10,17.5
-Mateo Domínguez,44695667,5,Pecho y tríceps,Pec deck,4,10,35
-Mateo Domínguez,44695667,5,Pecho y tríceps,Transnuca,4,10,15
-Mateo Domínguez,44695667,5,Pecho y tríceps,Fondos,4,8,
-Mateo Domínguez,44695667,5,Espalda y bíceps,Dominadas,4,8,
-Mateo Domínguez,44695667,5,Espalda y bíceps,Jalón al pecho,4,10,40
-Mateo Domínguez,44695667,5,Espalda y bíceps,Remo sentado,4,10,45
-Mateo Domínguez,44695667,5,Espalda y bíceps,Curl de bíceps,4,10,12.5
-Mateo Domínguez,44695667,5,Espalda y bíceps,Martillo,4,10,12.5
-Mateo Domínguez,44695667,5,Hombros,Press militar,4,10,27.5
-Mateo Domínguez,44695667,5,Hombros,Vuelos laterales,4,15,7.5
-Mateo Domínguez,44695667,5,Hombros,Vuelos frontales,4,15,7.5
-Mateo Domínguez,44695667,5,Hombros,Remo con mancuerna,4,10,20
-Mateo Domínguez,44695667,5,Full body,Sentadilla,4,10,32.5
-Mateo Domínguez,44695667,5,Full body,Press banca,4,10,47.5
-Mateo Domínguez,44695667,5,Full body,Jalón al pecho,4,10,47.5
-Mateo Domínguez,44695667,5,Full body,Press militar,4,10,32.5
-Julieta Vega,32333211,3,Piernas,Sentadilla,3,12,17.5
-Julieta Vega,32333211,3,Piernas,Prensa,3,12,67.5
-Julieta Vega,32333211,3,Piernas,Camilla femoral,3,12,22.5
-Julieta Vega,32333211,3,Piernas,Sillón cuádriceps,3,12,25
-Julieta Vega,32333211,3,Piernas,Gemelos,3,15,10
-Julieta Vega,32333211,3,Empuje,Press banca,3,12,30
-Julieta Vega,32333211,3,Empuje,Press inclinado,3,12,10
-Julieta Vega,32333211,3,Empuje,Press militar,3,12,17.5
-Julieta Vega,32333211,3,Empuje,Vuelos laterales,3,15,5
-Julieta Vega,32333211,3,Empuje,Fondos,3,6,
-Julieta Vega,32333211,3,Tirón,Dominadas,3,6,
-Julieta Vega,32333211,3,Tirón,Jalón al pecho,3,12,30
-Julieta Vega,32333211,3,Tirón,Remo con mancuerna,3,12,12.5
-Julieta Vega,32333211,3,Tirón,Curl de bíceps,3,12,7.5
-Julieta Vega,32333211,3,Tirón,Martillo,3,12,7.5
-Franco Molina,43566412,3,Piernas,Sentadilla,4,8,40
-Franco Molina,43566412,3,Piernas,Prensa,4,8,170
-Franco Molina,43566412,3,Piernas,Camilla femoral,4,8,47.5
-Franco Molina,43566412,3,Piernas,Sillón cuádriceps,4,8,52.5
-Franco Molina,43566412,3,Piernas,Gemelos,4,15,20
-Franco Molina,43566412,3,Empuje,Press banca,4,8,67.5
-Franco Molina,43566412,3,Empuje,Press inclinado,4,8,22.5
-Franco Molina,43566412,3,Empuje,Press militar,4,8,42.5
-Franco Molina,43566412,3,Empuje,Vuelos laterales,4,15,10
-Franco Molina,43566412,3,Empuje,Fondos,4,10,
-Franco Molina,43566412,3,Tirón,Dominadas,4,10,
-Franco Molina,43566412,3,Tirón,Jalón al pecho,4,8,65
-Franco Molina,43566412,3,Tirón,Remo con mancuerna,4,8,30
-Franco Molina,43566412,3,Tirón,Curl de bíceps,4,8,15
-Franco Molina,43566412,3,Tirón,Martillo,4,8,17.5
-Micaela Rojas,43237525,2,Full body A,Sentadilla,4,10,30
-Micaela Rojas,43237525,2,Full body A,Press banca,4,10,50
-Micaela Rojas,43237525,2,Full body A,Jalón al pecho,4,10,47.5
-Micaela Rojas,43237525,2,Full body A,Vuelos laterales,4,15,7.5
-Micaela Rojas,43237525,2,Full body A,Curl de bíceps,4,10,12.5
-Micaela Rojas,43237525,2,Full body B,Prensa,4,10,130
-Micaela Rojas,43237525,2,Full body B,Press inclinado,4,10,17.5
-Micaela Rojas,43237525,2,Full body B,Remo sentado,4,10,42.5
-Micaela Rojas,43237525,2,Full body B,Press militar,4,10,30
-Micaela Rojas,43237525,2,Full body B,Transnuca,4,10,15
-Ignacio Suárez,46064992,4,Tren superior A,Press banca,4,8,62.5
-Ignacio Suárez,46064992,4,Tren superior A,Jalón al pecho,4,8,62.5
-Ignacio Suárez,46064992,4,Tren superior A,Press militar,4,8,37.5
-Ignacio Suárez,46064992,4,Tren superior A,Curl de bíceps,4,8,17.5
-Ignacio Suárez,46064992,4,Tren superior A,Transnuca,4,8,20
-Ignacio Suárez,46064992,4,Tren inferior A,Sentadilla,4,8,40
-Ignacio Suárez,46064992,4,Tren inferior A,Camilla femoral,4,8,47.5
-Ignacio Suárez,46064992,4,Tren inferior A,Sillón cuádriceps,4,8,55
-Ignacio Suárez,46064992,4,Tren inferior A,Gemelos,4,15,20
-Ignacio Suárez,46064992,4,Tren superior B,Press inclinado,4,8,25
-Ignacio Suárez,46064992,4,Tren superior B,Remo sentado,4,8,55
-Ignacio Suárez,46064992,4,Tren superior B,Vuelos laterales,4,15,10
-Ignacio Suárez,46064992,4,Tren superior B,Martillo,4,8,15
-Ignacio Suárez,46064992,4,Tren superior B,Fondos,4,10,
-Ignacio Suárez,46064992,4,Tren inferior B,Prensa,4,8,147.5
-Ignacio Suárez,46064992,4,Tren inferior B,Camilla femoral,4,8,45
-Ignacio Suárez,46064992,4,Tren inferior B,Sillón cuádriceps,4,8,57.5
-Ignacio Suárez,46064992,4,Tren inferior B,Gemelos,4,15,22.5
-Rocío Navarro,31567508,3,Piernas,Sentadilla,4,10,30
-Rocío Navarro,31567508,3,Piernas,Prensa,4,10,115
-Rocío Navarro,31567508,3,Piernas,Camilla femoral,4,10,37.5
-Rocío Navarro,31567508,3,Piernas,Sillón cuádriceps,4,10,37.5
-Rocío Navarro,31567508,3,Piernas,Gemelos,4,15,15
-Rocío Navarro,31567508,3,Empuje,Press banca,4,10,47.5
-Rocío Navarro,31567508,3,Empuje,Press inclinado,4,10,17.5
-Rocío Navarro,31567508,3,Empuje,Press militar,4,10,30
-Rocío Navarro,31567508,3,Empuje,Vuelos laterales,4,15,7.5
-Rocío Navarro,31567508,3,Empuje,Fondos,4,8,
-Rocío Navarro,31567508,3,Tirón,Dominadas,4,8,
-Rocío Navarro,31567508,3,Tirón,Jalón al pecho,4,10,47.5
-Rocío Navarro,31567508,3,Tirón,Remo con mancuerna,4,10,20
-Rocío Navarro,31567508,3,Tirón,Curl de bíceps,4,10,10
-Rocío Navarro,31567508,3,Tirón,Martillo,4,10,10
-Federico Castro,28771003,2,Full body A,Sentadilla,3,12,17.5
-Federico Castro,28771003,2,Full body A,Press banca,3,12,27.5
-Federico Castro,28771003,2,Full body A,Jalón al pecho,3,12,27.5
-Federico Castro,28771003,2,Full body A,Vuelos laterales,3,15,5
-Federico Castro,28771003,2,Full body A,Curl de bíceps,3,12,7.5
-Federico Castro,28771003,2,Full body B,Prensa,3,12,70
-Federico Castro,28771003,2,Full body B,Press inclinado,3,12,10
-Federico Castro,28771003,2,Full body B,Remo sentado,3,12,27.5
-Federico Castro,28771003,2,Full body B,Press militar,3,12,20
-Federico Castro,28771003,2,Full body B,Transnuca,3,12,7.5
-Paula Giménez,41562384,3,Piernas,Sentadilla,4,10,30
-Paula Giménez,41562384,3,Piernas,Prensa,4,10,112.5
-Paula Giménez,41562384,3,Piernas,Camilla femoral,4,10,35
-Paula Giménez,41562384,3,Piernas,Sillón cuádriceps,4,10,45
-Paula Giménez,41562384,3,Piernas,Gemelos,4,15,17.5
-Paula Giménez,41562384,3,Empuje,Press banca,4,10,52.5
-Paula Giménez,41562384,3,Empuje,Press inclinado,4,10,20
-Paula Giménez,41562384,3,Empuje,Press militar,4,10,30
-Paula Giménez,41562384,3,Empuje,Vuelos laterales,4,15,7.5
-Paula Giménez,41562384,3,Empuje,Fondos,4,8,
-Paula Giménez,41562384,3,Tirón,Dominadas,4,8,
-Paula Giménez,41562384,3,Tirón,Jalón al pecho,4,10,45
-Paula Giménez,41562384,3,Tirón,Remo con mancuerna,4,10,22.5
-Paula Giménez,41562384,3,Tirón,Curl de bíceps,4,10,12.5
-Paula Giménez,41562384,3,Tirón,Martillo,4,10,12.5
-Gonzalo Romero,42654608,5,Piernas,Sentadilla,4,8,42.5
-Gonzalo Romero,42654608,5,Piernas,Prensa,4,8,155
-Gonzalo Romero,42654608,5,Piernas,Camilla femoral,4,8,45
-Gonzalo Romero,42654608,5,Piernas,Sillón cuádriceps,4,8,57.5
-Gonzalo Romero,42654608,5,Piernas,Gemelos,4,15,22.5
-Gonzalo Romero,42654608,5,Pecho y tríceps,Press banca,4,8,72.5
-Gonzalo Romero,42654608,5,Pecho y tríceps,Press inclinado,4,8,22.5
-Gonzalo Romero,42654608,5,Pecho y tríceps,Pec deck,4,8,47.5
-Gonzalo Romero,42654608,5,Pecho y tríceps,Transnuca,4,8,20
-Gonzalo Romero,42654608,5,Pecho y tríceps,Fondos,4,10,
-Gonzalo Romero,42654608,5,Espalda y bíceps,Dominadas,4,10,
-Gonzalo Romero,42654608,5,Espalda y bíceps,Jalón al pecho,4,8,55
-Gonzalo Romero,42654608,5,Espalda y bíceps,Remo sentado,4,8,67.5
-Gonzalo Romero,42654608,5,Espalda y bíceps,Curl de bíceps,4,8,15
-Gonzalo Romero,42654608,5,Espalda y bíceps,Martillo,4,8,15
-Gonzalo Romero,42654608,5,Hombros,Press militar,4,8,45
-Gonzalo Romero,42654608,5,Hombros,Vuelos laterales,4,15,10
-Gonzalo Romero,42654608,5,Hombros,Vuelos frontales,4,15,7.5
-Gonzalo Romero,42654608,5,Hombros,Remo con mancuerna,4,8,25
-Gonzalo Romero,42654608,5,Full body,Sentadilla,4,8,40
-Gonzalo Romero,42654608,5,Full body,Press banca,4,8,70
-Gonzalo Romero,42654608,5,Full body,Jalón al pecho,4,8,67.5
-Gonzalo Romero,42654608,5,Full body,Press militar,4,8,40
-Carolina Sosa,42252918,2,Full body A,Sentadilla,3,12,17.5
-Carolina Sosa,42252918,2,Full body A,Press banca,3,12,30
-Carolina Sosa,42252918,2,Full body A,Jalón al pecho,3,12,27.5
-Carolina Sosa,42252918,2,Full body A,Vuelos laterales,3,15,5
-Carolina Sosa,42252918,2,Full body A,Curl de bíceps,3,12,7.5
-Carolina Sosa,42252918,2,Full body B,Prensa,3,12,67.5
-Carolina Sosa,42252918,2,Full body B,Press inclinado,3,12,10
-Carolina Sosa,42252918,2,Full body B,Remo sentado,3,12,27.5
-Carolina Sosa,42252918,2,Full body B,Press militar,3,12,17.5
-Carolina Sosa,42252918,2,Full body B,Transnuca,3,12,10
-Bautista Acosta,46619292,3,Piernas,Sentadilla,4,10,30
-Bautista Acosta,46619292,3,Piernas,Prensa,4,10,115
-Bautista Acosta,46619292,3,Piernas,Camilla femoral,4,10,32.5
-Bautista Acosta,46619292,3,Piernas,Sillón cuádriceps,4,10,35
-Bautista Acosta,46619292,3,Piernas,Gemelos,4,15,15
-Bautista Acosta,46619292,3,Empuje,Press banca,4,10,50
-Bautista Acosta,46619292,3,Empuje,Press inclinado,4,10,17.5
-Bautista Acosta,46619292,3,Empuje,Press militar,4,10,30
-Bautista Acosta,46619292,3,Empuje,Vuelos laterales,4,15,7.5
-Bautista Acosta,46619292,3,Empuje,Fondos,4,8,
-Bautista Acosta,46619292,3,Tirón,Dominadas,4,8,
-Bautista Acosta,46619292,3,Tirón,Jalón al pecho,4,10,45
-Bautista Acosta,46619292,3,Tirón,Remo con mancuerna,4,10,22.5
-Bautista Acosta,46619292,3,Tirón,Curl de bíceps,4,10,12.5
-Bautista Acosta,46619292,3,Tirón,Martillo,4,10,12.5
-Emilia Torres,45248545,4,Tren superior A,Press banca,3,12,32.5
-Emilia Torres,45248545,4,Tren superior A,Jalón al pecho,3,12,25
-Emilia Torres,45248545,4,Tren superior A,Press militar,3,12,17.5
-Emilia Torres,45248545,4,Tren superior A,Curl de bíceps,3,12,7.5
-Emilia Torres,45248545,4,Tren superior A,Transnuca,3,12,7.5
-Emilia Torres,45248545,4,Tren inferior A,Sentadilla,3,12,20
-Emilia Torres,45248545,4,Tren inferior A,Camilla femoral,3,12,22.5
-Emilia Torres,45248545,4,Tren inferior A,Sillón cuádriceps,3,12,22.5
-Emilia Torres,45248545,4,Tren inferior A,Gemelos,3,15,10
-Emilia Torres,45248545,4,Tren superior B,Press inclinado,3,12,10
-Emilia Torres,45248545,4,Tren superior B,Remo sentado,3,12,27.5
-Emilia Torres,45248545,4,Tren superior B,Vuelos laterales,3,15,5
-Emilia Torres,45248545,4,Tren superior B,Martillo,3,12,7.5
-Emilia Torres,45248545,4,Tren superior B,Fondos,3,6,
-Emilia Torres,45248545,4,Tren inferior B,Prensa,3,12,77.5
-Emilia Torres,45248545,4,Tren inferior B,Camilla femoral,3,12,22.5
-Emilia Torres,45248545,4,Tren inferior B,Sillón cuádriceps,3,12,22.5
-Emilia Torres,45248545,4,Tren inferior B,Gemelos,3,15,10
-Lautaro Ibáñez,46843841,3,Piernas,Sentadilla,4,8,42.5
-Lautaro Ibáñez,46843841,3,Piernas,Prensa,4,8,157.5
-Lautaro Ibáñez,46843841,3,Piernas,Camilla femoral,4,8,45
-Lautaro Ibáñez,46843841,3,Piernas,Sillón cuádriceps,4,8,52.5
-Lautaro Ibáñez,46843841,3,Piernas,Gemelos,4,15,22.5
-Lautaro Ibáñez,46843841,3,Empuje,Press banca,4,8,67.5
-Lautaro Ibáñez,46843841,3,Empuje,Press inclinado,4,8,25
-Lautaro Ibáñez,46843841,3,Empuje,Press militar,4,8,42.5
-Lautaro Ibáñez,46843841,3,Empuje,Vuelos laterales,4,15,10
-Lautaro Ibáñez,46843841,3,Empuje,Fondos,4,10,
-Lautaro Ibáñez,46843841,3,Tirón,Dominadas,4,10,
-Lautaro Ibáñez,46843841,3,Tirón,Jalón al pecho,4,8,57.5
-Lautaro Ibáñez,46843841,3,Tirón,Remo con mancuerna,4,8,27.5
-Lautaro Ibáñez,46843841,3,Tirón,Curl de bíceps,4,8,15
-Lautaro Ibáñez,46843841,3,Tirón,Martillo,4,8,17.5
+alumno,dni,telefono,dias,rutina,ejercicio,series,reps,peso
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Sentadilla,4,10,30
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Prensa,4,10,130
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Camilla femoral,4,10,35
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Sillón cuádriceps,4,10,42.5
+Valentina Ríos,31997000,54911 0000 5305,3,Piernas,Gemelos,4,15,17.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press banca,4,10,55
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press inclinado,4,10,17.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Press militar,4,10,30
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Vuelos laterales,4,15,7.5
+Valentina Ríos,31997000,54911 0000 5305,3,Empuje,Fondos,4,8,
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Dominadas,4,8,
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Jalón al pecho,4,10,47.5
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Remo con mancuerna,4,10,20
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Curl de bíceps,4,10,12.5
+Valentina Ríos,31997000,54911 0000 5305,3,Tirón,Martillo,4,10,12.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior A,Press banca,4,8,65
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior A,Jalón al pecho,4,8,62.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior A,Press militar,4,8,37.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior A,Curl de bíceps,4,8,17.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior A,Transnuca,4,8,17.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior A,Sentadilla,4,8,42.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior A,Camilla femoral,4,8,50
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior A,Sillón cuádriceps,4,8,55
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior A,Gemelos,4,15,20
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior B,Press inclinado,4,8,22.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior B,Remo sentado,4,8,67.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior B,Vuelos laterales,4,15,10
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior B,Martillo,4,8,17.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren superior B,Fondos,4,10,
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior B,Prensa,4,8,177.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior B,Camilla femoral,4,8,47.5
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior B,Sillón cuádriceps,4,8,50
+Martín Aguirre,42800692,54911 0000 2471,4,Tren inferior B,Gemelos,4,15,20
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Sentadilla,3,12,17.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Press banca,3,12,27.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Jalón al pecho,3,12,25
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Vuelos laterales,3,15,5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body A,Curl de bíceps,3,12,7.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Prensa,3,12,70
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Press inclinado,3,12,12.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Remo sentado,3,12,27.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Press militar,3,12,17.5
+Lucía Benítez,46704936,54911 0000 6468,2,Full body B,Transnuca,3,12,7.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Piernas,Sentadilla,4,8,40
+Santiago Ferreyra,46604222,54911 0000 0791,5,Piernas,Prensa,4,8,150
+Santiago Ferreyra,46604222,54911 0000 0791,5,Piernas,Camilla femoral,4,8,47.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Piernas,Sillón cuádriceps,4,8,57.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Piernas,Gemelos,4,15,22.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Pecho y tríceps,Press banca,4,8,67.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Pecho y tríceps,Press inclinado,4,8,27.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Pecho y tríceps,Pec deck,4,8,45
+Santiago Ferreyra,46604222,54911 0000 0791,5,Pecho y tríceps,Transnuca,4,8,17.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Pecho y tríceps,Fondos,4,10,
+Santiago Ferreyra,46604222,54911 0000 0791,5,Espalda y bíceps,Dominadas,4,10,
+Santiago Ferreyra,46604222,54911 0000 0791,5,Espalda y bíceps,Jalón al pecho,4,8,65
+Santiago Ferreyra,46604222,54911 0000 0791,5,Espalda y bíceps,Remo sentado,4,8,60
+Santiago Ferreyra,46604222,54911 0000 0791,5,Espalda y bíceps,Curl de bíceps,4,8,17.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Espalda y bíceps,Martillo,4,8,15
+Santiago Ferreyra,46604222,54911 0000 0791,5,Hombros,Press militar,4,8,37.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Hombros,Vuelos laterales,4,15,7.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Hombros,Vuelos frontales,4,15,7.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Hombros,Remo con mancuerna,4,8,27.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Full body,Sentadilla,4,8,42.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Full body,Press banca,4,8,62.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Full body,Jalón al pecho,4,8,62.5
+Santiago Ferreyra,46604222,54911 0000 0791,5,Full body,Press militar,4,8,40
+Camila Ortega,44177031,54911 0000 1186,3,Piernas,Sentadilla,3,12,20
+Camila Ortega,44177031,54911 0000 1186,3,Piernas,Prensa,3,12,77.5
+Camila Ortega,44177031,54911 0000 1186,3,Piernas,Camilla femoral,3,12,20
+Camila Ortega,44177031,54911 0000 1186,3,Piernas,Sillón cuádriceps,3,12,25
+Camila Ortega,44177031,54911 0000 1186,3,Piernas,Gemelos,3,15,10
+Camila Ortega,44177031,54911 0000 1186,3,Empuje,Press banca,3,12,32.5
+Camila Ortega,44177031,54911 0000 1186,3,Empuje,Press inclinado,3,12,12.5
+Camila Ortega,44177031,54911 0000 1186,3,Empuje,Press militar,3,12,20
+Camila Ortega,44177031,54911 0000 1186,3,Empuje,Vuelos laterales,3,15,5
+Camila Ortega,44177031,54911 0000 1186,3,Empuje,Fondos,3,6,
+Camila Ortega,44177031,54911 0000 1186,3,Tirón,Dominadas,3,6,
+Camila Ortega,44177031,54911 0000 1186,3,Tirón,Jalón al pecho,3,12,27.5
+Camila Ortega,44177031,54911 0000 1186,3,Tirón,Remo con mancuerna,3,12,12.5
+Camila Ortega,44177031,54911 0000 1186,3,Tirón,Curl de bíceps,3,12,7.5
+Camila Ortega,44177031,54911 0000 1186,3,Tirón,Martillo,3,12,7.5
+Joaquín Paz,44068979,54911 0000 8779,3,Piernas,Sentadilla,4,10,32.5
+Joaquín Paz,44068979,54911 0000 8779,3,Piernas,Prensa,4,10,117.5
+Joaquín Paz,44068979,54911 0000 8779,3,Piernas,Camilla femoral,4,10,32.5
+Joaquín Paz,44068979,54911 0000 8779,3,Piernas,Sillón cuádriceps,4,10,42.5
+Joaquín Paz,44068979,54911 0000 8779,3,Piernas,Gemelos,4,15,15
+Joaquín Paz,44068979,54911 0000 8779,3,Empuje,Press banca,4,10,47.5
+Joaquín Paz,44068979,54911 0000 8779,3,Empuje,Press inclinado,4,10,20
+Joaquín Paz,44068979,54911 0000 8779,3,Empuje,Press militar,4,10,32.5
+Joaquín Paz,44068979,54911 0000 8779,3,Empuje,Vuelos laterales,4,15,7.5
+Joaquín Paz,44068979,54911 0000 8779,3,Empuje,Fondos,4,8,
+Joaquín Paz,44068979,54911 0000 8779,3,Tirón,Dominadas,4,8,
+Joaquín Paz,44068979,54911 0000 8779,3,Tirón,Jalón al pecho,4,10,50
+Joaquín Paz,44068979,54911 0000 8779,3,Tirón,Remo con mancuerna,4,10,20
+Joaquín Paz,44068979,54911 0000 8779,3,Tirón,Curl de bíceps,4,10,12.5
+Joaquín Paz,44068979,54911 0000 8779,3,Tirón,Martillo,4,10,12.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body A,Sentadilla,4,10,30
+Florencia Medina,43658380,54911 0000 1542,2,Full body A,Press banca,4,10,52.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body A,Jalón al pecho,4,10,47.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body A,Vuelos laterales,4,15,7.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body A,Curl de bíceps,4,10,12.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body B,Prensa,4,10,127.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body B,Press inclinado,4,10,17.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body B,Remo sentado,4,10,50
+Florencia Medina,43658380,54911 0000 1542,2,Full body B,Press militar,4,10,27.5
+Florencia Medina,43658380,54911 0000 1542,2,Full body B,Transnuca,4,10,15
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior A,Press banca,4,10,47.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior A,Jalón al pecho,4,10,50
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior A,Press militar,4,10,27.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior A,Curl de bíceps,4,10,12.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior A,Transnuca,4,10,15
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior A,Sentadilla,4,10,32.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior A,Camilla femoral,4,10,35
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior A,Sillón cuádriceps,4,10,42.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior A,Gemelos,4,15,15
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior B,Press inclinado,4,10,17.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior B,Remo sentado,4,10,47.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior B,Vuelos laterales,4,15,7.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior B,Martillo,4,10,12.5
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren superior B,Fondos,4,8,
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior B,Prensa,4,10,110
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior B,Camilla femoral,4,10,35
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior B,Sillón cuádriceps,4,10,40
+Tomás Quiroga,45286348,54911 0000 5991,4,Tren inferior B,Gemelos,4,15,17.5
+Agustina Luna,34670342,54911 0000 9548,3,Piernas,Sentadilla,4,8,37.5
+Agustina Luna,34670342,54911 0000 9548,3,Piernas,Prensa,4,8,165
+Agustina Luna,34670342,54911 0000 9548,3,Piernas,Camilla femoral,4,8,50
+Agustina Luna,34670342,54911 0000 9548,3,Piernas,Sillón cuádriceps,4,8,60
+Agustina Luna,34670342,54911 0000 9548,3,Piernas,Gemelos,4,15,22.5
+Agustina Luna,34670342,54911 0000 9548,3,Empuje,Press banca,4,8,70
+Agustina Luna,34670342,54911 0000 9548,3,Empuje,Press inclinado,4,8,22.5
+Agustina Luna,34670342,54911 0000 9548,3,Empuje,Press militar,4,8,40
+Agustina Luna,34670342,54911 0000 9548,3,Empuje,Vuelos laterales,4,15,10
+Agustina Luna,34670342,54911 0000 9548,3,Empuje,Fondos,4,10,
+Agustina Luna,34670342,54911 0000 9548,3,Tirón,Dominadas,4,10,
+Agustina Luna,34670342,54911 0000 9548,3,Tirón,Jalón al pecho,4,8,65
+Agustina Luna,34670342,54911 0000 9548,3,Tirón,Remo con mancuerna,4,8,30
+Agustina Luna,34670342,54911 0000 9548,3,Tirón,Curl de bíceps,4,8,15
+Agustina Luna,34670342,54911 0000 9548,3,Tirón,Martillo,4,8,17.5
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body A,Sentadilla,3,12,17.5
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body A,Press banca,3,12,30
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body A,Jalón al pecho,3,12,25
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body A,Vuelos laterales,3,15,5
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body A,Curl de bíceps,3,12,7.5
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body B,Prensa,3,12,70
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body B,Press inclinado,3,12,10
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body B,Remo sentado,3,12,25
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body B,Press militar,3,12,17.5
+Nicolás Herrera,32525304,54911 0000 0950,2,Full body B,Transnuca,3,12,10
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior A,Press banca,4,10,50
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior A,Jalón al pecho,4,10,45
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior A,Press militar,4,10,27.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior A,Curl de bíceps,4,10,12.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior A,Transnuca,4,10,12.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior A,Sentadilla,4,10,32.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior A,Camilla femoral,4,10,35
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior A,Sillón cuádriceps,4,10,37.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior A,Gemelos,4,15,17.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior B,Press inclinado,4,10,17.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior B,Remo sentado,4,10,50
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior B,Vuelos laterales,4,15,7.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior B,Martillo,4,10,10
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren superior B,Fondos,4,8,
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior B,Prensa,4,10,120
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior B,Camilla femoral,4,10,37.5
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior B,Sillón cuádriceps,4,10,40
+Sofía Carrizo,38267801,54911 0000 8313,4,Tren inferior B,Gemelos,4,15,17.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Piernas,Sentadilla,4,10,32.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Piernas,Prensa,4,10,122.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Piernas,Camilla femoral,4,10,37.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Piernas,Sillón cuádriceps,4,10,37.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Piernas,Gemelos,4,15,15
+Mateo Domínguez,44695667,54911 0000 3517,5,Pecho y tríceps,Press banca,4,10,50
+Mateo Domínguez,44695667,54911 0000 3517,5,Pecho y tríceps,Press inclinado,4,10,17.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Pecho y tríceps,Pec deck,4,10,35
+Mateo Domínguez,44695667,54911 0000 3517,5,Pecho y tríceps,Transnuca,4,10,15
+Mateo Domínguez,44695667,54911 0000 3517,5,Pecho y tríceps,Fondos,4,8,
+Mateo Domínguez,44695667,54911 0000 3517,5,Espalda y bíceps,Dominadas,4,8,
+Mateo Domínguez,44695667,54911 0000 3517,5,Espalda y bíceps,Jalón al pecho,4,10,40
+Mateo Domínguez,44695667,54911 0000 3517,5,Espalda y bíceps,Remo sentado,4,10,45
+Mateo Domínguez,44695667,54911 0000 3517,5,Espalda y bíceps,Curl de bíceps,4,10,12.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Espalda y bíceps,Martillo,4,10,12.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Hombros,Press militar,4,10,27.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Hombros,Vuelos laterales,4,15,7.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Hombros,Vuelos frontales,4,15,7.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Hombros,Remo con mancuerna,4,10,20
+Mateo Domínguez,44695667,54911 0000 3517,5,Full body,Sentadilla,4,10,32.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Full body,Press banca,4,10,47.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Full body,Jalón al pecho,4,10,47.5
+Mateo Domínguez,44695667,54911 0000 3517,5,Full body,Press militar,4,10,32.5
+Julieta Vega,32333211,54911 0000 0614,3,Piernas,Sentadilla,3,12,17.5
+Julieta Vega,32333211,54911 0000 0614,3,Piernas,Prensa,3,12,67.5
+Julieta Vega,32333211,54911 0000 0614,3,Piernas,Camilla femoral,3,12,22.5
+Julieta Vega,32333211,54911 0000 0614,3,Piernas,Sillón cuádriceps,3,12,25
+Julieta Vega,32333211,54911 0000 0614,3,Piernas,Gemelos,3,15,10
+Julieta Vega,32333211,54911 0000 0614,3,Empuje,Press banca,3,12,30
+Julieta Vega,32333211,54911 0000 0614,3,Empuje,Press inclinado,3,12,10
+Julieta Vega,32333211,54911 0000 0614,3,Empuje,Press militar,3,12,17.5
+Julieta Vega,32333211,54911 0000 0614,3,Empuje,Vuelos laterales,3,15,5
+Julieta Vega,32333211,54911 0000 0614,3,Empuje,Fondos,3,6,
+Julieta Vega,32333211,54911 0000 0614,3,Tirón,Dominadas,3,6,
+Julieta Vega,32333211,54911 0000 0614,3,Tirón,Jalón al pecho,3,12,30
+Julieta Vega,32333211,54911 0000 0614,3,Tirón,Remo con mancuerna,3,12,12.5
+Julieta Vega,32333211,54911 0000 0614,3,Tirón,Curl de bíceps,3,12,7.5
+Julieta Vega,32333211,54911 0000 0614,3,Tirón,Martillo,3,12,7.5
+Franco Molina,43566412,54911 0000 1408,3,Piernas,Sentadilla,4,8,40
+Franco Molina,43566412,54911 0000 1408,3,Piernas,Prensa,4,8,170
+Franco Molina,43566412,54911 0000 1408,3,Piernas,Camilla femoral,4,8,47.5
+Franco Molina,43566412,54911 0000 1408,3,Piernas,Sillón cuádriceps,4,8,52.5
+Franco Molina,43566412,54911 0000 1408,3,Piernas,Gemelos,4,15,20
+Franco Molina,43566412,54911 0000 1408,3,Empuje,Press banca,4,8,67.5
+Franco Molina,43566412,54911 0000 1408,3,Empuje,Press inclinado,4,8,22.5
+Franco Molina,43566412,54911 0000 1408,3,Empuje,Press militar,4,8,42.5
+Franco Molina,43566412,54911 0000 1408,3,Empuje,Vuelos laterales,4,15,10
+Franco Molina,43566412,54911 0000 1408,3,Empuje,Fondos,4,10,
+Franco Molina,43566412,54911 0000 1408,3,Tirón,Dominadas,4,10,
+Franco Molina,43566412,54911 0000 1408,3,Tirón,Jalón al pecho,4,8,65
+Franco Molina,43566412,54911 0000 1408,3,Tirón,Remo con mancuerna,4,8,30
+Franco Molina,43566412,54911 0000 1408,3,Tirón,Curl de bíceps,4,8,15
+Franco Molina,43566412,54911 0000 1408,3,Tirón,Martillo,4,8,17.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body A,Sentadilla,4,10,30
+Micaela Rojas,43237525,54911 0000 7104,2,Full body A,Press banca,4,10,50
+Micaela Rojas,43237525,54911 0000 7104,2,Full body A,Jalón al pecho,4,10,47.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body A,Vuelos laterales,4,15,7.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body A,Curl de bíceps,4,10,12.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body B,Prensa,4,10,130
+Micaela Rojas,43237525,54911 0000 7104,2,Full body B,Press inclinado,4,10,17.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body B,Remo sentado,4,10,42.5
+Micaela Rojas,43237525,54911 0000 7104,2,Full body B,Press militar,4,10,30
+Micaela Rojas,43237525,54911 0000 7104,2,Full body B,Transnuca,4,10,15
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior A,Press banca,4,8,62.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior A,Jalón al pecho,4,8,62.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior A,Press militar,4,8,37.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior A,Curl de bíceps,4,8,17.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior A,Transnuca,4,8,20
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior A,Sentadilla,4,8,40
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior A,Camilla femoral,4,8,47.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior A,Sillón cuádriceps,4,8,55
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior A,Gemelos,4,15,20
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior B,Press inclinado,4,8,25
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior B,Remo sentado,4,8,55
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior B,Vuelos laterales,4,15,10
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior B,Martillo,4,8,15
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren superior B,Fondos,4,10,
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior B,Prensa,4,8,147.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior B,Camilla femoral,4,8,45
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior B,Sillón cuádriceps,4,8,57.5
+Ignacio Suárez,46064992,54911 0000 6851,4,Tren inferior B,Gemelos,4,15,22.5
+Rocío Navarro,31567508,54911 0000 1144,3,Piernas,Sentadilla,4,10,30
+Rocío Navarro,31567508,54911 0000 1144,3,Piernas,Prensa,4,10,115
+Rocío Navarro,31567508,54911 0000 1144,3,Piernas,Camilla femoral,4,10,37.5
+Rocío Navarro,31567508,54911 0000 1144,3,Piernas,Sillón cuádriceps,4,10,37.5
+Rocío Navarro,31567508,54911 0000 1144,3,Piernas,Gemelos,4,15,15
+Rocío Navarro,31567508,54911 0000 1144,3,Empuje,Press banca,4,10,47.5
+Rocío Navarro,31567508,54911 0000 1144,3,Empuje,Press inclinado,4,10,17.5
+Rocío Navarro,31567508,54911 0000 1144,3,Empuje,Press militar,4,10,30
+Rocío Navarro,31567508,54911 0000 1144,3,Empuje,Vuelos laterales,4,15,7.5
+Rocío Navarro,31567508,54911 0000 1144,3,Empuje,Fondos,4,8,
+Rocío Navarro,31567508,54911 0000 1144,3,Tirón,Dominadas,4,8,
+Rocío Navarro,31567508,54911 0000 1144,3,Tirón,Jalón al pecho,4,10,47.5
+Rocío Navarro,31567508,54911 0000 1144,3,Tirón,Remo con mancuerna,4,10,20
+Rocío Navarro,31567508,54911 0000 1144,3,Tirón,Curl de bíceps,4,10,10
+Rocío Navarro,31567508,54911 0000 1144,3,Tirón,Martillo,4,10,10
+Federico Castro,28771003,54911 0000 3943,2,Full body A,Sentadilla,3,12,17.5
+Federico Castro,28771003,54911 0000 3943,2,Full body A,Press banca,3,12,27.5
+Federico Castro,28771003,54911 0000 3943,2,Full body A,Jalón al pecho,3,12,27.5
+Federico Castro,28771003,54911 0000 3943,2,Full body A,Vuelos laterales,3,15,5
+Federico Castro,28771003,54911 0000 3943,2,Full body A,Curl de bíceps,3,12,7.5
+Federico Castro,28771003,54911 0000 3943,2,Full body B,Prensa,3,12,70
+Federico Castro,28771003,54911 0000 3943,2,Full body B,Press inclinado,3,12,10
+Federico Castro,28771003,54911 0000 3943,2,Full body B,Remo sentado,3,12,27.5
+Federico Castro,28771003,54911 0000 3943,2,Full body B,Press militar,3,12,20
+Federico Castro,28771003,54911 0000 3943,2,Full body B,Transnuca,3,12,7.5
+Paula Giménez,41562384,54911 0000 1486,3,Piernas,Sentadilla,4,10,30
+Paula Giménez,41562384,54911 0000 1486,3,Piernas,Prensa,4,10,112.5
+Paula Giménez,41562384,54911 0000 1486,3,Piernas,Camilla femoral,4,10,35
+Paula Giménez,41562384,54911 0000 1486,3,Piernas,Sillón cuádriceps,4,10,45
+Paula Giménez,41562384,54911 0000 1486,3,Piernas,Gemelos,4,15,17.5
+Paula Giménez,41562384,54911 0000 1486,3,Empuje,Press banca,4,10,52.5
+Paula Giménez,41562384,54911 0000 1486,3,Empuje,Press inclinado,4,10,20
+Paula Giménez,41562384,54911 0000 1486,3,Empuje,Press militar,4,10,30
+Paula Giménez,41562384,54911 0000 1486,3,Empuje,Vuelos laterales,4,15,7.5
+Paula Giménez,41562384,54911 0000 1486,3,Empuje,Fondos,4,8,
+Paula Giménez,41562384,54911 0000 1486,3,Tirón,Dominadas,4,8,
+Paula Giménez,41562384,54911 0000 1486,3,Tirón,Jalón al pecho,4,10,45
+Paula Giménez,41562384,54911 0000 1486,3,Tirón,Remo con mancuerna,4,10,22.5
+Paula Giménez,41562384,54911 0000 1486,3,Tirón,Curl de bíceps,4,10,12.5
+Paula Giménez,41562384,54911 0000 1486,3,Tirón,Martillo,4,10,12.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Piernas,Sentadilla,4,8,42.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Piernas,Prensa,4,8,155
+Gonzalo Romero,42654608,54911 0000 9028,5,Piernas,Camilla femoral,4,8,45
+Gonzalo Romero,42654608,54911 0000 9028,5,Piernas,Sillón cuádriceps,4,8,57.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Piernas,Gemelos,4,15,22.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Pecho y tríceps,Press banca,4,8,72.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Pecho y tríceps,Press inclinado,4,8,22.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Pecho y tríceps,Pec deck,4,8,47.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Pecho y tríceps,Transnuca,4,8,20
+Gonzalo Romero,42654608,54911 0000 9028,5,Pecho y tríceps,Fondos,4,10,
+Gonzalo Romero,42654608,54911 0000 9028,5,Espalda y bíceps,Dominadas,4,10,
+Gonzalo Romero,42654608,54911 0000 9028,5,Espalda y bíceps,Jalón al pecho,4,8,55
+Gonzalo Romero,42654608,54911 0000 9028,5,Espalda y bíceps,Remo sentado,4,8,67.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Espalda y bíceps,Curl de bíceps,4,8,15
+Gonzalo Romero,42654608,54911 0000 9028,5,Espalda y bíceps,Martillo,4,8,15
+Gonzalo Romero,42654608,54911 0000 9028,5,Hombros,Press militar,4,8,45
+Gonzalo Romero,42654608,54911 0000 9028,5,Hombros,Vuelos laterales,4,15,10
+Gonzalo Romero,42654608,54911 0000 9028,5,Hombros,Vuelos frontales,4,15,7.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Hombros,Remo con mancuerna,4,8,25
+Gonzalo Romero,42654608,54911 0000 9028,5,Full body,Sentadilla,4,8,40
+Gonzalo Romero,42654608,54911 0000 9028,5,Full body,Press banca,4,8,70
+Gonzalo Romero,42654608,54911 0000 9028,5,Full body,Jalón al pecho,4,8,67.5
+Gonzalo Romero,42654608,54911 0000 9028,5,Full body,Press militar,4,8,40
+Carolina Sosa,42252918,54911 0000 6955,2,Full body A,Sentadilla,3,12,17.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body A,Press banca,3,12,30
+Carolina Sosa,42252918,54911 0000 6955,2,Full body A,Jalón al pecho,3,12,27.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body A,Vuelos laterales,3,15,5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body A,Curl de bíceps,3,12,7.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body B,Prensa,3,12,67.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body B,Press inclinado,3,12,10
+Carolina Sosa,42252918,54911 0000 6955,2,Full body B,Remo sentado,3,12,27.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body B,Press militar,3,12,17.5
+Carolina Sosa,42252918,54911 0000 6955,2,Full body B,Transnuca,3,12,10
+Bautista Acosta,46619292,54911 0000 0968,3,Piernas,Sentadilla,4,10,30
+Bautista Acosta,46619292,54911 0000 0968,3,Piernas,Prensa,4,10,115
+Bautista Acosta,46619292,54911 0000 0968,3,Piernas,Camilla femoral,4,10,32.5
+Bautista Acosta,46619292,54911 0000 0968,3,Piernas,Sillón cuádriceps,4,10,35
+Bautista Acosta,46619292,54911 0000 0968,3,Piernas,Gemelos,4,15,15
+Bautista Acosta,46619292,54911 0000 0968,3,Empuje,Press banca,4,10,50
+Bautista Acosta,46619292,54911 0000 0968,3,Empuje,Press inclinado,4,10,17.5
+Bautista Acosta,46619292,54911 0000 0968,3,Empuje,Press militar,4,10,30
+Bautista Acosta,46619292,54911 0000 0968,3,Empuje,Vuelos laterales,4,15,7.5
+Bautista Acosta,46619292,54911 0000 0968,3,Empuje,Fondos,4,8,
+Bautista Acosta,46619292,54911 0000 0968,3,Tirón,Dominadas,4,8,
+Bautista Acosta,46619292,54911 0000 0968,3,Tirón,Jalón al pecho,4,10,45
+Bautista Acosta,46619292,54911 0000 0968,3,Tirón,Remo con mancuerna,4,10,22.5
+Bautista Acosta,46619292,54911 0000 0968,3,Tirón,Curl de bíceps,4,10,12.5
+Bautista Acosta,46619292,54911 0000 0968,3,Tirón,Martillo,4,10,12.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior A,Press banca,3,12,32.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior A,Jalón al pecho,3,12,25
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior A,Press militar,3,12,17.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior A,Curl de bíceps,3,12,7.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior A,Transnuca,3,12,7.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior A,Sentadilla,3,12,20
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior A,Camilla femoral,3,12,22.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior A,Sillón cuádriceps,3,12,22.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior A,Gemelos,3,15,10
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior B,Press inclinado,3,12,10
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior B,Remo sentado,3,12,27.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior B,Vuelos laterales,3,15,5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior B,Martillo,3,12,7.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren superior B,Fondos,3,6,
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior B,Prensa,3,12,77.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior B,Camilla femoral,3,12,22.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior B,Sillón cuádriceps,3,12,22.5
+Emilia Torres,45248545,54911 0000 9264,4,Tren inferior B,Gemelos,3,15,10
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Piernas,Sentadilla,4,8,42.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Piernas,Prensa,4,8,157.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Piernas,Camilla femoral,4,8,45
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Piernas,Sillón cuádriceps,4,8,52.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Piernas,Gemelos,4,15,22.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Empuje,Press banca,4,8,67.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Empuje,Press inclinado,4,8,25
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Empuje,Press militar,4,8,42.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Empuje,Vuelos laterales,4,15,10
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Empuje,Fondos,4,10,
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Tirón,Dominadas,4,10,
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Tirón,Jalón al pecho,4,8,57.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Tirón,Remo con mancuerna,4,8,27.5
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Tirón,Curl de bíceps,4,8,15
+Lautaro Ibáñez,46843841,54911 0000 2028,3,Tirón,Martillo,4,8,17.5

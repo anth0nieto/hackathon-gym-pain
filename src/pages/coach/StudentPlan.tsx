@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { ExerciseSummary } from '../../components/ExerciseSummary';
 import { StatusBadge } from '../../components/StatusBadge';
+import { WhatsAppButton } from '../../components/WhatsAppButton';
 import {
-  customizeNext, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, stalledExercises, sessionStatus, sessionsOf, useDB,
+  activityOf, AWAY_DAYS, customizeNext, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, stalledExercises, sessionStatus, sessionsOf, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
@@ -31,14 +32,24 @@ export function StudentPlan() {
   const progress = progressOf(db, student.id).filter((p) => p.points.some((x) => x.weight > 0));
   const expected = student.daysPerWeek;
   const stalled = stalledExercises(db, student.id);
+  const { idleDays } = activityOf(db, student.id);
 
   return (
     <div className="stack">
       <Link to="/coach" className="btn-link">‹ Alumnos</Link>
       <div className="row-between">
         <h1>{student.name}</h1>
-        <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
+        <div className="row">
+          <WhatsAppButton phone={student.phone} name={student.name} label />
+          <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
+        </div>
       </div>
+
+      {idleDays !== null && idleDays >= AWAY_DAYS && (
+        <p className="notice danger">
+          <strong>Hace {idleDays} días que no entrena.</strong> Escribile antes de que deje.
+        </p>
+      )}
 
       {stalled.length > 0 && (
         <div className="notice stack-sm">

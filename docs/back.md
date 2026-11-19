@@ -73,7 +73,7 @@ saveLog(session?.id ?? startSession(user.id, routine), exercise, 'done', values)
 | `deleteRoutine(id)` | Borra una rutina y renumera las que quedan. El historial no cambia. |
 | `fromTemplate(routine, template)` | Devuelve la rutina con el nombre y los ejercicios de una de "Mis rutinas", en la misma posición. Guardala con `saveRoutine`. |
 | `assignTemplate(template, studentIds)` | Agrega una copia de la plantilla como próxima rutina de cada alumno |
-| `replaceRoutines(routines, newStudents?)` | Crea `newStudents` y reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
+| `replaceRoutines(routines, newStudents?, phones?)` | Crea `newStudents`, completa el teléfono de los alumnos que no tenían, y reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
 | `saveTemplate(template)` / `deleteTemplate(id)` | Crea, actualiza o borra una de "Mis rutinas" |
 
 ## Acciones del admin
@@ -105,6 +105,18 @@ Todos los alumnos tienen rutinas cargadas. Juan, Ana y Martín además tienen hi
 | Ezequiel Scollo | 41399264 | 3 |
 | Flor Villar | 39967191 | 3 |
 | Anthony Montero | 96220982 | 3 |
+
+## Teléfono y WhatsApp
+
+Solo los alumnos tienen teléfono (`users.phone`): el coach y el admin no. Se guarda en formato internacional, solo dígitos, por ejemplo `5491122334455`.
+
+| Función (`src/lib/phone.ts`) | Qué hace |
+|---|---|
+| `normalizePhone(raw)` | Deja solo dígitos. Un número de 10 dígitos sin código de país ("11 2233 4455") se toma como celular de Argentina y le agrega `549`. |
+| `isValidPhone(phone)` | Entre 11 y 15 dígitos |
+| `whatsappLink(phone, name)` | `https://wa.me/<phone>?text=Hola, <nombre>` |
+
+Para mostrar el botón, usá `<WhatsAppButton phone={s.phone} name={s.name} />` (`src/components/WhatsAppButton.tsx`). Si el alumno no tiene teléfono, no muestra nada.
 
 ## Errores
 

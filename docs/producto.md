@@ -21,6 +21,7 @@ Una web responsive con dos roles, coach y alumno, sobre Supabase. No hay registr
 - También puede cargar las rutinas desde un CSV exportado de Google Sheets.
 - Imprime el QR del gimnasio desde la app. Es uno solo para todos los alumnos.
 - Busca alumnos por nombre o DNI. La lista muestra primero a los que hace más tiempo que no entrenan.
+- Le escribe a un alumno por WhatsApp con un toque: el botón abre el chat con "Hola, <nombre>" ya escrito. Solo los alumnos tienen teléfono.
 - Ve el historial de cada alumno, qué rutina hizo cada día y con qué valores, y el progreso de peso de cada ejercicio.
 
 **Alumno**
@@ -86,10 +87,10 @@ La home del coach muestra para cada alumno cuántas veces entrenó esta semana, 
 Una fila por ejercicio:
 
 ```
-alumno,dni,dias,rutina,ejercicio,series,reps,peso
+alumno,dni,telefono,dias,rutina,ejercicio,series,reps,peso
 ```
 
-`dni` y `dias` son opcionales. Con el DNI, los alumnos que todavía no están en la app se crean al importar, así un coach que viene de Sheets importa todo de una vez. Si la fila trae DNI, el alumno se identifica solo por el DNI, porque dos personas pueden llamarse igual. Sin DNI, se busca por nombre.
+`dni`, `telefono` y `dias` son opcionales. Con el DNI, los alumnos que todavía no están en la app se crean al importar, así un coach que viene de Sheets importa todo de una vez. Si la fila trae DNI, el alumno se identifica solo por el DNI, porque dos personas pueden llamarse igual. Sin DNI, se busca por nombre.
 
 Las filas con el mismo alumno y la misma rutina forman una rutina. El orden en que aparece cada rutina define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía. Los ejercicios se escriben como los llama el coach ("Press banca", "Sentadilla", "Camilla femoral") y tienen que estar en la lista de ejercicios.
 

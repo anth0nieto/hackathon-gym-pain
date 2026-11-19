@@ -25,6 +25,8 @@
   --glass-bg: rgba(255, 255, 255, 0.07);
   --glass-border: rgba(255, 255, 255, 0.14);
   --glow: rgba(36, 150, 237, 0.35);
+  --wa: #128c4b;
+  --wa-bg: #dcf8e7;
   color-scheme: light;
 }
 
@@ -46,6 +48,8 @@
     --idle: #334155;
     --nav-bg: #00052e;
     --avatar-bg: #1d3fa0;
+    --wa: #4ade80;
+    --wa-bg: #0b3320;
     color-scheme: dark;
   }
 }
@@ -332,6 +336,19 @@ details.card[open] > summary { margin-bottom: 10px; }
 }
 .modal::backdrop { background: rgba(0, 8, 77, 0.45); }
 @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
+.wa-btn {
+  position: relative; z-index: 1; flex: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  width: 36px; height: 36px; border-radius: 999px;
+  background: var(--wa-bg); color: var(--wa); font-weight: 600; font-size: 0.9rem;
+}
+.wa-btn:hover { filter: brightness(0.95); }
+.wa-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.wa-btn-label { width: auto; padding: 0 14px 0 12px; }
+.card-stretch { position: relative; }
+.card-stretch .stretched-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+.card-stretch .person { flex: 1; }
+.card-stretch .person .wa-btn { margin-left: auto; }
 .pager { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .chip:disabled { opacity: 0.4; cursor: default; }
 

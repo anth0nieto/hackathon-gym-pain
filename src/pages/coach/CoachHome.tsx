@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, stalledExercises, studentsOf, useDB, type ActivityStatus } from '../../data/store';
+import { activityOf, AWAY_DAYS, dueRoutine, routinesOf, sessionsThisWeek, stalledExercises, studentsOf, useDB, type ActivityStatus } from '../../data/store';
+import { WhatsAppButton } from '../../components/WhatsAppButton';
 import { fold } from '../../lib/text';
 import { useCurrentUser, useGym } from '../../session';
 import type { User } from '../../types';
@@ -64,6 +65,8 @@ export function CoachHome() {
   const shown = filtered.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE);
   const open = (s: User) => navigate(`/coach/alumno/${s.id}`);
   const stalled = rows.filter((r) => r.stalled);
+  // Already ordered by days without training, longest first.
+  const away = rows.filter((r) => (r.activity.idleDays ?? -1) >= AWAY_DAYS);
 
   return (
     <div className="stack page-wide">
@@ -74,6 +77,17 @@ export function CoachHome() {
         </div>
         <Link to="/coach/alumnos/nuevo" className="btn">+ Alumno</Link>
       </div>
+
+      {away.length > 0 && (
+        <p className="notice danger">
+          <strong>{away.length === 1 ? '1 alumno no entrena' : `${away.length} alumnos no entrenan`} hace una semana o más.</strong>{' '}
+          Escribiles antes de que dejen:{' '}
+          {away.slice(0, 8).map(({ s, activity }, i) => (
+            <span key={s.id}>{i > 0 && ', '}<Link to={`/coach/alumno/${s.id}`}>{s.name}</Link> ({activity.idleDays} días)</span>
+          ))}
+          {away.length > 8 && ` y ${away.length - 8} más.`}
+        </p>
+      )}
 
       {stalled.length > 0 && (
         <p className="notice">
@@ -116,6 +130,7 @@ export function CoachHome() {
                 <th>Le toca</th>
                 <th>Último registro</th>
                 <th>Estado</th>
+                <th aria-label="Contacto" />
               </tr>
             </thead>
             <tbody>
@@ -140,6 +155,7 @@ export function CoachHome() {
                     <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
                     {stalled && <> <span className="badge tone-warn" title="Hace un mes o más que levanta los mismos pesos">Mismos pesos</span></>}
                   </td>
+                  <td className="cell-action"><WhatsAppButton phone={s.phone} name={s.name} /></td>
                 </tr>
               ))}
             </tbody>
@@ -147,12 +163,12 @@ export function CoachHome() {
 
           <ul className="table-cards">
             {shown.map(({ s, activity, week, due, stalled }) => (
-              <li key={s.id}>
-                <Link to={`/coach/alumno/${s.id}`} className="card card-link stack-sm">
+              <li key={s.id} className="card stack-sm card-stretch">
                   <div className="row-between">
                     <div className="person">
                       <span className="avatar" aria-hidden="true">{initials(s.name)}</span>
-                      <strong>{s.name}</strong>
+                      <Link to={`/coach/alumno/${s.id}`} className="person-name stretched-link">{s.name}</Link>
+                      <WhatsAppButton phone={s.phone} name={s.name} />
                     </div>
                     <span>
                       <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
@@ -163,7 +179,6 @@ export function CoachHome() {
                     <span>Esta semana: {week} de {s.daysPerWeek ?? '?'} · {lastLabel(activity.idleDays)}</span>
                     <span>{due ? `Le toca Rutina ${due.position}` : 'Sin rutinas'}</span>
                   </div>
-                </Link>
               </li>
             ))}
           </ul>

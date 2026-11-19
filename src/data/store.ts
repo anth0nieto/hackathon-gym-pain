@@ -6,6 +6,7 @@ import type { Plan } from './plans';
 import { seedGyms, seedRoutines, seedTemplates, seedUsers } from './seed';
 import { dayOf, startOfWeek, today } from '../lib/dates';
 import { uid } from '../lib/id';
+import { normalizePhone } from '../lib/phone';
 
 // Actions update the in-memory snapshot first and then write the diff to Supabase,
 // so selectors stay synchronous. Columns are camelCase, matching src/types.ts.
@@ -245,6 +246,9 @@ export function lastActivity(d: DB, studentId: string): string | undefined {
 
 export type ActivityStatus = 'new' | 'ok' | 'risk' | 'inactive';
 
+/** A student who started and hasn't registered anything for this many days is about to leave. */
+export const AWAY_DAYS = 7;
+
 /**
  * How long since the student last registered, in calendar days (yesterday at 23:00 is 1, not 0),
  * and what that means: up to 3 days is ok, 4 to 7 is at risk, more is inactive, never is new.
@@ -339,6 +343,7 @@ export function saveStudent(student: {
   daysPerWeek: number;
   coachId: string;
   gymId: string;
+  phone?: string;
 }): 'ok' | 'dni-taken' {
   const dni = normalizeDni(student.dni);
   const id = student.id ?? uid();
@@ -351,6 +356,7 @@ export function saveStudent(student: {
     gymId: student.gymId,
     dni,
     daysPerWeek: student.daysPerWeek,
+    phone: student.phone ? normalizePhone(student.phone) : null,
   };
   const exists = db.users.some((u) => u.id === id);
   commit({ ...db, users: exists ? db.users.map((u) => (u.id === id ? user : u)) : [...db.users, user] });
@@ -454,12 +460,15 @@ export function deleteRoutine(id: string) {
   commit({ ...db, routines: remaining.map((r) => renumbered.get(r.id) ?? r) });
 }
 
-/** Creates `newStudents` and replaces the routines of every student present in `routines` (CSV import). History is kept. */
-export function replaceRoutines(routines: Routine[], newStudents: User[] = []) {
+/**
+ * Creates `newStudents`, fills in `phones` for existing students who had none, and replaces the routines
+ * of every student present in `routines` (CSV import). History is kept.
+ */
+export function replaceRoutines(routines: Routine[], newStudents: User[] = [], phones: Record<string, string> = {}) {
   const students = new Set(routines.map((r) => r.studentId));
   commit({
     ...db,
-    users: [...db.users, ...newStudents],
+    users: [...db.users.map((u) => (phones[u.id] && !u.phone ? { ...u, phone: phones[u.id] } : u)), ...newStudents],
     routines: [...db.routines.filter((r) => !students.has(r.studentId)), ...routines],
   });
 }

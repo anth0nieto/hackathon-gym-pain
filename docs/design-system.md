@@ -187,6 +187,10 @@ Reemplaza al selector de archivos nativo. Se toca para abrir el selector o se ar
 
 `src/components/UserMenu.tsx` abre un `<dialog>` nativo con el avatar, el nombre, la pregunta ("¿Querés cerrar sesión?"), un `.btn-danger` para confirmar y "Cancelar". Se cierra con Cancelar, con Escape o tocando afuera. Por defecto se abre con el avatar. Con `trigger` se abre con otro botón, como "Salir" en el menú del coach.
 
+### Botón de WhatsApp
+
+`<WhatsAppButton phone name />` es un círculo verde con el ícono de WhatsApp que abre el chat en una pestaña nueva. Con `label` muestra también el texto "WhatsApp", como en la ficha del alumno. Usa `--wa` y `--wa-bg`. Dentro de una tarjeta que es un link, el nombre lleva `.stretched-link` y la tarjeta `.card-stretch`: así toda la tarjeta abre la ficha y el botón de WhatsApp sigue funcionando, porque un link no puede ir dentro de otro.
+
 ### Formulario en un diálogo
 
 `.modal` es un `<dialog>` nativo para formularios que no tienen que estar siempre a la vista, como crear o editar un coach. Se abre con `showModal()`, se cierra con ✕, Cancelar, Escape o tocando afuera, y abajo lleva "Cancelar" (`.btn-ghost`) y la acción principal. Ejemplo en `src/pages/admin/AdminHome.tsx`.

@@ -11,6 +11,8 @@ create table users (
   role text not null check (role in ('coach', 'student')),
   "coachId" text references users(id),
   dni text unique,
+  -- Students only: WhatsApp number, international format, digits only (5491122334455).
+  phone text,
   "daysPerWeek" int check ("daysPerWeek" between 1 and 7),
   -- Students: the gym they train at. Coaches: the gyms the admin assigned them (JSON array of ids).
   "gymId" text references gyms(id),

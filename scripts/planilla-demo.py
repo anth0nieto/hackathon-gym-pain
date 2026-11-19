@@ -5,6 +5,9 @@ Run: python3 scripts/planilla-demo.py > public/planilla-coach-demo.csv
 import csv, random, sys
 
 random.seed(2026)
+# Phones use their own generator so adding them didn't change the DNIs. 11 0000 xxxx isn't a real
+# Buenos Aires mobile, so tapping WhatsApp in the demo never reaches a stranger.
+phones = random.Random(7)
 TAKEN = {'30111222', '35333444', '40555666', '41399264', '39967191', '96220982', '91000000'}
 
 STUDENTS = [  # name, days a week, level
@@ -59,14 +62,15 @@ def dni():
             return d
 
 w = csv.writer(sys.stdout, lineterminator='\n')
-w.writerow(['alumno', 'dni', 'dias', 'rutina', 'ejercicio', 'series', 'reps', 'peso'])
+w.writerow(['alumno', 'dni', 'telefono', 'dias', 'rutina', 'ejercicio', 'series', 'reps', 'peso'])
 for name, days, level in STUDENTS:
     factor, sets, reps = LEVEL[level]
     d = dni()
+    tel = f'54911 0000 {phones.randint(0, 9999):04d}'
     for routine, exercises in PLANS[days]:
         for ex in exercises:
             base, bodyweight = E[ex]
             r = 15 if ex in ('Gemelos', 'Vuelos laterales', 'Vuelos frontales') else reps
             if bodyweight:
                 r = {'principiante': 6, 'intermedio': 8, 'avanzado': 10}[level]
-            w.writerow([name, d, days, routine, ex, sets, r, '' if bodyweight else f'{kg(base, factor):g}'])
+            w.writerow([name, d, tel, days, routine, ex, sets, r, '' if bodyweight else f'{kg(base, factor):g}'])

@@ -11,6 +11,8 @@ export interface User {
   role: Role;
   coachId?: string;
   dni?: string;
+  /** Students only: WhatsApp number, international format, digits only. */
+  phone?: string | null;
   /** Students only: how many days a week they train, which is how many routines they should have. */
   daysPerWeek?: number;
   /** Students only: the gym they train at. */
