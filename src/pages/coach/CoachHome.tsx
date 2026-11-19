@@ -16,6 +16,7 @@ export function CoachHome() {
     <div className="stack">
       <div className="row-between">
         <h1>Mis alumnos</h1>
+        <Link to="/coach/alumnos/nuevo" className="btn-link">+ Alumno</Link>
       </div>
       <div className="row">
         <Link to="/coach/plantillas" className="btn btn-secondary grow">Mis rutinas</Link>

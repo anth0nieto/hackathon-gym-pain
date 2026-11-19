@@ -26,7 +26,10 @@ export function StudentWeek() {
   return (
     <div className="stack">
       <Link to="/coach" className="btn-link">‹ Alumnos</Link>
-      <h1>{student.name}</h1>
+      <div className="row-between">
+        <h1>{student.name}</h1>
+        <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
+      </div>
       <DayNav date={date} onChange={setDate} mode="week" />
       {!hasRoutines && (
         <button className="btn btn-block btn-secondary" onClick={copy}>Copiar rutinas de la semana anterior</button>

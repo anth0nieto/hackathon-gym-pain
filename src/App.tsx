@@ -6,6 +6,7 @@ import { AssignTemplate } from './pages/coach/AssignTemplate';
 import { CoachHome } from './pages/coach/CoachHome';
 import { ImportCsv } from './pages/coach/ImportCsv';
 import { RoutineEditor } from './pages/coach/RoutineEditor';
+import { StudentForm } from './pages/coach/StudentForm';
 import { StudentWeek } from './pages/coach/StudentWeek';
 import { TemplateEditor } from './pages/coach/TemplateEditor';
 import { Templates } from './pages/coach/Templates';
@@ -22,6 +23,8 @@ export function App() {
             <Route index element={<Login />} />
             <Route path="coach" element={<RequireRole role="coach"><CoachHome /></RequireRole>} />
             <Route path="coach/importar" element={<RequireRole role="coach"><ImportCsv /></RequireRole>} />
+            <Route path="coach/alumnos/nuevo" element={<RequireRole role="coach"><StudentForm /></RequireRole>} />
+            <Route path="coach/alumno/:studentId/editar" element={<RequireRole role="coach"><StudentForm /></RequireRole>} />
             <Route path="coach/alumno/:studentId" element={<RequireRole role="coach"><StudentWeek /></RequireRole>} />
             <Route path="coach/alumno/:studentId/rutina/agregar" element={<RequireRole role="coach"><AddRoutine /></RequireRole>} />
             <Route path="coach/alumno/:studentId/rutina/nueva" element={<RequireRole role="coach"><RoutineEditor /></RequireRole>} />
