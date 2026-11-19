@@ -309,6 +309,7 @@ code { font-size: 0.85em; }
 .badge.tone-ok { background: var(--ok-bg); color: var(--ok); }
 .badge-live::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: currentColor; vertical-align: 1px; animation: live-pulse 1.4s ease-in-out infinite; }
 @keyframes live-pulse { 50% { opacity: 0.25; } }
+.live-session { border-color: var(--ok); }
 @media (prefers-reduced-motion: reduce) { .badge-live::before { animation: none; } }
 .badge.tone-warn { background: var(--warn-bg); color: var(--warn); }
 .badge.tone-danger { background: var(--danger-bg); color: var(--danger); }

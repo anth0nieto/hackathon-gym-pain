@@ -4,7 +4,7 @@ import { ExerciseSummary } from '../../components/ExerciseSummary';
 import { StatusBadge } from '../../components/StatusBadge';
 import { WhatsAppButton } from '../../components/WhatsAppButton';
 import {
-  activityOf, AWAY_DAYS, customizeNext, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, stalledExercises, sessionStatus, sessionsOf, useDB,
+  activityOf, AWAY_DAYS, customizeNext, isTrainingNow, dueRoutine, getUser, logFor, logsOf, moveRoutine, openSession, progressOf, routinesOf, stalledExercises, sessionStatus, sessionsOf, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
@@ -44,6 +44,22 @@ export function StudentPlan() {
           <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
         </div>
       </div>
+
+      {open && isTrainingNow(db, student.id) && (
+        <section className="card stack-sm live-session" aria-live="polite">
+          <div className="row-between">
+            <h2>Rutina {open.position} · {open.routineName}</h2>
+            <span className="badge tone-ok badge-live">Entrenando</span>
+          </div>
+          <p className="muted small">
+            Hizo {logsOf(db, open.id).filter((l) => l.status === 'done').length} de {open.exercises.length} ejercicios
+            {logsOf(db, open.id).some((l) => l.status === 'skipped') && ` · salteó ${logsOf(db, open.id).filter((l) => l.status === 'skipped').length}`}
+          </p>
+          <ul className="exsum-list">
+            {open.exercises.map((e) => <ExerciseSummary key={e.id} name={e.name} exercise={e} log={logFor(db, open.id, e.id)} />)}
+          </ul>
+        </section>
+      )}
 
       {idleDays !== null && idleDays >= AWAY_DAYS && (
         <p className="notice danger">
