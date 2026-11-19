@@ -1,0 +1,99 @@
+.ds-week {
+  padding: 20px 12px 24px;
+  background: var(--ds-color-surface);
+  border-radius: var(--ds-radius-lg);
+  color: var(--ds-color-text);
+  font-family: var(--ds-font);
+}
+
+.ds-week__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+.ds-week__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ds-color-muted);
+}
+.ds-week__nav {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ds-color-text);
+  cursor: pointer;
+}
+.ds-week__nav:hover { background: var(--ds-color-surface-2); }
+
+.ds-week__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ds-week__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+button.ds-week__day { cursor: pointer; }
+
+.ds-week__label {
+  font-size: 15px;
+  color: var(--ds-color-muted);
+}
+.ds-week__num {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+button.ds-week__day:hover .ds-week__num { background: var(--ds-color-surface-2); }
+
+.ds-week__day--today .ds-week__num,
+button.ds-week__day--today:hover .ds-week__num {
+  background: var(--ds-color-primary);
+  color: var(--ds-color-on-primary);
+  font-weight: 700;
+}
+.ds-week__day--selected:not(.ds-week__day--today) .ds-week__num {
+  box-shadow: inset 0 0 0 2px var(--ds-color-primary);
+}
+
+.ds-week__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.ds-week__day--trained .ds-week__dot { background: var(--ds-color-primary); }
+.ds-week__day--planned .ds-week__dot { background: var(--ds-color-muted); }
+
+.ds-week__footer {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--ds-color-muted);
+}
+
+@media (max-width: 360px) {
+  .ds-week__num { width: 38px; height: 38px; font-size: 19px; }
+}
