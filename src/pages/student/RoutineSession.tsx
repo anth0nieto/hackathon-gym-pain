@@ -88,6 +88,7 @@ export function RoutineSession() {
           log={logFor(db, session?.id, e.id)}
           lastWeight={lastWeight(db, user.id, e, session?.id)}
           sessionFor={sessionFor}
+          readOnly={!!session && sessionStatus(session) === 'done'}
           demoOpen={demoOpen.has(e.id)}
           onToggleDemo={() => toggleDemo(e.id)}
           onMarked={() => advanceDemo(e.id)}
@@ -128,6 +129,8 @@ interface CardProps {
   onToggleDemo: () => void;
   onMarked: () => void;
   onSetChecked: () => void;
+  /** Finished session: shows what was logged, nothing can be checked or changed. */
+  readOnly: boolean;
 }
 
 /** One row per set: the saved sets, or the suggested ones with the weight the student lifted last time. */
@@ -141,7 +144,7 @@ function initialSets(exercise: PlannedExercise, log: ExerciseLog | undefined, la
   return Array.from({ length: Math.max(1, base.sets) }, () => ({ reps: base.reps, weight: base.weight, checked }));
 }
 
-function ExerciseCard({ exercise, log, lastWeight, sessionFor, demoOpen, onToggleDemo, onMarked, onSetChecked }: CardProps) {
+function ExerciseCard({ exercise, log, lastWeight, sessionFor, demoOpen, onToggleDemo, onMarked, onSetChecked, readOnly }: CardProps) {
   const demo = exerciseFor(exercise);
   const [sets, setSets] = useState<SetRow[]>(() => initialSets(exercise, log, lastWeight));
   const allChecked = sets.every((s) => s.checked);
@@ -172,6 +175,8 @@ function ExerciseCard({ exercise, log, lastWeight, sessionFor, demoOpen, onToggl
     setEditing(false);
     onMarked();
   };
+
+  if (readOnly) return <ExerciseReadOnly exercise={exercise} log={log} />;
 
   if (!editing && log) {
     return (
@@ -258,6 +263,52 @@ function ExerciseCard({ exercise, log, lastWeight, sessionFor, demoOpen, onToggl
           {allChecked ? 'Hecho' : `Hecho (${sets.filter((s) => s.checked).length}/${sets.length})`}
         </button>
       </div>
+    </article>
+  );
+}
+
+/** Finished session: tap to see each set as it was done, with nothing to check or change. */
+function ExerciseReadOnly({ exercise, log }: { exercise: PlannedExercise; log?: ExerciseLog }) {
+  const [open, setOpen] = useState(false);
+  const demo = exerciseFor(exercise);
+  const done = log?.status === 'done';
+  const sets = done ? initialSets(exercise, log, undefined) : [];
+  const canOpen = sets.length > 0 || !!demo;
+
+  const summary = (
+    <div>
+      <h3>{done ? '✓ ' : '– '}{exercise.name}</h3>
+      <p className="muted">{!log ? 'Sin registrar' : done ? fmtLog(log) : 'Salteado'}</p>
+    </div>
+  );
+
+  return (
+    <article className={`card exercise stack-sm ${log?.status ?? 'unlogged'}`}>
+      {canOpen ? (
+        <button type="button" className="exercise-head" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+          {summary}
+          <span className={`chevron${open ? ' is-open' : ''}`} aria-hidden="true">▾</span>
+        </button>
+      ) : (
+        summary
+      )}
+      {open && demo && <ExerciseDemo exercise={demo} textCollapsed />}
+      {open && sets.length > 0 && (
+        <div className="sets" role="table" aria-label={`Series de ${exercise.name}`}>
+          <div className="set-row set-row-ro set-head" role="row">
+            <span role="columnheader">Serie</span>
+            <span role="columnheader">Reps</span>
+            <span role="columnheader">Peso (kg)</span>
+          </div>
+          {sets.map((set, i) => (
+            <div key={i} className="set-row set-row-ro" role="row">
+              <span className="set-num" role="cell">{i + 1}</span>
+              <span role="cell">{set.reps}</span>
+              <span role="cell">{set.weight}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </article>
   );
 }

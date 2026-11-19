@@ -41,3 +41,7 @@
 .set-row.is-checked .btn-step:disabled { opacity: 0.35; cursor: default; }
 .set-row.is-checked .stepper input { background: var(--ok-bg); }
 .btn.btn-cancel { background: var(--border); color: var(--muted); }
+.exercise.unlogged { opacity: 0.6; }
+.set-row.set-row-ro { grid-template-columns: 40px 1fr 1fr; text-align: center; font-weight: 600; }
+.set-row-ro.set-head { font-weight: 400; }
+.exercise-head > div { flex: 1; min-width: 0; }
