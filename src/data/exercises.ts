@@ -78,6 +78,8 @@ export const EXERCISES: Exercise[] = [
     'Sentado en la máquina, con la espalda apoyada y el rodillo sobre los tobillos. Estirá las piernas hasta quedar rectas, apretá el cuádriceps arriba y bajá controlado.'),
   exercise('Standing_Dumbbell_Calf_Raise', 'Standing Dumbbell Calf Raise', 'Gemelos con mancuerna', 'Piernas',
     'De pie, con una mancuerna en cada mano y la punta de los pies sobre un escalón. Subí en puntas de pie lo más alto que puedas, sostené un segundo y bajá los talones por debajo del escalón para estirar.'),
+  exercise('Dumbbell_Lunges', 'Dumbbell Lunges', 'Estocadas con mancuernas', 'Piernas',
+    'De pie, con una mancuerna en cada mano a los costados. Dá un paso largo hacia adelante y bajá hasta que las dos rodillas queden a unos 90°, con la de atrás cerca del piso y la de adelante sin pasar la punta del pie. Empujá con el talón de adelante para volver y alterná las piernas.'),
 ];
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]));
@@ -103,6 +105,7 @@ const OTHER_NAMES: Record<string, string[]> = {
   Seated_Leg_Curl: ['Camilla femoral', 'Curl femoral', 'Femoral'],
   Leg_Extensions: ['Extensión de cuádriceps', 'Sillón de cuádriceps', 'Cuádriceps'],
   Standing_Dumbbell_Calf_Raise: ['Gemelos', 'Pantorrillas'],
+  Dumbbell_Lunges: ['Estocadas', 'Estocada', 'Zancadas', 'Lunges'],
 };
 for (const e of EXERCISES) e.otherNames = OTHER_NAMES[e.id];
 
