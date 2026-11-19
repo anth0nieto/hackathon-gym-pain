@@ -50,10 +50,22 @@ function emit(next: DB) {
 // ponytail: reads every table whole, on start and on any remote change. Fine for one coach;
 // filter by coach and patch from the realtime payload when the data grows.
 async function fetchAll(): Promise<DB> {
-  const results = await Promise.all(TABLES.map((t) => supabase.from(t).select('*')));
-  const failed = results.find((r) => r.error);
-  if (failed?.error) throw failed.error;
-  return Object.fromEntries(TABLES.map((t, i) => [t, results[i].data ?? []])) as unknown as DB;
+  const tables = await Promise.all(TABLES.map(fetchTable));
+  return Object.fromEntries(TABLES.map((t, i) => [t, tables[i]])) as unknown as DB;
+}
+
+// Supabase returns at most 1000 rows per request, so read each table in pages until one comes back short.
+const PAGE = 1000;
+async function fetchTable(t: Table): Promise<Row[]> {
+  const all: Row[] = [];
+  for (let from = 0; ; from += PAGE) {
+    // Ordering by the whole primary key keeps pages stable, so no row is skipped or repeated.
+    const query = PRIMARY_KEY[t].reduce((q, k) => q.order(k), supabase.from(t).select('*'));
+    const { data, error } = await query.range(from, from + PAGE - 1);
+    if (error) throw error;
+    all.push(...data);
+    if (data.length < PAGE) return all;
+  }
 }
 
 async function refresh() {
@@ -62,6 +74,30 @@ async function refresh() {
   } catch (e) {
     console.error(e);
   }
+}
+
+// A bulk change fires one realtime event per row. Re-reading on each one flooded Supabase
+// (~6000 requests in a minute after inserting 5000 rows), so wait for a quiet moment,
+// read once, and never run two reads at the same time.
+let refreshTimer: ReturnType<typeof setTimeout> | undefined;
+let reading: Promise<void> | null = null;
+let readAgain = false;
+
+function scheduleRefresh() {
+  clearTimeout(refreshTimer);
+  refreshTimer = setTimeout(() => {
+    if (reading) {
+      readAgain = true;
+      return;
+    }
+    reading = refresh().finally(() => {
+      reading = null;
+      if (readAgain) {
+        readAgain = false;
+        scheduleRefresh();
+      }
+    });
+  }, 400);
 }
 
 /** Writes only what changed: actions keep untouched rows by reference, so a new reference means upsert. */
@@ -94,7 +130,7 @@ export async function loadDB() {
   emit(next);
   supabase
     .channel('db')
-    .on('postgres_changes', { event: '*', schema: 'public' }, () => void refresh())
+    .on('postgres_changes', { event: '*', schema: 'public' }, scheduleRefresh)
     .subscribe();
 }
 
