@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
+import { ExerciseDemo } from '../../components/ExerciseDemo';
 import { fmt } from '../../components/ExerciseSummary';
+import { RoutineIcon } from '../../components/RoutineIcon';
 import { exerciseFor, type Muscle } from '../../data/exercises';
 import { dueRoutine, routinesOf, useDB } from '../../data/store';
 import { useCurrentUser } from '../../session';
-import type { Routine } from '../../types';
+import type { PlannedExercise, Routine } from '../../types';
 import '../../components/exercises.css';
 import './MyPlan.css';
 
@@ -36,9 +39,9 @@ export function MyPlan() {
           const muscles = musclesOf(r);
           return (
             <Link key={r.id} to={`/alumno/plan/${r.id}`} className="myplan-routine">
-              <span className="myplan-badge" aria-hidden="true">{r.position}</span>
+              <RoutineIcon muscles={muscles} />
               <span className="myplan-info">
-                <span className="myplan-name">{r.name}</span>
+                <span className="myplan-name">{r.position} · {r.name}</span>
                 <span className="muted small">
                   {plural(r.exercises.length, 'ejercicio', 'ejercicios')}
                   {muscles.length > 0 && ` · ${muscles.join(', ')}`}
@@ -61,43 +64,50 @@ export function MyPlanRoutine() {
   const db = useDB();
   const user = useCurrentUser();
   const { routineId } = useParams();
-  const routines = routinesOf(db, user.id);
-  const routine = routines.find((r) => r.id === routineId);
+  const [openId, setOpenId] = useState<string>();
+  const routine = routinesOf(db, user.id).find((r) => r.id === routineId);
   if (!routine) return <Navigate to="/alumno/plan" replace />;
 
   return (
     <div className="stack">
       <Link to="/alumno/plan" className="btn-link">‹ Mi plan</Link>
-      <div>
-        <h1>Rutina {routine.position} · {routine.name}</h1>
-        <p className="muted">{plural(routine.exercises.length, 'ejercicio', 'ejercicios')}</p>
+      <div className="row">
+        <RoutineIcon muscles={musclesOf(routine)} />
+        <div>
+          <h1>{routine.position} · {routine.name}</h1>
+          <p className="muted">{plural(routine.exercises.length, 'ejercicio', 'ejercicios')} · Tocá uno para ver cómo se hace</p>
+        </div>
       </div>
       {routine.override && (
         <p className="notice small">Tu coach cambió algunos ejercicios solo para la próxima vez. Los vas a ver al empezar.</p>
       )}
 
       <div className="stack-sm">
-        {routine.exercises.map((e) => {
-          const demo = exerciseFor(e);
-          return (
-            <article key={e.id} className="card myplan-ex">
-              {demo ? (
-                <div className="myplan-thumb">
-                  <img src={demo.images[0]} alt={`${demo.alias}: posición inicial`} loading="lazy" />
-                  <img src={demo.images[1]} alt="" aria-hidden="true" loading="lazy" />
-                </div>
-              ) : (
-                <div className="myplan-thumb is-empty" aria-hidden="true" />
-              )}
-              <div className="myplan-ex-text">
-                <h3>{e.name}</h3>
-                <p className="myplan-ex-dose">{fmt(e)}</p>
-                {demo && <p className="muted small">{demo.description}</p>}
-              </div>
-            </article>
-          );
-        })}
+        {routine.exercises.map((e) => (
+          <PlanExercise key={e.id} exercise={e} open={openId === e.id} onToggle={() => setOpenId(openId === e.id ? undefined : e.id)} />
+        ))}
       </div>
     </div>
+  );
+}
+
+function PlanExercise({ exercise, open, onToggle }: { exercise: PlannedExercise; open: boolean; onToggle: () => void }) {
+  const demo = exerciseFor(exercise);
+  return (
+    <article className="card myplan-ex">
+      <button type="button" className="myplan-ex-head" aria-expanded={open} onClick={onToggle} disabled={!demo}>
+        {demo ? (
+          <img className="myplan-thumb" src={demo.images[0]} alt="" loading="lazy" />
+        ) : (
+          <span className="myplan-thumb is-empty" aria-hidden="true" />
+        )}
+        <span className="myplan-ex-text">
+          <span className="myplan-ex-name">{exercise.name}</span>
+          <span className="myplan-ex-dose">{fmt(exercise)}</span>
+        </span>
+        {demo && <span className={`chevron${open ? ' is-open' : ''}`} aria-hidden="true">▾</span>}
+      </button>
+      {demo && open && <ExerciseDemo exercise={demo} />}
+    </article>
   );
 }

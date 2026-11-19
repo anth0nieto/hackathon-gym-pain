@@ -1,8 +1,8 @@
 import type { PlannedExercise } from '../types';
 
-export type Muscle = 'Pecho' | 'Espalda' | 'Hombros' | 'Bíceps' | 'Tríceps' | 'Piernas';
+export type Muscle = 'Pecho' | 'Espalda' | 'Hombros' | 'Bíceps' | 'Tríceps' | 'Piernas' | 'Abdomen' | 'Cardio y funcional';
 
-export const MUSCLES: Muscle[] = ['Pecho', 'Espalda', 'Hombros', 'Bíceps', 'Tríceps', 'Piernas'];
+export const MUSCLES: Muscle[] = ['Pecho', 'Espalda', 'Hombros', 'Bíceps', 'Tríceps', 'Piernas', 'Abdomen', 'Cardio y funcional'];
 
 /**
  * Exercises available in the app. `id` and `name` are the ones in free-exercise-db
@@ -80,6 +80,26 @@ export const EXERCISES: Exercise[] = [
     'De pie, con una mancuerna en cada mano y la punta de los pies sobre un escalón. Subí en puntas de pie lo más alto que puedas, sostené un segundo y bajá los talones por debajo del escalón para estirar.'),
   exercise('Dumbbell_Lunges', 'Dumbbell Lunges', 'Estocadas con mancuernas', 'Piernas',
     'De pie, con una mancuerna en cada mano a los costados. Dá un paso largo hacia adelante y bajá hasta que las dos rodillas queden a unos 90°, con la de atrás cerca del piso y la de adelante sin pasar la punta del pie. Empujá con el talón de adelante para volver y alterná las piernas.'),
+  exercise('Split_Squat_with_Dumbbells', 'Split Squat with Dumbbells', 'Sentadilla búlgara', 'Piernas',
+    'Con el empeine de atrás apoyado en un banco y una mancuerna en cada mano, bajá en línea recta hasta que el muslo de adelante quede paralelo al piso. Mantené el torso derecho y subí empujando con el talón de adelante. Hacé todas las repeticiones de un lado y cambiá.'),
+  exercise('Barbell_Deadlift', 'Barbell Deadlift', 'Peso muerto', 'Piernas',
+    'Con la barra sobre el medio de los pies, bajá flexionando cadera y rodillas y tomala por fuera de las piernas. Con la espalda recta y el pecho alto, subí empujando el piso con los pies y llevando la cadera adelante, con la barra pegada al cuerpo. Bajá por el mismo camino.'),
+  exercise('Romanian_Deadlift', 'Romanian Deadlift', 'Peso muerto rumano', 'Piernas',
+    'De pie con la barra a la altura de los muslos y las rodillas apenas flexionadas. Llevá la cadera hacia atrás bajando la barra pegada a las piernas, con la espalda recta, hasta sentir el estiramiento detrás de los muslos. Volvé apretando los glúteos.'),
+  exercise('Barbell_Hip_Thrust', 'Barbell Hip Thrust', 'Hip thrust', 'Piernas',
+    'Con la parte alta de la espalda apoyada en un banco, los pies firmes en el piso y la barra sobre la cadera. Empujá la cadera hacia arriba hasta que el torso quede alineado con los muslos, apretá los glúteos un segundo y bajá controlado.'),
+  exercise('Bent_Over_Barbell_Row', 'Bent Over Barbell Row', 'Remo con barra', 'Espalda',
+    'De pie, con las rodillas un poco flexionadas, inclinate hacia adelante con la espalda recta hasta casi quedar paralelo al piso. Tirá la barra hacia la parte baja del pecho llevando los codos atrás y juntando los omóplatos. Bajá controlado.'),
+  exercise('Triceps_Pushdown', 'Triceps Pushdown', 'Tríceps en polea', 'Tríceps',
+    'De pie frente a la polea alta, tomá la barra con los codos pegados a los costados. Empujá hacia abajo hasta estirar los brazos moviendo solo los antebrazos, y volvé despacio hasta que queden a 90°.'),
+  exercise('Plank', 'Plank', 'Plancha', 'Abdomen',
+    'Apoyado sobre los antebrazos y las puntas de los pies, con los codos debajo de los hombros. Mantené el cuerpo en línea recta de la cabeza a los talones, apretando abdomen y glúteos, sin dejar caer la cadera. Las repeticiones son segundos sostenidos.'),
+  exercise('Cable_Crunch', 'Cable Crunch', 'Abdominales en polea', 'Abdomen',
+    'De rodillas frente a la polea alta, sostené la soga a los costados de la cabeza. Flexioná el tronco llevando los codos hacia los muslos, contrayendo el abdomen sin mover la cadera, y volvé despacio.'),
+  exercise('Farmers_Walk', 'Farmers Walk', 'Farmer walk', 'Cardio y funcional',
+    'Tomá una mancuerna o pesa pesada en cada mano y caminá con pasos cortos y firmes, con el pecho alto, los hombros atrás y el abdomen apretado. Las repeticiones son metros o segundos de caminata.'),
+  exercise('Bicycling_Stationary', 'Bicycling, Stationary', 'Bicicleta', 'Cardio y funcional',
+    'Ajustá el asiento para que la rodilla quede apenas flexionada con el pedal abajo. Pedaleá a ritmo constante con la espalda recta. Sirve para entrar en calor o como cardio; las repeticiones son minutos.'),
 ];
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]));
@@ -106,6 +126,16 @@ const OTHER_NAMES: Record<string, string[]> = {
   Leg_Extensions: ['Extensión de cuádriceps', 'Sillón de cuádriceps', 'Cuádriceps'],
   Standing_Dumbbell_Calf_Raise: ['Gemelos', 'Pantorrillas'],
   Dumbbell_Lunges: ['Estocadas', 'Estocada', 'Zancadas', 'Lunges'],
+  Split_Squat_with_Dumbbells: ['Búlgaras', 'Búlgara', 'Sentadilla búlgara', 'Bulgarian split squat'],
+  Barbell_Deadlift: ['Peso muerto convencional', 'Deadlift'],
+  Romanian_Deadlift: ['Peso muerto rumano', 'RDL'],
+  Barbell_Hip_Thrust: ['Hip thrust con barra', 'Empuje de cadera'],
+  Bent_Over_Barbell_Row: ['Remo con barra', 'Remo inclinado con barra'],
+  Triceps_Pushdown: ['Tríceps en polea', 'Extensión de tríceps en polea', 'Pushdown'],
+  Plank: ['Plancha', 'Plancha abdominal'],
+  Cable_Crunch: ['Abdominales en polea', 'Crunch en polea'],
+  Farmers_Walk: ['Farmer walk', 'Caminata del granjero'],
+  Bicycling_Stationary: ['Bicicleta', 'Bici fija', 'Spinning'],
 };
 for (const e of EXERCISES) e.otherNames = OTHER_NAMES[e.id];
 
