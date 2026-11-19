@@ -82,20 +82,40 @@ export const EXERCISES: Exercise[] = [
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]));
 const OTHER_NAMES: Record<string, string[]> = {
-  'Barbell_Bench_Press_-_Medium_Grip': ['Press banca', 'Press de banca', 'Press plano'],
+  'Barbell_Bench_Press_-_Medium_Grip': ['Press banca', 'Press de banca', 'Press plano', 'Press de pecho'],
   Dumbbell_Bench_Press: ['Press con mancuernas', 'Press plano con mancuernas'],
   Incline_Dumbbell_Press: ['Press inclinado', 'Press inclinado con mancuernas'],
+  Butterfly: ['Pec deck', 'Peck deck', 'Aperturas en máquina'],
   'Wide-Grip_Lat_Pulldown': ['Jalón al pecho', 'Jalón', 'Polea al pecho'],
+  Pullups: ['Dominada'],
+  Leverage_Iso_Row: ['Remo en polea', 'Remo sentado'],
+  'One-Arm_Dumbbell_Row': ['Remo unilateral'],
+  Side_Lateral_Raise: ['Elevaciones laterales'],
+  Front_Dumbbell_Raise: ['Elevaciones frontales'],
+  Standing_Military_Press: ['Press de hombros'],
+  Hammer_Curls: ['Martillo', 'Curl martillo'],
   Dumbbell_Bicep_Curl: ['Curl de bíceps', 'Curl con mancuernas', 'Bíceps'],
+  Incline_Dumbbell_Curl: ['Curl inclinado'],
+  Standing_Dumbbell_Triceps_Extension: ['Transnuca', 'Tríceps transnuca', 'Extensión de tríceps'],
+  'Dips_-_Triceps_Version': ['Fondos en paralelas'],
+  Leg_Press: ['Prensa de piernas', 'Prensa 45'],
+  Dumbbell_Squat: ['Sentadilla', 'Sentadilla con mancuernas', 'Sentadilla goblet', 'Squat'],
+  Seated_Leg_Curl: ['Camilla femoral', 'Curl femoral', 'Femoral'],
+  Leg_Extensions: ['Extensión de cuádriceps', 'Sillón de cuádriceps', 'Cuádriceps'],
+  Standing_Dumbbell_Calf_Raise: ['Gemelos', 'Pantorrillas'],
 };
 for (const e of EXERCISES) e.otherNames = OTHER_NAMES[e.id];
 
+/** Lowercase, no accents or punctuation: "Jalón al pecho." and "jalon al pecho" match. */
+const normalize = (name: string) =>
+  name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
 const byName = new Map(
-  EXERCISES.flatMap((e) => [e.name, e.alias, ...(e.otherNames ?? [])].map((n) => [n.toLowerCase(), e] as const)),
+  EXERCISES.flatMap((e) => [e.name, e.alias, ...(e.otherNames ?? [])].map((n) => [normalize(n), e] as const)),
 );
 
 export const getExercise = (id: string) => byId.get(id);
 
 /** The catalog exercise behind a planned one: by `exerciseId`, or by name for exercises typed by hand. */
 export const exerciseFor = (planned: Pick<PlannedExercise, 'name' | 'exerciseId'>) =>
-  (planned.exerciseId && byId.get(planned.exerciseId)) || byName.get(planned.name.trim().toLowerCase());
+  (planned.exerciseId && byId.get(planned.exerciseId)) || byName.get(normalize(planned.name));
