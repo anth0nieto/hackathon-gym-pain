@@ -43,22 +43,28 @@ export function StudentDay() {
   if (total === 0) return <p className="empty">Tu coach todavía no te armó rutinas.</p>;
 
   return (
-    <div className="stack">
-      <WeekNav date={date} onChange={select} />
-      <WeekProgress done={doneThisWeek} total={total} />
-      <WeekStrip date={date} onSelect={select} markOf={markOf} />
+    <div className="page">
+      <header className="page-header">
+        <p className="page-kicker">{formatDay(today())}</p>
+        <h1>Hola, {user.name.split(' ')[0]}</h1>
+      </header>
 
-      <h2 className="day-title">{isToday ? `Hoy, ${formatDay(date)}` : formatDay(date)}</h2>
-
-      {daySessions.map((s) => <SessionCard key={s.id} session={s} total={total} />)}
+      <section className="section" aria-label="Tu semana">
+        <WeekNav date={date} onChange={select} />
+        <WeekProgress done={doneThisWeek} total={total} />
+        <WeekStrip date={date} onSelect={select} markOf={markOf} />
+      </section>
 
       {!isPast && due && (
-        <section className="card stack-sm">
-          <p className="muted small">{isToday ? (open ? 'Estás haciendo' : 'Te toca') : 'Tu próxima rutina'}</p>
-          <h1>Rutina {due.position} de {total} · {due.name}</h1>
-          <p className="muted">{plannedExercises(due).map((e) => e.name).join(' · ')}</p>
+        <section className="card hero-card stack-sm">
+          <p className="eyebrow">{isToday ? (open ? 'Estás haciendo' : 'Te toca') : 'Tu próxima rutina'}</p>
+          <div>
+            <h1 className="hero-title">{due.name}</h1>
+            <p className="muted small">Rutina {due.position} de {total} · {plannedExercises(due).length} ejercicios</p>
+          </div>
+          <p className="hero-exercises">{plannedExercises(due).map((e) => e.name).join(' · ')}</p>
           {isToday ? (
-            <button className="btn btn-block" onClick={() => { if (!open) startSession(user.id, due); navigate('/alumno/entrenar'); }}>
+            <button className="btn btn-block btn-start" onClick={() => { if (!open) startSession(user.id, due); navigate('/alumno/entrenar'); }}>
               {open ? 'Seguir' : 'Empezar'}
             </button>
           ) : (
@@ -67,12 +73,22 @@ export function StudentDay() {
         </section>
       )}
 
-      {isPast && daySessions.length === 0 && (
-        <div className="empty">
-          <p className="empty-icon">🛋️</p>
-          <p><strong>Día libre</strong></p>
-          <p className="small">No entrenaste este día.</p>
-        </div>
+      {(daySessions.length > 0 || isPast) && (
+        <section className="section">
+          <h2 className="section-title">{isToday ? 'Hoy entrenaste' : formatDay(date)}</h2>
+          {daySessions.length > 0 && (
+            <div className="card session-list">
+              {daySessions.map((s) => <SessionCard key={s.id} session={s} total={total} />)}
+            </div>
+          )}
+
+          {isPast && daySessions.length === 0 && (
+            <div className="empty">
+              <p><strong>Día libre</strong></p>
+              <p className="small">No entrenaste este día.</p>
+            </div>
+          )}
+        </section>
       )}
     </div>
   );
@@ -94,14 +110,15 @@ function WeekProgress({ done, total }: { done: number; total: number }) {
 function SessionCard({ session, total }: { session: Session; total: number }) {
   const ms = sessionDuration(session);
   return (
-    <Link to={`/alumno/sesion/${session.id}`} className="card card-link">
-      <div className="row-between">
-        <span>
-          Rutina {session.position} de {total} · {session.routineName}
-          {ms !== undefined && <span className="muted small"> · {humanDuration(ms)}</span>}
+    <Link to={`/alumno/sesion/${session.id}`} className="session-row">
+      <span className="session-row-text">
+        <strong>{session.routineName}</strong>
+        <span className="muted small">
+          Rutina {session.position} de {total}
+          {ms !== undefined && ` · ${humanDuration(ms)}`}
         </span>
-        <StatusBadge status={sessionStatus(session)} />
-      </div>
+      </span>
+      <StatusBadge status={sessionStatus(session)} />
     </Link>
   );
 }
