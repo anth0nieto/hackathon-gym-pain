@@ -3,16 +3,18 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
+import { Timer } from '../../components/Timer';
 import {
   clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, plannedExercises, routinesOf, saveLog, sessionStatus, startSession, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
+import { humanDuration, sessionDuration } from '../../lib/duration';
 import { useCurrentUser } from '../../session';
 import type { ExerciseLog, PlannedExercise, Prescription } from '../../types';
 
 /**
  * /alumno/entrenar trains the routine that is due; /alumno/sesion/:sessionId reopens a past one to correct it.
- * The session is created on the first exercise the student marks.
+ * The session (and its timer) starts with Empezar, or on the first exercise marked if the student skips that.
  */
 export function RoutineSession() {
   const db = useDB();
@@ -46,11 +48,18 @@ export function RoutineSession() {
         {session && <StatusBadge status={sessionStatus(session)} />}
       </div>
       {past && <p className="muted small">{formatDay(dayOf(past.startedAt))}</p>}
+      {session && sessionStatus(session) === 'open' && <Timer since={session.startedAt} />}
+      {session && sessionDuration(session) !== undefined && (
+        <p className="notice ok">Terminaste en {humanDuration(sessionDuration(session)!)}.</p>
+      )}
+      {!session && (
+        <button className="btn btn-block btn-start" onClick={sessionFor}>▶ Empezar</button>
+      )}
       {exercises.map((e) => (
         <ExerciseCard key={e.id} exercise={e} log={logFor(db, session?.id, e.id)} sessionFor={sessionFor} />
       ))}
       {session && sessionStatus(session) === 'open' && (
-        <button className="btn btn-block" onClick={() => { finishSession(session.id); navigate('/alumno'); }}>
+        <button className="btn btn-block" onClick={() => { finishSession(session.id); navigate(`/alumno/sesion/${session.id}`, { replace: true }); }}>
           Finalizar rutina
         </button>
       )}

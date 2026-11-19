@@ -1,9 +1,10 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { StatusBadge } from '../../components/StatusBadge';
 import { WeekNav } from '../../components/WeekNav';
 import { WeekStrip, type DayMark } from '../../components/WeekStrip';
-import { dueRoutine, openSession, plannedExercises, routinesOf, sessionStatus, sessionsOf, useDB } from '../../data/store';
+import { dueRoutine, openSession, plannedExercises, routinesOf, sessionStatus, sessionsOf, startSession, useDB } from '../../data/store';
 import { dayOf, formatDay, isValidISO, startOfWeek, today } from '../../lib/dates';
+import { humanDuration, sessionDuration } from '../../lib/duration';
 import { useCurrentUser } from '../../session';
 import type { Session } from '../../types';
 
@@ -14,6 +15,7 @@ import type { Session } from '../../types';
 export function StudentDay() {
   const db = useDB();
   const user = useCurrentUser();
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const raw = params.get('fecha');
   const date = raw && isValidISO(raw) ? raw : today();
@@ -56,7 +58,9 @@ export function StudentDay() {
           <h1>Rutina {due.position} de {total} · {due.name}</h1>
           <p className="muted">{plannedExercises(due).map((e) => e.name).join(' · ')}</p>
           {isToday ? (
-            <Link to="/alumno/entrenar" className="btn btn-block">{open ? 'Seguir' : 'Empezar'}</Link>
+            <button className="btn btn-block" onClick={() => { if (!open) startSession(user.id, due); navigate('/alumno/entrenar'); }}>
+              {open ? 'Seguir' : 'Empezar'}
+            </button>
           ) : (
             <p className="muted small">Las rutinas van en orden: el día que vengas, hacés la que sigue.</p>
           )}
@@ -88,9 +92,13 @@ function WeekProgress({ done, total }: { done: number; total: number }) {
 }
 
 function SessionCard({ session, total }: { session: Session; total: number }) {
+  const ms = sessionDuration(session);
   return (
     <Link to={`/alumno/sesion/${session.id}`} className="card card-link row-between">
-      <span>Rutina {session.position} de {total} · {session.routineName}</span>
+      <span>
+        Rutina {session.position} de {total} · {session.routineName}
+        {ms !== undefined && <span className="muted small"> · {humanDuration(ms)}</span>}
+      </span>
       <StatusBadge status={sessionStatus(session)} />
     </Link>
   );
