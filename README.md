@@ -2,6 +2,8 @@
 
 Web responsive para que el coach cargue rutinas y el alumno las registre desde el celular.
 
+Publicada en https://hackathon-gym-pain.vercel.app. Para publicar una versión nueva: `npx vercel deploy --prod`. Las variables de Supabase ya están cargadas en el proyecto de Vercel.
+
 Problema, solución y decisiones de diseño: [docs/producto.md](docs/producto.md). Funciones del back para las pantallas: [docs/back.md](docs/back.md).
 
 Antes de levantarla, copiá `.env.example` a `.env.local` y completá la URL y la clave publishable de Supabase. Pedíselas a Anthony.
