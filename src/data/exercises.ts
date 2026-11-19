@@ -14,6 +14,8 @@ export interface Exercise {
   name: string;
   /** How the gym calls it. */
   alias: string;
+  /** Other names coaches type for the same exercise. */
+  otherNames?: string[];
   muscle: Muscle;
   images: [string, string];
   description: string;
@@ -79,7 +81,18 @@ export const EXERCISES: Exercise[] = [
 ];
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]));
-const byName = new Map(EXERCISES.flatMap((e) => [[e.name.toLowerCase(), e], [e.alias.toLowerCase(), e]]));
+const OTHER_NAMES: Record<string, string[]> = {
+  'Barbell_Bench_Press_-_Medium_Grip': ['Press banca', 'Press de banca', 'Press plano'],
+  Dumbbell_Bench_Press: ['Press con mancuernas', 'Press plano con mancuernas'],
+  Incline_Dumbbell_Press: ['Press inclinado', 'Press inclinado con mancuernas'],
+  'Wide-Grip_Lat_Pulldown': ['Jalón al pecho', 'Jalón', 'Polea al pecho'],
+  Dumbbell_Bicep_Curl: ['Curl de bíceps', 'Curl con mancuernas', 'Bíceps'],
+};
+for (const e of EXERCISES) e.otherNames = OTHER_NAMES[e.id];
+
+const byName = new Map(
+  EXERCISES.flatMap((e) => [e.name, e.alias, ...(e.otherNames ?? [])].map((n) => [n.toLowerCase(), e] as const)),
+);
 
 export const getExercise = (id: string) => byId.get(id);
 
