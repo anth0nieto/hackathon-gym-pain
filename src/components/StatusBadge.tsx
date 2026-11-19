@@ -1,16 +1,10 @@
-import type { RoutineStatus } from '../types';
+import type { SessionStatus } from '../types';
 
-const LABEL: Record<RoutineStatus, string> = {
-  pending: 'Pendiente',
-  partial: 'En curso',
-  complete: 'Completa',
-  skipped: 'Salteada',
+const LABEL: Record<SessionStatus, string> = {
+  open: 'En curso',
+  done: 'Finalizada',
 };
 
-export function StatusBadge({ status }: { status: RoutineStatus }) {
-  return <span className={`badge badge-${status}`}>{LABEL[status]}</span>;
-}
-
-export function StatusDot({ status, title }: { status: RoutineStatus | 'none'; title?: string }) {
-  return <span className={`dot dot-${status}`} title={title} />;
+export function StatusBadge({ status }: { status: SessionStatus }) {
+  return <span className={`badge badge-${status === 'open' ? 'partial' : 'complete'}`}>{LABEL[status]}</span>;
 }

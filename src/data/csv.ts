@@ -1,8 +1,7 @@
 import type { Routine, User } from '../types';
-import { isValidISO } from '../lib/dates';
 import { uid } from '../lib/id';
 
-export const CSV_COLUMNS = ['alumno', 'fecha', 'rutina', 'ejercicio', 'series', 'reps', 'peso'] as const;
+export const CSV_COLUMNS = ['alumno', 'rutina', 'ejercicio', 'series', 'reps', 'peso'] as const;
 
 function parseRows(text: string): string[][] {
   const rows: string[][] = [];
@@ -26,15 +25,6 @@ function parseRows(text: string): string[][] {
   }
   if (cell || row.length) { row.push(cell); rows.push(row); }
   return rows.filter((r) => r.some((c) => c.trim()));
-}
-
-function normalizeDate(raw: string): string | null {
-  const s = raw.trim();
-  if (isValidISO(s)) return s;
-  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if (!m) return null;
-  const iso = `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-  return isValidISO(iso) ? iso : null;
 }
 
 const toNumber = (s: string) => Number(s.trim().replace(',', '.'));
@@ -63,9 +53,6 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
     const student = students.find((s) => s.name.toLowerCase() === who || s.id.toLowerCase() === who);
     if (!student) return errors.push(`Fila ${line}: no encuentro al alumno "${get('alumno')}".`);
 
-    const date = normalizeDate(get('fecha'));
-    if (!date) return errors.push(`Fila ${line}: fecha inválida "${get('fecha')}" (usá AAAA-MM-DD o DD/MM/AAAA).`);
-
     const name = get('ejercicio');
     if (!name) return errors.push(`Fila ${line}: falta el ejercicio.`);
 
@@ -73,9 +60,11 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
     if ([sets, reps, weight].some((n) => isNaN(n) || n < 0)) return errors.push(`Fila ${line}: series/reps/peso deben ser números.`);
 
     const routineName = get('rutina') || 'Rutina';
-    const key = `${student.id}|${date}|${routineName}`;
+    const key = `${student.id}|${routineName}`;
     if (!byKey.has(key)) {
-      byKey.set(key, { id: uid(), coachId, studentId: student.id, date, name: routineName, exercises: [] });
+      // The order each routine first appears in for a student is its position: 1, 2, 3.
+      const position = [...byKey.values()].filter((x) => x.studentId === student.id).length + 1;
+      byKey.set(key, { id: uid(), coachId, studentId: student.id, position, name: routineName, exercises: [] });
     }
     byKey.get(key)!.exercises.push({ id: uid(), name, sets, reps, weight });
   });

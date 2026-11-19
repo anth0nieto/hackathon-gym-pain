@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CSV_COLUMNS, parseRoutinesCsv, type CsvResult } from '../../data/csv';
-import { addRoutines, getUser, studentsOf, useDB } from '../../data/store';
-import { formatDay } from '../../lib/dates';
+import { getUser, replaceRoutines, studentsOf, useDB } from '../../data/store';
 import { useCurrentUser } from '../../session';
 
 export function ImportCsv() {
@@ -38,7 +37,7 @@ export function ImportCsv() {
       <Link to="/coach" className="btn-link">‹ Alumnos</Link>
       <h1>Importar rutinas</h1>
       <p className="muted">
-        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>. Una fila por ejercicio; las filas con mismo alumno, fecha y rutina se agrupan.{' '}
+        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>. Una fila por ejercicio. Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía.{' '}
         <a href="/rutinas-ejemplo.csv" download>Bajar ejemplo</a>
       </p>
 
@@ -59,12 +58,12 @@ export function ImportCsv() {
           {result.errors.map((e) => <p key={e} className="notice danger">{e}</p>)}
           {result.routines.map((r) => (
             <div key={r.id} className="card">
-              <strong>{getUser(db, r.studentId)?.name}</strong> · {formatDay(r.date)} · {r.name}
+              <strong>{getUser(db, r.studentId)?.name}</strong> · Rutina {r.position} · {r.name}
               <p className="muted small">{r.exercises.map((e) => `${e.name} ${e.sets}×${e.reps}`).join(' · ')}</p>
             </div>
           ))}
           {result.routines.length > 0 && !done && (
-            <button className="btn btn-block" onClick={() => { addRoutines(result.routines); setDone(true); }}>
+            <button className="btn btn-block" onClick={() => { replaceRoutines(result.routines); setDone(true); }}>
               Importar {result.routines.length} rutina{result.routines.length === 1 ? '' : 's'}
             </button>
           )}

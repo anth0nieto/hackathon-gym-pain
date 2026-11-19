@@ -11,17 +11,18 @@ export function StudentForm() {
   const existing = getUser(db, studentId);
   const [name, setName] = useState(existing?.name ?? '');
   const [dni, setDni] = useState(existing?.dni ?? '');
+  const [days, setDays] = useState(existing?.daysPerWeek ?? 3);
   const [dniTaken, setDniTaken] = useState(false);
 
   if (studentId && (!existing || existing.coachId !== coach.id)) return <Navigate to="/coach" replace />;
 
   const back = () => navigate(existing ? `/coach/alumno/${existing.id}` : '/coach');
-  const valid = name.trim() && normalizeDni(dni).length >= 7;
+  const valid = name.trim() && normalizeDni(dni).length >= 7 && days >= 1 && days <= 7;
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!valid) return;
-    const result = saveStudent({ id: existing?.id, name, dni, coachId: coach.id });
+    const result = saveStudent({ id: existing?.id, name, dni, daysPerWeek: days, coachId: coach.id });
     setDniTaken(result === 'dni-taken');
     if (result === 'ok') back();
   };
@@ -50,8 +51,12 @@ export function StudentForm() {
           required
         />
       </label>
+      <label className="field">
+        <span>Días por semana que entrena</span>
+        <input type="number" inputMode="numeric" min={1} max={7} value={days} onChange={(e) => setDays(Number(e.target.value))} required />
+      </label>
       {dniTaken && <p className="small warn">Ya hay un alumno con ese DNI.</p>}
-      <p className="muted small">El alumno entra a la app con este DNI.</p>
+      <p className="muted small">El alumno entra a la app con este DNI. Los días por semana definen cuántas rutinas le armás.</p>
       <button type="submit" className="btn btn-block" disabled={!valid}>Guardar</button>
       {existing && <button type="button" className="btn-link danger" onClick={remove}>Borrar alumno</button>}
     </form>

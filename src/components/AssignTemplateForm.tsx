@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { assignTemplate, studentsOf, templatesOf, useDB } from '../data/store';
-import { isValidISO } from '../lib/dates';
 import { useCurrentUser } from '../session';
 
 interface Props {
-  initialDate: string;
   initialTemplateId?: string;
   initialStudentIds?: string[];
-  onDone: (date: string) => void;
+  onDone: () => void;
 }
 
-export function AssignTemplateForm({ initialDate, initialTemplateId, initialStudentIds = [], onDone }: Props) {
+export function AssignTemplateForm({ initialTemplateId, initialStudentIds = [], onDone }: Props) {
   const db = useDB();
   const coach = useCurrentUser();
   const templates = templatesOf(db, coach.id);
   const students = studentsOf(db, coach.id);
   const [templateId, setTemplateId] = useState(initialTemplateId ?? '');
-  const [date, setDate] = useState(initialDate);
   const [selected, setSelected] = useState(new Set(initialStudentIds));
 
   const template = templates.find((t) => t.id === templateId);
@@ -30,9 +27,8 @@ export function AssignTemplateForm({ initialDate, initialTemplateId, initialStud
 
   const submit = () => {
     if (!template) return;
-    const { skipped } = assignTemplate(template, [...selected], date);
-    if (skipped) alert(`${skipped} alumno(s) ya tenían esta rutina ese día y no se duplicó.`);
-    onDone(date);
+    assignTemplate(template, [...selected]);
+    onDone();
   };
 
   if (templates.length === 0) return <p className="empty">No tenés rutinas guardadas todavía.</p>;
@@ -53,10 +49,7 @@ export function AssignTemplateForm({ initialDate, initialTemplateId, initialStud
         </div>
       )}
 
-      <label className="field">
-        <span>Fecha</span>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-      </label>
+      <p className="muted small">Se agrega como la próxima rutina de cada alumno, después de las que ya tiene.</p>
 
       <div className="stack-sm">
         <div className="row-between">
@@ -73,7 +66,7 @@ export function AssignTemplateForm({ initialDate, initialTemplateId, initialStud
         ))}
       </div>
 
-      <button className="btn btn-block" disabled={!template || selected.size === 0 || !isValidISO(date)} onClick={submit}>
+      <button className="btn btn-block" disabled={!template || selected.size === 0} onClick={submit}>
         Asignar{selected.size ? ` a ${selected.size} alumno${selected.size === 1 ? '' : 's'}` : ''}
       </button>
     </div>

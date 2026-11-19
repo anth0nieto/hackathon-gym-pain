@@ -1,49 +1,67 @@
 import { useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
-import { clearLog, logFor, routineStatus, saveLog, skipRoutine, useDB } from '../../data/store';
-import { formatDay } from '../../lib/dates';
+import {
+  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, saveLog, sessionStatus, startSession, useDB,
+} from '../../data/store';
+import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
 import type { ExerciseLog, PlannedExercise, Prescription } from '../../types';
 
+/**
+ * /alumno/entrenar trains the routine that is due; /alumno/sesion/:sessionId reopens a past one to correct it.
+ * The session is created on the first exercise the student marks.
+ */
 export function RoutineSession() {
   const db = useDB();
   const user = useCurrentUser();
-  const { routineId } = useParams();
-  const routine = db.routines.find((r) => r.id === routineId && r.studentId === user.id);
-  if (!routine) return <Navigate to="/alumno" replace />;
+  const navigate = useNavigate();
+  const { sessionId: pastId } = useParams();
 
-  const status = routineStatus(db, routine);
+  const past = getSession(db, pastId);
+  const routine = past ? db.routines.find((r) => r.id === past.routineId) : dueRoutine(db, user.id);
+  const open = openSession(db, user.id);
+  const session = past ?? (open?.routineId === routine?.id ? open : undefined);
+
+  if (pastId ? past?.studentId !== user.id : !routine) return <Navigate to="/alumno" replace />;
+
+  const logs = session ? logsOf(db, session.id) : [];
+  const exercises: PlannedExercise[] =
+    routine?.exercises ?? logs.map((l) => ({ id: l.exerciseId, name: l.exerciseName, sets: l.sets, reps: l.reps, weight: l.weight }));
+  const position = session?.position ?? routine!.position;
+  const name = session?.routineName ?? routine!.name;
+  const sessionFor = () => session?.id ?? startSession(user.id, routine!);
 
   return (
     <div className="stack">
-      <Link to={`/alumno?fecha=${routine.date}`} className="btn-link">‹ {formatDay(routine.date)}</Link>
+      <Link to="/alumno" className="btn-link">‹ Inicio</Link>
       <div className="row-between">
-        <h1>{routine.name}</h1>
-        <StatusBadge status={status} />
+        <h1>Rutina {position} · {name}</h1>
+        {session && <StatusBadge status={sessionStatus(session)} />}
       </div>
-      {routine.exercises.map((e) => (
-        <ExerciseCard key={e.id} routineId={routine.id} exercise={e} log={logFor(db, routine.id, e.id)} />
+      {past && <p className="muted small">{formatDay(dayOf(past.startedAt))}</p>}
+      {exercises.map((e) => (
+        <ExerciseCard key={e.id} exercise={e} log={logFor(db, session?.id, e.id)} sessionFor={sessionFor} />
       ))}
-      {status === 'pending' && (
-        <button className="btn btn-block btn-ghost" onClick={() => confirm('¿Saltear toda la rutina?') && skipRoutine(routine)}>
-          Hoy no entreno — saltear rutina
+      {session && sessionStatus(session) === 'open' && (
+        <button className="btn btn-block" onClick={() => { finishSession(session.id); navigate('/alumno'); }}>
+          Finalizar rutina
         </button>
       )}
     </div>
   );
 }
 
-function ExerciseCard({ routineId, exercise, log }: { routineId: string; exercise: PlannedExercise; log?: ExerciseLog }) {
+function ExerciseCard({ exercise, log, sessionFor }: { exercise: PlannedExercise; log?: ExerciseLog; sessionFor: () => string }) {
   const initial: Prescription = log ?? exercise;
   const [values, setValues] = useState<Prescription>({ sets: initial.sets, reps: initial.reps, weight: initial.weight });
   const [editing, setEditing] = useState(!log);
   const update = (k: keyof Prescription) => (n: number) => setValues((v) => ({ ...v, [k]: n }));
 
   const mark = (status: ExerciseLog['status']) => {
-    saveLog(routineId, exercise.id, status, values);
+    saveLog(sessionFor(), exercise, status, values);
     setEditing(false);
   };
 
@@ -57,7 +75,7 @@ function ExerciseCard({ routineId, exercise, log }: { routineId: string; exercis
           </div>
           <div className="row">
             <button className="btn-link" onClick={() => setEditing(true)}>Editar</button>
-            <button className="btn-link muted" onClick={() => { clearLog(routineId, exercise.id); setValues(exercise); setEditing(true); }}>
+            <button className="btn-link muted" onClick={() => { clearLog(log.sessionId, exercise.id); setValues(exercise); setEditing(true); }}>
               Deshacer
             </button>
           </div>

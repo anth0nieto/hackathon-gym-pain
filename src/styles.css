@@ -50,8 +50,8 @@ h1 { font-size: 1.5rem; }
 h2 { font-size: 1.1rem; }
 h3 { font-size: 1rem; }
 a { color: var(--primary); text-decoration: none; }
-input, button { font: inherit; color: inherit; }
-input {
+input, select, button { font: inherit; color: inherit; }
+input, select {
   width: 100%;
   min-height: var(--tap);
   padding: 0 12px;
@@ -118,9 +118,6 @@ code { font-size: 0.85em; }
   background: var(--surface); font-size: 1.5rem; cursor: pointer;
 }
 
-.daynav { display: flex; align-items: center; gap: 8px; }
-.daynav-label { flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; text-transform: capitalize; }
-.daynav-label .btn-link { align-self: center; font-size: 0.85rem; }
 
 .badge { font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
 .badge-pending { background: var(--secondary); color: var(--muted); }
@@ -128,14 +125,6 @@ code { font-size: 0.85em; }
 .badge-complete { background: var(--ok-bg); color: var(--ok); }
 .badge-skipped { background: var(--danger-bg); color: var(--danger); }
 
-.week-dots { display: flex; justify-content: space-between; }
-.week-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--idle); }
-.dot-none { border-style: dashed; opacity: 0.5; }
-.dot-pending { background: transparent; border-color: var(--muted); }
-.dot-partial { background: var(--warn); border-color: var(--warn); }
-.dot-complete { background: var(--ok); border-color: var(--ok); }
-.dot-skipped { background: var(--danger); border-color: var(--danger); }
 
 .exercise.done { border-color: var(--ok); }
 .exercise.skipped { opacity: 0.7; }
@@ -167,7 +156,7 @@ code { font-size: 0.85em; }
 .exsum-values strong { color: var(--primary); }
 
 .field { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; color: var(--muted); }
-.field input { color: var(--text); font-size: 1rem; }
+.field input, .field select { color: var(--text); font-size: 1rem; }
 .notice { padding: 10px 12px; border-radius: 10px; background: var(--warn-bg); color: var(--warn); font-size: 0.9rem; }
 .notice.danger { background: var(--danger-bg); color: var(--danger); }
 .notice.ok { background: var(--ok-bg); color: var(--ok); }

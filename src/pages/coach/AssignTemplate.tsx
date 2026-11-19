@@ -1,7 +1,6 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AssignTemplateForm } from '../../components/AssignTemplateForm';
 import { useDB } from '../../data/store';
-import { today } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
 
 export function AssignTemplate() {
@@ -16,7 +15,7 @@ export function AssignTemplate() {
     <div className="stack">
       <Link to="/coach/plantillas" className="btn-link">‹ Mis rutinas</Link>
       <h1>Asignar “{template.name}”</h1>
-      <AssignTemplateForm initialDate={today()} initialTemplateId={template.id} onDone={() => navigate('/coach')} />
+      <AssignTemplateForm initialTemplateId={template.id} onDone={() => navigate('/coach')} />
     </div>
   );
 }

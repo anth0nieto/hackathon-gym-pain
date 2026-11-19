@@ -1,8 +1,18 @@
 # Back: funciones de `src/data/store.ts`
 
-Las pantallas no llaman a Supabase directamente. Todo pasa por `src/data/store.ts`. Al arrancar, la app carga la base completa en memoria (`loadDB` en `src/main.tsx`). Los selectores leen esa copia y son sincrónicos. Las acciones actualizan la copia, la pantalla se redibuja enseguida, y después escriben en Supabase. Si otro dispositivo cambia algo, la copia se actualiza sola.
+Las pantallas no llaman a Supabase directamente. Todo pasa por `src/data/store.ts`. Al arrancar, la app carga la base completa en memoria (`loadDB` en `src/main.tsx`). Los selectores leen esa copia y son sincrónicos. Las acciones actualizan la copia, la pantalla se redibuja enseguida, y después escriben en Supabase de a una, en orden. Si otro dispositivo cambia algo, la copia se actualiza sola.
 
-El esquema de la base está en `supabase/schema.sql`. Para levantar la app hace falta `.env.local` con `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`.
+El esquema está en `supabase/schema.sql` y los tipos en `src/types.ts`. Las reglas de qué rutina le toca al alumno están en [producto.md](producto.md#cómo-se-decide-qué-rutina-le-toca). Para levantar la app hace falta `.env.local` con `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`.
+
+## Modelo
+
+| Tabla | Qué guarda |
+|---|---|
+| `users` | Coach y alumnos. Los alumnos tienen `dni` y `daysPerWeek`. |
+| `templates` | La biblioteca "Mis rutinas" del coach |
+| `routines` | Las rutinas de cada alumno, con `position` 1, 2, 3… y sus ejercicios sugeridos |
+| `sessions` | Cada vez que el alumno entrenó una rutina: `startedAt`, `finishedAt`, y una copia de `position` y `routineName` |
+| `logs` | Lo que hizo en cada ejercicio de una sesión, con una copia de `exerciseName` |
 
 ## Leer datos
 
@@ -10,42 +20,53 @@ Los selectores reciben la base actual, que se obtiene con el hook `useDB()`:
 
 ```tsx
 const db = useDB();
-const rutinas = routinesOn(db, user.id, today());
+const routine = dueRoutine(db, user.id);
 ```
 
 | Selector | Devuelve |
 |---|---|
+| `dueRoutine(db, studentId)` | La rutina que le toca al alumno ahora, o `undefined` si no tiene rutinas |
+| `openSession(db, studentId)` | Su sesión abierta, o `undefined` |
+| `sessionStatus(session)` | `'open'` o `'done'`. Una sesión pasa a `'done'` al finalizarla o a las 6 horas de empezada (`AUTO_CLOSE_HOURS`). |
+| `routinesOf(db, studentId)` | Sus rutinas ordenadas por `position` |
+| `sessionsOf(db, studentId)` | Sus sesiones, de la más nueva a la más vieja |
+| `getSession(db, id)` | Una sesión por id |
+| `logsOf(db, sessionId)` | Lo registrado en una sesión |
+| `logFor(db, sessionId, exerciseId)` | Lo registrado en un ejercicio de una sesión, o `undefined` |
+| `sessionsThisWeek(db, studentId)` | Sesiones empezadas desde el lunes |
+| `lastActivity(db, studentId)` | Fecha ISO de su último registro, o `undefined` |
 | `studentByDni(db, dni)` | El alumno con ese DNI, o `undefined`. Acepta el DNI con puntos o espacios. |
-| `getUser(db, id)` | El usuario con ese id |
-| `studentsOf(db, coachId)` | Los alumnos de un coach |
-| `routinesOn(db, studentId, date)` | Las rutinas de un alumno en una fecha `AAAA-MM-DD` |
-| `logsOf(db, routineId)` | Lo registrado en una rutina |
-| `logFor(db, routineId, exerciseId)` | Lo registrado en un ejercicio, o `undefined` |
-| `routineStatus(db, routine)` | `'pending'`, `'partial'`, `'complete'` o `'skipped'` |
-| `lastActivity(db, studentId)` | Fecha ISO del último registro del alumno, o `undefined` |
-| `templatesOf(db, coachId)` | La biblioteca "Mis rutinas" del coach, ordenada por nombre |
-| `normalizeDni(dni)` | El DNI con solo dígitos |
+| `getUser(db, id)` / `studentsOf(db, coachId)` | Un usuario, o los alumnos de un coach |
+| `templatesOf(db, coachId)` | "Mis rutinas" del coach, ordenadas por nombre |
+| `nextPosition(db, studentId)` | El número que tendría una rutina nueva del alumno |
 
 ## Acciones del alumno
 
 | Acción | Qué hace |
 |---|---|
-| `saveLog(routineId, exerciseId, status, { sets, reps, weight })` | Guarda un ejercicio como `'done'` o `'skipped'`. Si ya estaba guardado, lo reemplaza. |
-| `clearLog(routineId, exerciseId)` | Borra lo guardado de un ejercicio |
-| `skipRoutine(routine)` | Marca todos los ejercicios de la rutina como salteados |
+| `startSession(studentId, routine)` | Devuelve el id de la sesión abierta de esa rutina, y la crea si no existe |
+| `saveLog(sessionId, exercise, status, { sets, reps, weight })` | Guarda un ejercicio como `'done'` o `'skipped'`. Si ya estaba guardado, lo reemplaza. |
+| `clearLog(sessionId, exerciseId)` | Borra lo guardado de un ejercicio |
+| `finishSession(sessionId)` | Finaliza la sesión. La próxima vez le toca la rutina siguiente. |
+
+Para no crear sesiones vacías, la pantalla crea la sesión recién cuando el alumno marca el primer ejercicio:
+
+```tsx
+saveLog(session?.id ?? startSession(user.id, routine), exercise, 'done', values);
+```
 
 ## Acciones del coach
 
 | Acción | Qué hace |
 |---|---|
-| `saveStudent({ id?, name, dni, coachId })` | Crea un alumno, o lo actualiza si recibe `id`. Devuelve `'dni-taken'` sin guardar si otro usuario ya tiene ese DNI. Si no, devuelve `'ok'`. |
-| `deleteStudent(id)` | Borra el alumno con sus rutinas y registros |
-| `saveRoutine(routine)` | Crea o actualiza una rutina asignada. Borra los registros de los ejercicios que se quitaron. |
-| `deleteRoutine(id)` | Borra una rutina y sus registros |
-| `addRoutines(routines)` | Agrega varias rutinas de una vez, por ejemplo desde el CSV |
-| `copyPreviousWeek(studentId, weekDate)` | Copia las rutinas de la semana anterior. Devuelve cuántas creó. |
-| `saveTemplate(template)` / `deleteTemplate(id)` | Crea, actualiza o borra una rutina de la biblioteca |
-| `assignTemplate(template, studentIds, date)` | Copia una rutina de la biblioteca a varios alumnos. Devuelve `{ created, skipped }`. |
+| `saveStudent({ id?, name, dni, daysPerWeek, coachId })` | Crea un alumno, o lo actualiza si recibe `id`. Devuelve `'dni-taken'` sin guardar si otro usuario ya tiene ese DNI. Si no, devuelve `'ok'`. |
+| `deleteStudent(id)` | Borra el alumno con sus rutinas, sesiones y registros |
+| `saveRoutine(routine)` | Crea o actualiza una rutina. Para una nueva, usá `position: nextPosition(db, studentId)`. |
+| `deleteRoutine(id)` | Borra una rutina y renumera las que quedan. El historial no cambia. |
+| `fromTemplate(routine, template)` | Devuelve la rutina con el nombre y los ejercicios de una de "Mis rutinas", en la misma posición. Guardala con `saveRoutine`. |
+| `assignTemplate(template, studentIds)` | Agrega una copia de la plantilla como próxima rutina de cada alumno |
+| `replaceRoutines(routines)` | Reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
+| `saveTemplate(template)` / `deleteTemplate(id)` | Crea, actualiza o borra una de "Mis rutinas" |
 | `resetDB()` | Borra todo y vuelve a cargar los datos de ejemplo |
 
 ## Login
@@ -55,13 +76,16 @@ const rutinas = routinesOn(db, user.id, today());
 | Coach | Usuario `coach`, contraseña `coach123`. Están fijos en `src/pages/Login.tsx` y entran como el usuario `c1`. |
 | Alumno | Con su DNI: `const s = studentByDni(db, dni); if (s) login(s.id);`. `login` viene de `useSession()`. |
 
-DNIs de ejemplo:
+Todos los alumnos tienen rutinas cargadas para probar:
 
-| Alumno | DNI |
-|---|---|
-| Juan Pérez | 30111222 |
-| Ana Gómez | 35333444 |
-| Martín Ruiz | 40555666 |
+| Alumno | DNI | Rutinas |
+|---|---|---|
+| Juan Pérez | 30111222 | 3 |
+| Ana Gómez | 35333444 | 2 |
+| Martín Ruiz | 40555666 | 3 |
+| Ezequiel Scollo | 41399264 | 3 |
+| Flor Villar | 39967191 | 3 |
+| Anthony Montero | 96220982 | 3 |
 
 ## Errores
 

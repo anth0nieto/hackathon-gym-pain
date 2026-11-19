@@ -1,64 +1,49 @@
-import type { Routine, RoutineTemplate, User } from '../types';
-import { addDays, startOfWeek, today } from '../lib/dates';
+import type { PlannedExercise, Routine, RoutineTemplate, User } from '../types';
 
 export const seedUsers: User[] = [
   { id: 'c1', name: 'Coach Laura', role: 'coach' },
-  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1', dni: '30111222' },
-  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1', dni: '35333444' },
-  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1', dni: '40555666' },
+  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1', dni: '30111222', daysPerWeek: 3 },
+  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1', dni: '35333444', daysPerWeek: 2 },
+  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1', dni: '40555666', daysPerWeek: 3 },
 ];
 
-export function seedRoutines(): Routine[] {
-  const monday = startOfWeek(today());
-  return [
-    {
-      id: 'r1', coachId: 'c1', studentId: 's1', date: monday, name: 'Día A - Piernas',
-      exercises: [
-        { id: 'e1', name: 'Sentadilla', sets: 4, reps: 8, weight: 60 },
-        { id: 'e2', name: 'Prensa', sets: 3, reps: 12, weight: 120 },
-        { id: 'e3', name: 'Estocadas', sets: 3, reps: 10, weight: 12 },
-      ],
-    },
-    {
-      id: 'r2', coachId: 'c1', studentId: 's1', date: addDays(monday, 2), name: 'Día B - Empuje',
-      exercises: [
-        { id: 'e4', name: 'Press banca', sets: 4, reps: 8, weight: 50 },
-        { id: 'e5', name: 'Press militar', sets: 3, reps: 10, weight: 25 },
-        { id: 'e6', name: 'Fondos', sets: 3, reps: 10, weight: 0 },
-      ],
-    },
-    {
-      id: 'r3', coachId: 'c1', studentId: 's1', date: today(), name: 'Día C - Tirón',
-      exercises: [
-        { id: 'e7', name: 'Dominadas', sets: 4, reps: 6, weight: 0 },
-        { id: 'e8', name: 'Remo con barra', sets: 4, reps: 10, weight: 40 },
-      ],
-    },
-    {
-      id: 'r4', coachId: 'c1', studentId: 's2', date: today(), name: 'Full body',
-      exercises: [
-        { id: 'e9', name: 'Peso muerto', sets: 4, reps: 6, weight: 70 },
-        { id: 'e10', name: 'Press banca', sets: 4, reps: 8, weight: 40 },
-      ],
-    },
-  ];
-}
+const ex = (id: string, name: string, sets: number, reps: number, weight: number): PlannedExercise => ({ id, name, sets, reps, weight });
+
+const routine = (id: string, studentId: string, position: number, name: string, exercises: PlannedExercise[]): Routine => ({
+  id, coachId: 'c1', studentId, position, name, exercises,
+});
+
+export const seedRoutines: Routine[] = [
+  routine('r1', 's1', 1, 'Piernas', [
+    ex('e1', 'Sentadilla', 4, 8, 60), ex('e2', 'Prensa', 3, 12, 120), ex('e3', 'Estocadas', 3, 10, 12), ex('e4', 'Camilla femoral', 3, 12, 30),
+  ]),
+  routine('r2', 's1', 2, 'Empuje', [
+    ex('e5', 'Press banca', 4, 8, 50), ex('e6', 'Press militar', 3, 10, 25), ex('e7', 'Fondos', 3, 10, 0), ex('e8', 'Tríceps en polea', 3, 12, 20),
+  ]),
+  routine('r3', 's1', 3, 'Tirón', [
+    ex('e9', 'Dominadas', 4, 6, 0), ex('e10', 'Remo con barra', 4, 10, 40), ex('e11', 'Jalón al pecho', 3, 12, 45), ex('e12', 'Curl de bíceps', 3, 12, 10),
+  ]),
+  routine('r4', 's2', 1, 'Full body A', [
+    ex('e13', 'Peso muerto', 4, 6, 70), ex('e14', 'Press banca', 4, 8, 40), ex('e15', 'Remo con mancuerna', 3, 10, 16), ex('e16', 'Plancha', 3, 1, 0),
+  ]),
+  routine('r5', 's2', 2, 'Full body B', [
+    ex('e17', 'Sentadilla', 4, 8, 50), ex('e18', 'Press militar', 3, 10, 20), ex('e19', 'Jalón al pecho', 3, 12, 35), ex('e20', 'Hip thrust', 3, 12, 60),
+  ]),
+];
 
 export const seedTemplates: RoutineTemplate[] = [
   {
     id: 't1', coachId: 'c1', name: 'Principiante - Full body',
     exercises: [
-      { id: 'te1', name: 'Sentadilla goblet', sets: 3, reps: 12, weight: 12 },
-      { id: 'te2', name: 'Press con mancuernas', sets: 3, reps: 12, weight: 10 },
-      { id: 'te3', name: 'Remo en polea', sets: 3, reps: 12, weight: 25 },
+      ex('te1', 'Sentadilla goblet', 3, 12, 12), ex('te2', 'Press con mancuernas', 3, 12, 10),
+      ex('te3', 'Remo en polea', 3, 12, 25), ex('te4', 'Plancha', 3, 1, 0),
     ],
   },
   {
     id: 't2', coachId: 'c1', name: 'Avanzado - Piernas',
     exercises: [
-      { id: 'te4', name: 'Sentadilla', sets: 5, reps: 5, weight: 90 },
-      { id: 'te5', name: 'Peso muerto rumano', sets: 4, reps: 8, weight: 70 },
-      { id: 'te6', name: 'Búlgaras', sets: 3, reps: 10, weight: 16 },
+      ex('te5', 'Sentadilla', 5, 5, 90), ex('te6', 'Peso muerto rumano', 4, 8, 70),
+      ex('te7', 'Búlgaras', 3, 10, 16), ex('te8', 'Gemelos', 4, 15, 40),
     ],
   },
 ];

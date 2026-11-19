@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-import { StatusDot } from '../../components/StatusBadge';
-import { lastActivity, routineStatus, routinesOn, studentsOf, useDB } from '../../data/store';
-import { formatShort, today, weekDays } from '../../lib/dates';
+import { dueRoutine, lastActivity, sessionsThisWeek, studentsOf, useDB } from '../../data/store';
 import { useCurrentUser } from '../../session';
 
 const daysSince = (iso?: string) => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000) : null);
@@ -9,7 +7,6 @@ const daysSince = (iso?: string) => (iso ? Math.floor((Date.now() - new Date(iso
 export function CoachHome() {
   const db = useDB();
   const coach = useCurrentUser();
-  const days = weekDays(today());
   const students = studentsOf(db, coach.id);
 
   return (
@@ -24,6 +21,7 @@ export function CoachHome() {
       </div>
       {students.map((s) => {
         const idle = daysSince(lastActivity(db, s.id));
+        const due = dueRoutine(db, s.id);
         return (
           <Link key={s.id} to={`/coach/alumno/${s.id}`} className="card card-link stack-sm">
             <div className="row-between">
@@ -32,17 +30,9 @@ export function CoachHome() {
                 {idle === null ? 'Nunca registró' : idle === 0 ? 'Registró hoy' : `Último registro hace ${idle} d`}
               </span>
             </div>
-            <div className="week-dots">
-              {days.map((d) => {
-                const rs = routinesOn(db, s.id, d);
-                const st = rs.length ? routineStatus(db, rs[0]) : 'none';
-                return (
-                  <div key={d} className="week-dot">
-                    <StatusDot status={st} title={rs.map((r) => r.name).join(', ')} />
-                    <span className="small muted">{formatShort(d).slice(0, 2)}</span>
-                  </div>
-                );
-              })}
+            <div className="row-between small muted">
+              <span>Esta semana: {sessionsThisWeek(db, s.id).length} de {s.daysPerWeek ?? '?'}</span>
+              <span>{due ? `Le toca Rutina ${due.position}` : 'Sin rutinas'}</span>
             </div>
           </Link>
         );
