@@ -19,6 +19,8 @@ export interface Prescription {
 export interface PlannedExercise extends Prescription {
   id: string;
   name: string;
+  /** Catalog exercise (src/data/exercises.ts), for its photos and how-to. */
+  exerciseId?: string;
 }
 
 /** Reusable routine in the coach's library (e.g. "Principiante", "Avanzado"). */

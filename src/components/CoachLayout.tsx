@@ -11,6 +11,8 @@ export function CoachLayout() {
 
   const links = [
     { to: '/coach', label: 'Alumnos', end: true, count: atRisk },
+    { to: '/coach/planes', label: 'Planes' },
+    { to: '/coach/ejercicios', label: 'Ejercicios' },
     { to: '/coach/plantillas', label: 'Mis rutinas' },
     { to: '/coach/importar', label: 'Importar CSV' },
     { to: '/coach/qr', label: 'QR del gimnasio' },

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { ExerciseHowTo } from '../../components/ExerciseDemo';
 import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
@@ -103,6 +104,7 @@ function ExerciseCard({ exercise, log, sessionFor }: { exercise: PlannedExercise
         <h3>{exercise.name}</h3>
         <span className="muted small">Sugerido {fmt(exercise)}</span>
       </div>
+      <ExerciseHowTo exercise={exercise} />
       <div className="steppers">
         <Stepper label="Series" value={values.sets} suggested={exercise.sets} onChange={update('sets')} />
         <Stepper label="Reps" value={values.reps} suggested={exercise.reps} onChange={update('reps')} />

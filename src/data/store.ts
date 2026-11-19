@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import type { ExerciseLog, PlannedExercise, Prescription, Routine, RoutineTemplate, Session, SessionStatus, User } from '../types';
+import { getExercise } from './exercises';
+import type { Plan } from './plans';
 import { seedRoutines, seedTemplates, seedUsers } from './seed';
 import { dayOf, startOfWeek, today } from '../lib/dates';
 import { uid } from '../lib/id';
@@ -388,6 +390,28 @@ export function assignTemplate(template: RoutineTemplate, studentIds: string[]):
   }));
   commit({ ...db, routines: [...db.routines, ...created] });
   return created.length;
+}
+
+/** Replaces the student's routines with the plan's, in order. Weights start at 0 for the coach to set. History is kept. */
+export function assignPlan(plan: Plan, studentId: string) {
+  const student = getUser(db, studentId);
+  if (!student?.coachId) return;
+  const created = plan.routines.map<Routine>((r, i) => ({
+    id: uid(),
+    coachId: student.coachId!,
+    studentId,
+    position: i + 1,
+    name: r.name,
+    exercises: r.exercises.map((e) => ({
+      id: uid(),
+      exerciseId: e.exerciseId,
+      name: getExercise(e.exerciseId)!.name,
+      sets: e.sets,
+      reps: e.reps,
+      weight: 0,
+    })),
+  }));
+  commit({ ...db, routines: [...db.routines.filter((r) => r.studentId !== studentId), ...created] });
 }
 
 /** The routine's name and exercises replaced by a copy of the template, keeping its position. */

@@ -6,8 +6,10 @@ import { AddRoutine } from './pages/coach/AddRoutine';
 import { AssignTemplate } from './pages/coach/AssignTemplate';
 import { CoachHome } from './pages/coach/CoachHome';
 import { GymQr } from './pages/coach/GymQr';
+import { ExerciseLibrary } from './pages/coach/ExerciseLibrary';
 import { ImportCsv } from './pages/coach/ImportCsv';
 import { OneOffEditor } from './pages/coach/OneOffEditor';
+import { Plans } from './pages/coach/Plans';
 import { RoutineEditor } from './pages/coach/RoutineEditor';
 import { StudentForm } from './pages/coach/StudentForm';
 import { StudentPlan } from './pages/coach/StudentPlan';
@@ -34,6 +36,8 @@ export function App() {
             <Route path="alumno/:studentId/rutina/nueva" element={<RoutineEditor />} />
             <Route path="rutina/:routineId/proxima" element={<OneOffEditor />} />
             <Route path="rutina/:routineId" element={<RoutineEditor />} />
+            <Route path="planes" element={<Plans />} />
+            <Route path="ejercicios" element={<ExerciseLibrary />} />
             <Route path="plantillas" element={<Templates />} />
             <Route path="plantillas/nueva" element={<TemplateEditor />} />
             <Route path="plantillas/:templateId" element={<TemplateEditor />} />

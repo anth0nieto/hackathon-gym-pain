@@ -33,7 +33,10 @@ export function StudentPlan() {
       <section className="stack-sm">
         <div className="row-between">
           <h2>Rutinas</h2>
-          <Link to={`/coach/alumno/${student.id}/rutina/agregar`} className="btn-link">+ Rutina</Link>
+          <div className="row">
+            <Link to={`/coach/planes?alumno=${student.id}`} className="btn-link">Usar un plan</Link>
+            <Link to={`/coach/alumno/${student.id}/rutina/agregar`} className="btn-link">+ Rutina</Link>
+          </div>
         </div>
         <p className="muted small">
           Va {expected ?? '?'} {expected === 1 ? 'vez' : 'veces'} por semana. Hace las rutinas en orden y después vuelve a la primera.
