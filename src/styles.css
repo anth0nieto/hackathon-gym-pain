@@ -28,8 +28,9 @@
   color-scheme: light;
 }
 
+/* Dark: follows the system unless the user picked a theme (data-theme on <html>, see src/lib/theme.ts). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #0b1120;
     --surface: #131c2e;
     --text: #e2e8f0;
@@ -48,6 +49,26 @@
     --avatar-bg: #1d3fa0;
     color-scheme: dark;
   }
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b1120;
+  --surface: #131c2e;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --primary: #3d7cf5;
+  --primary-hover: #5b91f7;
+  --secondary: #0f1e4a;
+  --focus-ring: rgba(61, 124, 245, 0.4);
+  --ok-bg: #052e16;
+  --warn: #fbbf24;
+  --warn-bg: #3a2a06;
+  --danger-bg: #3b0a0a;
+  --idle: #334155;
+  --nav-bg: #00052e;
+  --avatar-bg: #1d3fa0;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -430,3 +451,14 @@ details[open] > summary { margin-bottom: 8px; }
 .login-coach[open] summary { margin-bottom: 12px; }
 .login-coach-form { display: flex; flex-direction: column; gap: 10px; }
 .login-coach .login-btn { background: rgba(255, 255, 255, 0.12); }
+
+.theme-toggle {
+  display: grid; place-items: center;
+  width: 40px; height: 40px; padding: 0;
+  border: 1px solid var(--border); border-radius: 50%;
+  background: var(--surface); color: var(--text);
+  cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--primary); color: var(--primary); }
+.sidebar-theme { width: 32px; height: 32px; border-color: rgba(255, 255, 255, 0.2); background: transparent; color: inherit; }
+.sidebar-theme:hover { border-color: currentColor; color: inherit; }

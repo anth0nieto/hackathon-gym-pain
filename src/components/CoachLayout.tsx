@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { activityOf, studentsOf, useDB } from '../data/store';
 import { initials } from '../lib/initials';
 import { useCurrentUser, useSession } from '../session';
+import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
 /** Coach shell: a dark sidebar on desktop that turns into a top bar on phones. */
@@ -38,6 +39,7 @@ export function CoachLayout() {
         <div className="sidebar-user">
           <span className="avatar avatar-sm" aria-hidden="true">{initials(coach.name)}</span>
           <span className="sidebar-user-name">{coach.name}</span>
+          <ThemeToggle className="theme-toggle sidebar-theme" />
           <UserMenu user={coach} onLogout={logout} trigger="Salir" triggerClassName="btn-link sidebar-logout" />
         </div>
       </aside>
