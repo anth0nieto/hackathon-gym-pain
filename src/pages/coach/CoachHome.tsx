@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, studentsOf, useDB, type ActivityStatus } from '../../data/store';
+import { fold } from '../../lib/text';
 import { useCurrentUser } from '../../session';
 import type { User } from '../../types';
 import { initials } from '../../lib/initials';
 
-/** Lowercase without accents, so "martin" finds "Martín". */
-const fold = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
 
 
 const STATUS: Record<ActivityStatus, { label: string; tone: string }> = {
