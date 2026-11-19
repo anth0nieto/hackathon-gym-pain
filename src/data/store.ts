@@ -192,6 +192,19 @@ export function lastActivity(d: DB, studentId: string): string | undefined {
     .at(-1);
 }
 
+export type ActivityStatus = 'new' | 'ok' | 'risk' | 'inactive';
+
+/**
+ * How long since the student last registered, in calendar days (yesterday at 23:00 is 1, not 0),
+ * and what that means: up to 3 days is ok, 4 to 7 is at risk, more is inactive, never is new.
+ */
+export function activityOf(d: DB, studentId: string): { last?: string; idleDays: number | null; status: ActivityStatus } {
+  const last = lastActivity(d, studentId);
+  const idleDays = last ? Math.round((Date.parse(today()) - Date.parse(dayOf(last))) / 86_400_000) : null;
+  const status: ActivityStatus = idleDays === null ? 'new' : idleDays <= 3 ? 'ok' : idleDays <= 7 ? 'risk' : 'inactive';
+  return { last, idleDays, status };
+}
+
 // ---------- student actions ----------
 
 /** Returns the open session for this routine, creating it if needed. */
