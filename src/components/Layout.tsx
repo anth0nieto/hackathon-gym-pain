@@ -9,7 +9,7 @@ export function Layout() {
   return (
     <div className="app">
       <header className="topbar">
-        <Link to={user?.role === 'coach' ? '/coach' : '/alumno'} className="brand">Rutinas</Link>
+        <Link to={user?.role === 'coach' ? '/coach' : '/alumno'} className="brand">Forza</Link>
         {user && <UserMenu user={user} onLogout={logout} />}
       </header>
       <main className={`content${isStudent ? ' has-tabbar' : ''}`}>

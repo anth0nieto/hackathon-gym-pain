@@ -33,7 +33,7 @@ export function Login() {
     <div className="login">
       <div className="login-glow" aria-hidden="true" />
       <header className="login-bar">
-        <strong className="login-brand">Rutinas</strong>
+        <img className="login-brand" src="/brand/forza-logo-dark.svg" alt="Forza" />
       </header>
 
       <main className="login-main">

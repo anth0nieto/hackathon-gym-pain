@@ -364,7 +364,7 @@ details[open] > summary { margin-bottom: 8px; }
 }
 
 .login-bar { width: 100%; max-width: 440px; margin: 0 auto; }
-.login-brand { font-size: 1.25rem; letter-spacing: -0.02em; }
+.login-brand { display: block; height: 28px; width: auto; }
 
 .login-main {
   flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px;

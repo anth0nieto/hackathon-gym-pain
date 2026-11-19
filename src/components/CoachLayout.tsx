@@ -22,7 +22,7 @@ export function CoachLayout() {
     <div className="coach-app">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <strong>Rutinas</strong>
+          <strong>Forza</strong>
           <span>Panel del coach</span>
         </div>
         <nav className="sidebar-nav">
