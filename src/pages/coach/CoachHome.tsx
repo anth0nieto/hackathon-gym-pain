@@ -83,7 +83,10 @@ export function CoachHome() {
           <strong>{away.length === 1 ? '1 alumno no entrena' : `${away.length} alumnos no entrenan`} hace una semana o más.</strong>{' '}
           Escribiles antes de que dejen:{' '}
           {away.slice(0, 8).map(({ s, activity }, i) => (
-            <span key={s.id}>{i > 0 && ', '}<Link to={`/coach/alumno/${s.id}`}>{s.name}</Link> ({activity.idleDays} días)</span>
+            <span key={s.id}>
+              {i > 0 && ', '}<Link to={`/coach/alumno/${s.id}`}>{s.name}</Link> ({activity.idleDays} días)
+              <WhatsAppButton phone={s.phone} name={s.name} />
+            </span>
           ))}
           {away.length > 8 && ` y ${away.length - 8} más.`}
         </p>
