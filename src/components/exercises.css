@@ -43,3 +43,12 @@
 .plan-ex-sets { font-weight: 600; white-space: nowrap; }
 
 .exlib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+.exercise-head {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  padding: 0; border: 0; background: none; text-align: left; cursor: pointer;
+}
+.exercise-head h3 { flex: 1; min-width: 0; }
+.chevron { color: var(--primary); font-size: 1.1rem; line-height: 1; transition: transform 0.15s; }
+.chevron.is-open { transform: rotate(180deg); }
+.exdemo-toggle { font-size: 0.9rem; font-weight: 600; }

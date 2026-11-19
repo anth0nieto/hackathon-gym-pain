@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { ExerciseHowTo } from '../../components/ExerciseDemo';
+import { ExerciseDemo } from '../../components/ExerciseDemo';
 import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
@@ -10,6 +10,7 @@ import {
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { humanDuration, sessionDuration } from '../../lib/duration';
+import { exerciseFor } from '../../data/exercises';
 import { useCurrentUser } from '../../session';
 import type { ExerciseLog, PlannedExercise, Prescription } from '../../types';
 
@@ -41,6 +42,25 @@ export function RoutineSession() {
   const total = routinesOf(db, user.id).length;
   const sessionFor = () => session?.id ?? startSession(user.id, routine!);
 
+  const pendingWithDemo = (skip?: string) =>
+    exercises.find((e) => e.id !== skip && !logFor(db, session?.id, e.id) && exerciseFor(e))?.id;
+  const [demoOpen, setDemoOpen] = useState<Set<string>>(() => new Set([pendingWithDemo()].filter((id): id is string => !!id)));
+  const toggleDemo = (id: string) =>
+    setDemoOpen((s) => {
+      const next = new Set(s);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  /** After marking an exercise, its photo closes and the next pending one opens. */
+  const advanceDemo = (id: string) =>
+    setDemoOpen((s) => {
+      const next = new Set(s);
+      next.delete(id);
+      const following = pendingWithDemo(id);
+      if (following) next.add(following);
+      return next;
+    });
+
   return (
     <div className="stack">
       <Link to={past ? `/alumno?fecha=${dayOf(past.startedAt)}` : '/alumno'} className="btn-link">‹ Inicio</Link>
@@ -57,7 +77,15 @@ export function RoutineSession() {
         <button className="btn btn-block btn-start" onClick={sessionFor}>▶ Empezar</button>
       )}
       {exercises.map((e) => (
-        <ExerciseCard key={e.id} exercise={e} log={logFor(db, session?.id, e.id)} sessionFor={sessionFor} />
+        <ExerciseCard
+          key={e.id}
+          exercise={e}
+          log={logFor(db, session?.id, e.id)}
+          sessionFor={sessionFor}
+          demoOpen={demoOpen.has(e.id)}
+          onToggleDemo={() => toggleDemo(e.id)}
+          onMarked={() => advanceDemo(e.id)}
+        />
       ))}
       {session && sessionStatus(session) === 'open' && (
         <button className="btn btn-block" onClick={() => { finishSession(session.id); navigate(`/alumno/sesion/${session.id}`, { replace: true }); }}>
@@ -68,7 +96,17 @@ export function RoutineSession() {
   );
 }
 
-function ExerciseCard({ exercise, log, sessionFor }: { exercise: PlannedExercise; log?: ExerciseLog; sessionFor: () => string }) {
+interface CardProps {
+  exercise: PlannedExercise;
+  log?: ExerciseLog;
+  sessionFor: () => string;
+  demoOpen: boolean;
+  onToggleDemo: () => void;
+  onMarked: () => void;
+}
+
+function ExerciseCard({ exercise, log, sessionFor, demoOpen, onToggleDemo, onMarked }: CardProps) {
+  const demo = exerciseFor(exercise);
   const initial: Prescription = log ?? exercise;
   const [values, setValues] = useState<Prescription>({ sets: initial.sets, reps: initial.reps, weight: initial.weight });
   const [editing, setEditing] = useState(!log);
@@ -77,6 +115,7 @@ function ExerciseCard({ exercise, log, sessionFor }: { exercise: PlannedExercise
   const mark = (status: ExerciseLog['status']) => {
     saveLog(sessionFor(), exercise, status, values);
     setEditing(false);
+    onMarked();
   };
 
   if (!editing && log) {
@@ -100,11 +139,19 @@ function ExerciseCard({ exercise, log, sessionFor }: { exercise: PlannedExercise
 
   return (
     <article className="card exercise stack-sm">
-      <div className="row-between">
-        <h3>{exercise.name}</h3>
-        <span className="muted small">Sugerido {fmt(exercise)}</span>
-      </div>
-      <ExerciseHowTo exercise={exercise} />
+      {demo ? (
+        <button type="button" className="exercise-head" aria-expanded={demoOpen} onClick={onToggleDemo}>
+          <h3>{exercise.name}</h3>
+          <span className="muted small">Sugerido {fmt(exercise)}</span>
+          <span className={`chevron${demoOpen ? ' is-open' : ''}`} aria-hidden="true">▾</span>
+        </button>
+      ) : (
+        <div className="row-between">
+          <h3>{exercise.name}</h3>
+          <span className="muted small">Sugerido {fmt(exercise)}</span>
+        </div>
+      )}
+      {demo && demoOpen && <ExerciseDemo exercise={demo} textCollapsed />}
       <div className="steppers">
         <Stepper label="Series" value={values.sets} suggested={exercise.sets} onChange={update('sets')} />
         <Stepper label="Reps" value={values.reps} suggested={exercise.reps} onChange={update('reps')} />
