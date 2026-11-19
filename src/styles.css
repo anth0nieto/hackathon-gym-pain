@@ -83,7 +83,8 @@ code { font-size: 0.85em; }
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
-.brand { font-weight: 700; color: var(--text); }
+.brand { display: flex; font-weight: 700; color: var(--text); }
+.brand-logo { display: block; height: 24px; width: auto; }
 .topbar-user { display: flex; gap: 12px; align-items: center; font-size: 0.9rem; }
 .content { max-width: 640px; margin: 0 auto; padding: 16px 16px 48px; }
 
@@ -216,6 +217,7 @@ code { font-size: 0.85em; }
 
 .qr-sheet { align-items: center; text-align: center; padding: 24px; }
 .qr { width: min(280px, 70vw); }
+.qr-logo { display: block; height: 36px; width: auto; margin: 0 auto 8px; }
 .qr svg { display: block; width: 100%; height: auto; }
 
 @media print {
