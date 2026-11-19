@@ -89,8 +89,12 @@ export function Stats() {
   }
 
   return (
-    <div className="stack">
-      <h1>Mi actividad</h1>
+    <div className="page">
+      <header className="page-header">
+        <h1>Mi actividad</h1>
+      </header>
+
+      <section className="section" aria-label="Resumen de la semana">
       {nav}
 
       <div className="stats-days" aria-label="Días de la semana">
@@ -118,6 +122,7 @@ export function Stats() {
           {COMEBACK[missedStreak % COMEBACK.length]}
         </p>
       )}
+      </section>
 
       <RecentWorkouts />
       <LiftProgress />
@@ -142,15 +147,16 @@ function RecentWorkouts() {
   const shown = all ? sessions : sessions.slice(0, RECENT);
 
   return (
-    <section className="card stack-sm">
-      <div className="row-between">
-        <h2>Entrenamientos recientes</h2>
+    <section className="section">
+      <div className="section-head">
+        <h2 className="section-title">Entrenamientos recientes</h2>
         {sessions.length > RECENT && (
           <button type="button" className="btn-link" onClick={() => setAll(!all)}>
             {all ? 'Ver menos' : `Ver todos (${sessions.length})`}
           </button>
         )}
       </div>
+      <div className="card list-card">
       {sessions.length === 0 && <p className="muted small">Todavía no entrenaste. Tu primer entrenamiento va a aparecer acá.</p>}
       <ul className="recent-list">
         {shown.map((s) => {
@@ -172,6 +178,7 @@ function RecentWorkouts() {
           );
         })}
       </ul>
+      </div>
     </section>
   );
 }
@@ -204,8 +211,9 @@ function LiftProgress() {
   const best = points.length ? Math.max(...points.map((p) => p.weight)) : undefined;
 
   return (
-    <section className="card stack-sm">
-      <h2>Progreso de pesos</h2>
+    <section className="section">
+      <h2 className="section-title">Progreso de pesos</h2>
+      <div className="card stack-sm">
       {!selected ? (
         <p className="muted small">Cuando registres pesos al entrenar, acá vas a ver cómo van subiendo.</p>
       ) : (
@@ -252,6 +260,7 @@ function LiftProgress() {
           )}
         </>
       )}
+      </div>
     </section>
   );
 }

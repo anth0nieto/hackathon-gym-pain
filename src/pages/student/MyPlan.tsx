@@ -26,11 +26,11 @@ export function MyPlan() {
   const due = dueRoutine(db, user.id);
 
   return (
-    <div className="stack">
-      <div>
+    <div className="page">
+      <header className="page-header">
         <h1>Mi plan</h1>
         <p className="muted">Tus rutinas de la semana. Las hacés en orden y después volvés a la primera.</p>
-      </div>
+      </header>
 
       {routines.length === 0 && <p className="empty">Tu coach todavía no te armó rutinas.</p>}
 

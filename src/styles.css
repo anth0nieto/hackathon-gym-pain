@@ -14,8 +14,8 @@
   --ok-bg: #dcfce7;
   --warn: #b45309;
   --warn-bg: #fef3c7;
-  --danger: #dc2626;
-  --danger-bg: #fee2e2;
+  --danger: #ad4543;
+  --danger-bg: #f8e6e4;
   --idle: #cbd5e1;
   --radius: 14px;
   --tap: 48px;
@@ -590,3 +590,59 @@ h1 { font-weight: 750; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .topbar, .tabbar, .timer, .user-menu { background: var(--surface); }
 }
+
+/* ---------- Type: Inter at its 28pt optical size ---------- */
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 28;
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Tonal accents: a tint of the primary with a deeper (or lighter) ink ---------- */
+:root {
+  --tonal-bg: #e3ecfd;
+  --tonal-text: #1747b0;
+  --tonal-border: #c9d9fb;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --tonal-bg: #1a2a4d;
+    --tonal-text: #a9c3fb;
+    --tonal-border: #26396a;
+  }
+}
+:root[data-theme='dark'] {
+  --tonal-bg: #1a2a4d;
+  --tonal-text: #a9c3fb;
+  --tonal-border: #26396a;
+}
+
+.btn-secondary, .btn-secondary:hover:not(:disabled) { background: var(--tonal-bg); color: var(--tonal-text); }
+.chip.is-active { background: var(--tonal-bg); border-color: var(--tonal-border); color: var(--tonal-text); }
+.badge-partial { background: var(--tonal-bg); color: var(--tonal-text); }
+.weekstrip-day.is-selected { background: var(--tonal-bg); border-color: var(--tonal-border); }
+.weekstrip-day.is-selected .weekstrip-name,
+.weekstrip-day.is-selected .weekstrip-num { color: var(--tonal-text); }
+.weekstrip-day.is-selected .dot-done,
+.weekstrip-day.is-selected .dot-open { border-color: var(--tonal-text); }
+.tabbar-item.is-active { background: var(--tonal-bg); color: var(--tonal-text); box-shadow: none; }
+.routine-icon { background: var(--tonal-bg); color: var(--tonal-text); }
+.eyebrow { color: var(--tonal-text); }
+.timer { color: var(--tonal-text); }
+
+/* ---------- Reading order: page header, then sections with their own titles ---------- */
+.page { display: flex; flex-direction: column; gap: 32px; }
+.page-header { display: flex; flex-direction: column; gap: 4px; }
+.page-header h1 { font-size: 2rem; line-height: 1.1; }
+.page-kicker { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-transform: capitalize; }
+.section { display: flex; flex-direction: column; gap: 12px; }
+.section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.section-head .btn-link { padding: 0; font-size: 0.9rem; }
+.section-title {
+  font-size: 0.78rem; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted);
+}
+.list-card { padding-top: 4px; padding-bottom: 4px; }
+.stat-value { font-weight: 750; }

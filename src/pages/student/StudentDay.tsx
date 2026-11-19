@@ -43,10 +43,17 @@ export function StudentDay() {
   if (total === 0) return <p className="empty">Tu coach todavía no te armó rutinas.</p>;
 
   return (
-    <div className="stack">
-      <WeekNav date={date} onChange={select} />
-      <WeekProgress done={doneThisWeek} total={total} />
-      <WeekStrip date={date} onSelect={select} markOf={markOf} />
+    <div className="page">
+      <header className="page-header">
+        <p className="page-kicker">{formatDay(today())}</p>
+        <h1>Hola, {user.name.split(' ')[0]}</h1>
+      </header>
+
+      <section className="section" aria-label="Tu semana">
+        <WeekNav date={date} onChange={select} />
+        <WeekProgress done={doneThisWeek} total={total} />
+        <WeekStrip date={date} onSelect={select} markOf={markOf} />
+      </section>
 
       {!isPast && due && (
         <section className="card hero-card stack-sm">
@@ -66,19 +73,22 @@ export function StudentDay() {
         </section>
       )}
 
-      <h2 className="day-title">{isToday ? `Hoy, ${formatDay(date)}` : formatDay(date)}</h2>
+      {(daySessions.length > 0 || isPast) && (
+        <section className="section">
+          <h2 className="section-title">{isToday ? 'Hoy entrenaste' : formatDay(date)}</h2>
+          {daySessions.length > 0 && (
+            <div className="card session-list">
+              {daySessions.map((s) => <SessionCard key={s.id} session={s} total={total} />)}
+            </div>
+          )}
 
-      {daySessions.length > 0 && (
-        <div className="card session-list">
-          {daySessions.map((s) => <SessionCard key={s.id} session={s} total={total} />)}
-        </div>
-      )}
-
-      {isPast && daySessions.length === 0 && (
-        <div className="empty">
-          <p><strong>Día libre</strong></p>
-          <p className="small">No entrenaste este día.</p>
-        </div>
+          {isPast && daySessions.length === 0 && (
+            <div className="empty">
+              <p><strong>Día libre</strong></p>
+              <p className="small">No entrenaste este día.</p>
+            </div>
+          )}
+        </section>
       )}
     </div>
   );
