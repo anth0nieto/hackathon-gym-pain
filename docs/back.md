@@ -44,6 +44,7 @@ const routine = dueRoutine(db, user.id);
 | `templatesOf(db, coachId)` | "Mis rutinas" del coach, ordenadas por nombre |
 | `progressOf(db, studentId)` | Para cada ejercicio hecho, el peso de cada sesión, de la más vieja a la más nueva |
 | `activityOf(db, studentId)` | `{ last, idleDays, status }`: días sin registrar y el estado (`'new'`, `'ok'`, `'risk'`, `'inactive'`). Con `idleDays >= AWAY_DAYS` (7) el coach ve el aviso de que se está yendo. |
+| `isTrainingNow(db, studentId)` | Si tiene una sesión abierta y empezó o registró algo en los últimos `TRAINING_NOW_MINUTES` (90) minutos |
 | `stalledExercises(db, studentId, days?)` | Los ejercicios en los que repite el mismo peso hace `STALL_DAYS` (30) días o más, con el peso y desde cuándo. No cuenta los de 0 kg. |
 | `nextPosition(db, studentId)` | El número que tendría una rutina nueva del alumno |
 

@@ -210,6 +210,17 @@ export function sessionStatus(session: Session, now = Date.now()): SessionStatus
 export const openSession = (d: DB, studentId: string, now = Date.now()) =>
   sessionsOf(d, studentId).find((s) => sessionStatus(s, now) === 'open');
 
+/** Minutes without registering anything after which an open session no longer counts as training right now. */
+export const TRAINING_NOW_MINUTES = 90;
+
+/** Has an open session and started it or registered an exercise in the last TRAINING_NOW_MINUTES. */
+export function isTrainingNow(d: DB, studentId: string, now = Date.now()): boolean {
+  const open = openSession(d, studentId, now);
+  if (!open) return false;
+  const last = [open.startedAt, ...logsOf(d, open.id).map((l) => l.updatedAt)].sort().at(-1)!;
+  return now - Date.parse(last) < TRAINING_NOW_MINUTES * 60_000;
+}
+
 /**
  * The routine the student has to do now: the one of their open session, or the one after
  * the routine of their last session (back to the first after the last). Undefined if they have none.

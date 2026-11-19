@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { activityOf, AWAY_DAYS, dueRoutine, routinesOf, sessionsThisWeek, stalledExercises, studentsOf, useDB, type ActivityStatus } from '../../data/store';
+import { activityOf, AWAY_DAYS, dueRoutine, isTrainingNow, routinesOf, sessionsThisWeek, stalledExercises, studentsOf, useDB, type ActivityStatus } from '../../data/store';
 import { WhatsAppButton } from '../../components/WhatsAppButton';
 import { fold } from '../../lib/text';
 import { useCurrentUser, useGym } from '../../session';
@@ -18,7 +18,7 @@ const STATUS: Record<ActivityStatus, { label: string; tone: string }> = {
 
 const lastLabel = (idle: number | null) => (idle === null ? 'Nunca' : idle === 0 ? 'Hoy' : idle === 1 ? 'Ayer' : `Hace ${idle} días`);
 
-type Filter = 'all' | 'risk' | 'ok' | 'stalled' | 'empty';
+type Filter = 'all' | 'now' | 'risk' | 'ok' | 'stalled' | 'empty';
 
 const PAGE_SIZE = 20;
 
@@ -30,6 +30,12 @@ export function CoachHome() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [page, setPage] = useState(0);
+  // "Entrenando ahora" depends on the clock, not only on data: re-check every minute.
+  const [, tick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => tick((n) => n + 1), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   // Whoever stopped training longest ago goes first; never registered counts as the longest.
   const rows = studentsOf(db, coach.id, gym?.id)
@@ -40,6 +46,7 @@ export function CoachHome() {
       due: dueRoutine(db, s.id),
       routines: routinesOf(db, s.id).length,
       stalled: stalledExercises(db, s.id).length > 0,
+      now: isTrainingNow(db, s.id),
     }))
     .sort((a, b) => (b.activity.idleDays ?? Infinity) - (a.activity.idleDays ?? Infinity) || a.s.name.localeCompare(b.s.name));
 
@@ -48,10 +55,12 @@ export function CoachHome() {
     risk: (r) => r.activity.status === 'risk' || r.activity.status === 'inactive',
     ok: (r) => r.activity.status === 'ok',
     stalled: (r) => r.stalled,
+    now: (r) => r.now,
     empty: (r) => r.routines === 0,
   };
   const chips: { key: Filter; label: string }[] = [
     { key: 'all', label: 'Todos' },
+    { key: 'now', label: 'Entrenando ahora' },
     { key: 'risk', label: 'En riesgo' },
     { key: 'ok', label: 'Al día' },
     { key: 'stalled', label: 'Mismos pesos' },
@@ -137,7 +146,7 @@ export function CoachHome() {
               </tr>
             </thead>
             <tbody>
-              {shown.map(({ s, activity, week, due, stalled }) => (
+              {shown.map(({ s, activity, week, due, stalled, now }) => (
                 <tr key={s.id} onClick={() => open(s)}>
                   <td>
                     <div className="person">
@@ -157,6 +166,7 @@ export function CoachHome() {
                   <td>
                     <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
                     {stalled && <> <span className="badge tone-warn" title="Hace un mes o más que levanta los mismos pesos">Mismos pesos</span></>}
+                    {now && <> <span className="badge tone-ok badge-live">Entrenando</span></>}
                   </td>
                   <td className="cell-action"><WhatsAppButton phone={s.phone} name={s.name} /></td>
                 </tr>
@@ -165,7 +175,7 @@ export function CoachHome() {
           </table>
 
           <ul className="table-cards">
-            {shown.map(({ s, activity, week, due, stalled }) => (
+            {shown.map(({ s, activity, week, due, stalled, now }) => (
               <li key={s.id} className="card stack-sm card-stretch">
                   <div className="row-between">
                     <div className="person">
@@ -176,6 +186,7 @@ export function CoachHome() {
                     <span>
                       <span className={`badge tone-${STATUS[activity.status].tone}`}>{STATUS[activity.status].label}</span>
                       {stalled && <> <span className="badge tone-warn">Mismos pesos</span></>}
+                      {now && <> <span className="badge tone-ok badge-live">Entrenando</span></>}
                     </span>
                   </div>
                   <div className="row-between small muted">
