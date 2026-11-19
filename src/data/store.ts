@@ -393,10 +393,14 @@ export function deleteRoutine(id: string) {
   commit({ ...db, routines: remaining.map((r) => renumbered.get(r.id) ?? r) });
 }
 
-/** Replaces the routines of every student present in `routines` (CSV import). History is kept. */
-export function replaceRoutines(routines: Routine[]) {
+/** Creates `newStudents` and replaces the routines of every student present in `routines` (CSV import). History is kept. */
+export function replaceRoutines(routines: Routine[], newStudents: User[] = []) {
   const students = new Set(routines.map((r) => r.studentId));
-  commit({ ...db, routines: [...db.routines.filter((r) => !students.has(r.studentId)), ...routines] });
+  commit({
+    ...db,
+    users: [...db.users, ...newStudents],
+    routines: [...db.routines.filter((r) => !students.has(r.studentId)), ...routines],
+  });
 }
 
 export function saveTemplate(template: RoutineTemplate) {

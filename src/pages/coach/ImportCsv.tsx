@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CSV_COLUMNS, parseRoutinesCsv, type CsvResult } from '../../data/csv';
+import { CSV_COLUMNS, OPTIONAL_COLUMNS, parseRoutinesCsv, type CsvResult } from '../../data/csv';
 import { getUser, replaceRoutines, studentsOf, useDB } from '../../data/store';
 import { useCurrentUser } from '../../session';
 
@@ -17,6 +17,8 @@ export function ImportCsv() {
     setResult(parseRoutinesCsv(text, coach.id, studentsOf(db, coach.id)));
   };
 
+  const nameOf = (id: string) => getUser(db, id)?.name ?? result?.newStudents.find((s) => s.id === id)?.name;
+
   const fromFile = async (file?: File) => file && parse(await file.text());
 
   const fromUrl = async () => {
@@ -26,7 +28,7 @@ export function ImportCsv() {
       if (!res.ok) throw new Error(String(res.status));
       parse(await res.text());
     } catch {
-      setResult({ routines: [], errors: ['No pude leer esa URL. En Sheets usá Archivo → Compartir → Publicar en la web → CSV, o descargá el archivo y subilo.'] });
+      setResult({ routines: [], newStudents: [], errors: ['No pude leer esa URL. En Sheets usá Archivo → Compartir → Publicar en la web → CSV, o descargá el archivo y subilo.'] });
     } finally {
       setLoading(false);
     }
@@ -37,8 +39,8 @@ export function ImportCsv() {
       <Link to="/coach" className="btn-link">‹ Alumnos</Link>
       <h1>Importar rutinas</h1>
       <p className="muted">
-        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>. Una fila por ejercicio. Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía. Cada ejercicio tiene que estar en la <Link to="/coach/ejercicios">lista de ejercicios</Link>.{' '}
-        <a href="/rutinas-ejemplo.csv" download>Bajar ejemplo</a>
+        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>, y opcionales <code>{OPTIONAL_COLUMNS.join(', ')}</code>. Con el DNI, los alumnos que todavía no están en la app se crean al importar. Una fila por ejercicio. Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía. Cada ejercicio tiene que estar en la <Link to="/coach/ejercicios">lista de ejercicios</Link>.{' '}
+        <a href="/rutinas-ejemplo.csv" download>Bajar ejemplo</a> · <a href="/planilla-coach-demo.csv" download>Bajar planilla completa de demo (24 alumnos)</a>
       </p>
 
       <label className="field">
@@ -56,18 +58,29 @@ export function ImportCsv() {
       {result && (
         <section className="stack-sm">
           {result.errors.map((e) => <p key={e} className="notice danger">{e}</p>)}
+          {result.newStudents.length > 0 && !done && (
+            <div className="card stack-sm">
+              <strong>Se van a crear {result.newStudents.length} alumno{result.newStudents.length === 1 ? '' : 's'}</strong>
+              <p className="muted small">{result.newStudents.map((s) => `${s.name} (DNI ${s.dni}, ${s.daysPerWeek} días)`).join(' · ')}</p>
+            </div>
+          )}
+          {result.routines.length > 0 && !done && (
+            <button className="btn btn-block" onClick={() => { replaceRoutines(result.routines, result.newStudents); setDone(true); }}>
+              Importar {result.routines.length} rutina{result.routines.length === 1 ? '' : 's'}
+              {result.newStudents.length ? ` y crear ${result.newStudents.length} alumno${result.newStudents.length === 1 ? '' : 's'}` : ''}
+            </button>
+          )}
+          {done && (
+            <p className="notice ok">
+              Listo: {result.routines.length} rutinas importadas{result.newStudents.length ? ` y ${result.newStudents.length} alumnos creados` : ''}. <Link to="/coach">Ver alumnos</Link>
+            </p>
+          )}
           {result.routines.map((r) => (
             <div key={r.id} className="card">
-              <strong>{getUser(db, r.studentId)?.name}</strong> · Rutina {r.position} · {r.name}
+              <strong>{nameOf(r.studentId)}</strong> · Rutina {r.position} · {r.name}
               <p className="muted small">{r.exercises.map((e) => `${e.name} ${e.sets}×${e.reps}`).join(' · ')}</p>
             </div>
           ))}
-          {result.routines.length > 0 && !done && (
-            <button className="btn btn-block" onClick={() => { replaceRoutines(result.routines); setDone(true); }}>
-              Importar {result.routines.length} rutina{result.routines.length === 1 ? '' : 's'}
-            </button>
-          )}
-          {done && <p className="notice ok">Listo, rutinas importadas.</p>}
         </section>
       )}
     </div>

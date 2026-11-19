@@ -69,7 +69,7 @@ saveLog(session?.id ?? startSession(user.id, routine), exercise, 'done', values)
 | `deleteRoutine(id)` | Borra una rutina y renumera las que quedan. El historial no cambia. |
 | `fromTemplate(routine, template)` | Devuelve la rutina con el nombre y los ejercicios de una de "Mis rutinas", en la misma posición. Guardala con `saveRoutine`. |
 | `assignTemplate(template, studentIds)` | Agrega una copia de la plantilla como próxima rutina de cada alumno |
-| `replaceRoutines(routines)` | Reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
+| `replaceRoutines(routines, newStudents?)` | Crea `newStudents` y reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
 | `saveTemplate(template)` / `deleteTemplate(id)` | Crea, actualiza o borra una de "Mis rutinas" |
 
 ## Login
