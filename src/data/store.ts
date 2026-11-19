@@ -445,7 +445,7 @@ export function assignPlan(plan: Plan, studentId: string) {
     exercises: r.exercises.map((e) => ({
       id: uid(),
       exerciseId: e.exerciseId,
-      name: getExercise(e.exerciseId)!.name,
+      name: getExercise(e.exerciseId)!.alias,
       sets: e.sets,
       reps: e.reps,
       weight: 0,

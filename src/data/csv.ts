@@ -91,7 +91,8 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
       const position = [...byKey.values()].filter((x) => x.studentId === student.id).length + 1;
       byKey.set(key, { id: uid(), coachId, studentId: student.id, position, name: routineName, exercises: [] });
     }
-    byKey.get(key)!.exercises.push({ id: uid(), exerciseId: exercise.id, name: exercise.name, sets, reps, weight });
+    // Keep the coach's own wording ("Sentadilla"); exerciseId is what links it to the exercise list.
+    byKey.get(key)!.exercises.push({ id: uid(), exerciseId: exercise.id, name, sets, reps, weight });
   });
 
   const routines = [...byKey.values()];

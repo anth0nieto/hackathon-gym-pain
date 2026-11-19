@@ -12,7 +12,7 @@ export const exercisesValid = (list: PlannedExercise[]) => list.length > 0 && li
 export const trimExercises = (list: PlannedExercise[]) =>
   list.map((e) => {
     const found = exerciseFor(e);
-    return found ? { ...e, exerciseId: found.id, name: found.name } : { ...e, name: e.name.trim() };
+    return found ? { ...e, exerciseId: found.id, name: found.alias } : { ...e, name: e.name.trim() };
   });
 
 export function ExercisesEditor({ value, onChange }: { value: PlannedExercise[]; onChange: (v: PlannedExercise[]) => void }) {
@@ -20,7 +20,7 @@ export function ExercisesEditor({ value, onChange }: { value: PlannedExercise[];
   const num = (s: string) => Math.max(0, Number(s) || 0);
   const pick = (id: string, exerciseId: string) => {
     const found = getExercise(exerciseId);
-    if (found) patch(id, { exerciseId: found.id, name: found.name });
+    if (found) patch(id, { exerciseId: found.id, name: found.alias });
   };
 
   return (

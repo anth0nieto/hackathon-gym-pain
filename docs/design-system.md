@@ -168,6 +168,19 @@ Para separar secciones largas de una misma pantalla, así no hay que scrollear h
 
 `.pager` con el rango a la izquierda ("1–20 de 107") y dos `.chip` para moverse. Se usa en listas que pueden pasar de una pantalla: alumnos, historial y selección de alumnos.
 
+### Zona para soltar archivos
+
+```html
+<label class="dropzone">
+  <input type="file" accept=".csv" class="visually-hidden" />
+  <span class="dropzone-icon">↑</span>
+  <strong>Arrastrá tu CSV acá</strong>
+  <span class="muted small">o hacé click para elegirlo</span>
+</label>
+```
+
+Reemplaza al selector de archivos nativo. Se toca para abrir el selector o se arrastra un archivo encima. Agregá `.is-dragging` mientras el archivo está encima, `.has-file` cuando ya hay uno válido y `.has-error` si no se pudo leer. Ejemplo en `src/pages/coach/ImportCsv.tsx`.
+
 ### Tabla y tarjetas en celular
 
 ```html
