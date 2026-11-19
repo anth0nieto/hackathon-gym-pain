@@ -20,12 +20,15 @@ const lastLabel = (idle: number | null) => (idle === null ? 'Nunca' : idle === 0
 
 type Filter = 'all' | 'risk' | 'ok' | 'empty';
 
+const PAGE_SIZE = 20;
+
 export function CoachHome() {
   const db = useDB();
   const coach = useCurrentUser();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
+  const [page, setPage] = useState(0);
 
   // Whoever stopped training longest ago goes first; never registered counts as the longest.
   const rows = studentsOf(db, coach.id)
@@ -52,7 +55,10 @@ export function CoachHome() {
   ];
 
   const q = fold(query.trim());
-  const shown = rows.filter(matches[filter]).filter(({ s }) => !q || fold(s.name).includes(q) || (s.dni ?? '').includes(q));
+  const filtered = rows.filter(matches[filter]).filter(({ s }) => !q || fold(s.name).includes(q) || (s.dni ?? '').includes(q));
+  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const current = Math.min(page, pages - 1);
+  const shown = filtered.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE);
   const open = (s: User) => navigate(`/coach/alumno/${s.id}`);
 
   return (
@@ -68,7 +74,7 @@ export function CoachHome() {
       <div className="toolbar">
         <div className="chips" role="group" aria-label="Filtrar alumnos">
           {chips.map((c) => (
-            <button key={c.key} className={`chip ${filter === c.key ? 'is-active' : ''}`} aria-pressed={filter === c.key} onClick={() => setFilter(c.key)}>
+            <button key={c.key} className={`chip ${filter === c.key ? 'is-active' : ''}`} aria-pressed={filter === c.key} onClick={() => { setFilter(c.key); setPage(0); }}>
               {c.label} · {rows.filter(matches[c.key]).length}
             </button>
           ))}
@@ -79,7 +85,7 @@ export function CoachHome() {
           value={query}
           placeholder="Buscar por nombre o DNI"
           aria-label="Buscar alumno"
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => { setQuery(e.target.value); setPage(0); }}
         />
       </div>
 
@@ -142,6 +148,18 @@ export function CoachHome() {
             ))}
           </ul>
         </div>
+      )}
+
+      {pages > 1 && (
+        <nav className="pager" aria-label="Páginas">
+          <span className="muted small">
+            {current * PAGE_SIZE + 1}–{current * PAGE_SIZE + shown.length} de {filtered.length}
+          </span>
+          <div className="row">
+            <button className="chip" disabled={current === 0} onClick={() => setPage(current - 1)}>‹ Anterior</button>
+            <button className="chip" disabled={current === pages - 1} onClick={() => setPage(current + 1)}>Siguiente ›</button>
+          </div>
+        </nav>
       )}
     </div>
   );
