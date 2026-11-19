@@ -197,3 +197,14 @@ code { font-size: 0.85em; }
 .weekstrip-day.is-selected .dot-done,
 .weekstrip-day.is-selected .dot-open { border-color: var(--primary-text); }
 .empty-icon { font-size: 2rem; }
+
+.qr-sheet { align-items: center; text-align: center; padding: 24px; }
+.qr { width: min(280px, 70vw); }
+.qr svg { display: block; width: 100%; height: auto; }
+
+@media print {
+  .topbar, .no-print { display: none !important; }
+  body, .app, .content { background: #fff; }
+  .qr-sheet { border: 0; box-shadow: none; }
+  .qr { width: 12cm; }
+}

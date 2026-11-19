@@ -4,6 +4,7 @@ import { Login } from './pages/Login';
 import { AddRoutine } from './pages/coach/AddRoutine';
 import { AssignTemplate } from './pages/coach/AssignTemplate';
 import { CoachHome } from './pages/coach/CoachHome';
+import { GymQr } from './pages/coach/GymQr';
 import { ImportCsv } from './pages/coach/ImportCsv';
 import { OneOffEditor } from './pages/coach/OneOffEditor';
 import { RoutineEditor } from './pages/coach/RoutineEditor';
@@ -23,6 +24,7 @@ export function App() {
           <Route element={<Layout />}>
             <Route index element={<Login />} />
             <Route path="coach" element={<RequireRole role="coach"><CoachHome /></RequireRole>} />
+            <Route path="coach/qr" element={<RequireRole role="coach"><GymQr /></RequireRole>} />
             <Route path="coach/importar" element={<RequireRole role="coach"><ImportCsv /></RequireRole>} />
             <Route path="coach/alumnos/nuevo" element={<RequireRole role="coach"><StudentForm /></RequireRole>} />
             <Route path="coach/alumno/:studentId/editar" element={<RequireRole role="coach"><StudentForm /></RequireRole>} />

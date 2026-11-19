@@ -19,6 +19,8 @@ Una web responsive con dos roles, coach y alumno, sobre Supabase. No hay registr
 - Puede editar una rutina, cambiar un ejercicio puntual, reemplazar la rutina por otra de su biblioteca "Mis rutinas", o cambiarla de lugar en el orden.
 - Puede cambiar los ejercicios **solo por un día**, sin tocar la rutina. Si el alumno ya empezó la rutina, el cambio vale para hoy. Si no, vale para la próxima vez que la haga.
 - También puede cargar las rutinas desde un CSV exportado de Google Sheets.
+- Imprime el QR del gimnasio desde la app. Es uno solo para todos los alumnos.
+- Busca alumnos por nombre o DNI. La lista muestra primero a los que hace más tiempo que no entrenan.
 - Ve el historial de cada alumno, qué rutina hizo cada día y con qué valores, y el progreso de peso de cada ejercicio.
 
 **Alumno**
