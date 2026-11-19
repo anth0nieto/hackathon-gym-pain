@@ -1,0 +1,19 @@
+.ds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  min-height: var(--ds-tap);
+  padding: 0 var(--ds-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-md);
+  font: 600 16px/1 var(--ds-font);
+  cursor: pointer;
+}
+.ds-button:disabled { opacity: 0.5; cursor: not-allowed; }
+.ds-button--block { width: 100%; }
+
+.ds-button--primary { background: var(--ds-color-primary); color: var(--ds-color-on-primary); }
+.ds-button--secondary { background: var(--ds-color-secondary); color: var(--ds-color-primary); }
+.ds-button--ghost { background: transparent; color: var(--ds-color-muted); border-color: var(--ds-color-border); }
+.ds-button--danger { background: var(--ds-color-danger); color: var(--ds-color-on-primary); }
