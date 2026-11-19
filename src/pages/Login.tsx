@@ -32,16 +32,13 @@ export function Login() {
   return (
     <div className="login">
       <div className="login-glow" aria-hidden="true" />
-      <header className="login-bar glass">
-        <span className="login-brand">Rutinas</span>
-        <span className="login-tag">Escaneá · Entrá · Entrená</span>
+      <header className="login-bar">
+        <strong className="login-brand">Rutinas</strong>
       </header>
 
       <main className="login-main">
-        <p className="login-kicker">Tu rutina del día, en tu celular</p>
-        <h1 className="login-title">
-          <span className="login-title-soft">Registrá</span> tu entrenamiento
-        </h1>
+        <h1 className="login-title">Registrá tu entrenamiento</h1>
+        <p className="login-kicker">Entrá con tu DNI y mirá la rutina que te toca hoy.</p>
 
         <form className="glass login-card" onSubmit={loginStudent}>
           <label className="login-field">
