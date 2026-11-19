@@ -406,6 +406,23 @@ export function progressOf(d: DB, studentId: string): { exercise: string; points
   return [...byExercise].map(([exercise, points]) => ({ exercise, points }));
 }
 
+export const STALL_DAYS = 30;
+
+/**
+ * Exercises the student has lifted at the same weight for at least `days`, counted from the first
+ * session at that weight to the last one. Bodyweight exercises (0 kg) don't count.
+ */
+export function stalledExercises(d: DB, studentId: string, days = STALL_DAYS): { exercise: string; weight: number; since: string }[] {
+  return progressOf(d, studentId).flatMap(({ exercise, points }) => {
+    const last = points.at(-1);
+    if (!last || last.weight === 0) return [];
+    let first = points.length - 1;
+    while (first > 0 && points[first - 1].weight === last.weight) first--;
+    const since = points[first].day;
+    return Date.parse(last.day) - Date.parse(since) >= days * 86_400_000 ? [{ exercise, weight: last.weight, since }] : [];
+  });
+}
+
 /** Deletes a routine and renumbers the student's remaining routines 1..n. History is kept. */
 export function deleteRoutine(id: string) {
   const routine = db.routines.find((r) => r.id === id);
