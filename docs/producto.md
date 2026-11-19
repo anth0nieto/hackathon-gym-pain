@@ -10,78 +10,83 @@ El coach arma y comparte las rutinas de cada alumno en una planilla de Google Sh
 
 ## La solución
 
-Una web responsive con dos roles, coach y alumno. No hay registro: los usuarios ya existen con su rol.
+Una web responsive con dos roles, coach y alumno, sobre Supabase. No hay registro: el coach carga a sus alumnos con nombre y DNI.
 
 **Coach**
 
-- Crea rutinas para sus alumnos. Cada rutina tiene ejercicios con series, repeticiones y peso. El ejercicio es fijo; series, repeticiones y peso son sugeridos.
-- También puede cargarlas desde un CSV exportado de Google Sheets.
-- Tiene una biblioteca, "Mis rutinas" (por ejemplo "Principiante" o "Avanzado"), y asigna una misma rutina a varios alumnos a la vez.
-- Por cada alumno ve la semana día por día: hacia atrás, el estado de lo que hizo; hacia adelante, carga y edita rutinas.
+- Le arma a cada alumno tantas rutinas como días por semana va a entrenar. Si va 3 veces, tiene Rutina 1, 2 y 3. Si va 5, tiene 5 rutinas.
+- Cada rutina tiene 4 o 5 ejercicios con series, repeticiones y peso sugeridos.
+- Puede editar una rutina, cambiar un ejercicio puntual, o reemplazar la rutina por otra de su biblioteca "Mis rutinas".
+- También puede cargar las rutinas desde un CSV exportado de Google Sheets.
+- Ve el historial de cada alumno: qué rutina hizo cada día y con qué valores.
 
 **Alumno**
 
-- Ve sus rutinas por día.
-- Marca cada ejercicio como hecho o salteado. Antes de guardar puede subir o bajar las series, las repeticiones y el peso, para dejar lo que realmente hizo.
+- Entra con un QR que es el mismo para todos y después escribe su DNI.
+- La app le muestra la rutina que le toca. No elige: si quiere otra, se lo pide al coach.
+- Marca cada ejercicio como hecho o salteado. Antes de marcarlo puede subir o bajar las series, las repeticiones y el peso, para dejar lo que realmente hizo.
+- Al terminar toca "Finalizar".
 
-## Las 8 decisiones de diseño
+## Cómo se decide qué rutina le toca
+
+Las rutinas no tienen día ni fecha. Van en orden: 1, 2, 3, y después vuelve a la 1. No importa si el alumno vuelve al otro día o un mes después: le toca la siguiente a la última que hizo.
+
+| Situación | Qué ve el alumno |
+|---|---|
+| Nunca entrenó | La Rutina 1 |
+| Finalizó la Rutina 1 | La Rutina 2, aunque vuelva a entrenar ese mismo día |
+| Finalizó la última rutina | La Rutina 1 de nuevo |
+| Empezó una rutina y no la finalizó, y pasaron menos de 6 horas | La misma rutina, para seguirla |
+| Empezó una rutina, no la finalizó, y pasaron 6 horas o más desde que empezó | La siguiente. La anterior queda cerrada con los ejercicios que marcó. |
+| Quiere ver o corregir una rutina que ya hizo | La abre desde su historial y la edita |
+
+El coach no elige cuál es la próxima rutina. El orden es siempre 1, 2, 3.
+
+## Decisiones de diseño
 
 La idea guía: **registrar tiene que costar menos que no registrar.**
 
 ### 1. Un solo toque para registrar
 
-Los valores sugeridos ya aparecen cargados. Si el alumno hizo lo indicado, toca "Hecho" y listo; usa los botones −/+ solo si algo cambió.
-
-Código: `src/pages/student/RoutineSession.tsx`, `src/components/Stepper.tsx`.
+Los valores sugeridos ya aparecen cargados. Si el alumno hizo lo indicado, toca "Hecho" y listo. Usa los botones −/+ solo si algo cambió.
 
 ### 2. Guardar cada ejercicio al marcarlo
 
-No hay un botón "Guardar" al final. En el gimnasio se cierra la pestaña o se corta la señal, y el registro se perdería. Cada "Hecho" o "Saltear" se guarda en el momento y se puede editar o deshacer.
-
-Código: `saveLog` y `clearLog` en `src/data/store.ts`.
+En el gimnasio se cierra la pestaña o se corta la señal. Cada "Hecho" o "Saltear" se guarda en el momento y se puede editar o deshacer. "Finalizar" solo cierra la sesión.
 
 ### 3. Separar lo indicado de lo realizado
 
-La rutina del coach no se pisa con lo que carga el alumno: se guardan por separado (`PlannedExercise` y `ExerciseLog`). El coach ve la diferencia, por ejemplo ~~4×8 · 60 kg~~ **4×8 · 62,5 kg**, que es el dato que más le sirve para ajustar.
+La rutina del coach no se pisa con lo que carga el alumno. Cada vez que el alumno entrena se crea una **sesión**, y lo que registra queda en esa sesión. El coach ve la diferencia, por ejemplo ~~4×8 · 60 kg~~ **4×8 · 62,5 kg**.
 
-Código: `src/types.ts`, `src/components/ExerciseSummary.tsx`.
+### 4. El historial sobrevive a los cambios del coach
 
-### 4. El estado de la rutina sale de los ejercicios
+La sesión guarda el número y el nombre de la rutina, y cada registro guarda el nombre del ejercicio. Si el coach edita o borra una rutina, el historial del alumno no cambia.
 
-El alumno marca cada ejercicio, y la rutina queda en **Pendiente**, **En curso**, **Completa** o **Salteada** según eso. Un botón "Hoy no entreno" saltea la rutina entera de una vez.
+### 5. Una sesión sin finalizar se cierra sola a las 6 horas
 
-Código: `routineStatus` y `skipRoutine` en `src/data/store.ts`.
+Si el alumno se olvida de tocar "Finalizar", no queda trabado en la misma rutina. A las 6 horas de empezada, la sesión cuenta como terminada con lo que marcó.
 
-### 5. Copiar la semana anterior
+### 6. Biblioteca "Mis rutinas"
 
-Lo que se rompe con 20 alumnos es el trabajo del coach. La mayoría de las semanas repite la rutina con pequeños ajustes, así que copiar y editar le ahorra más tiempo que cualquier import. Se complementa con la biblioteca "Mis rutinas", que se asigna a varios alumnos a la vez.
+El coach arma rutinas una vez, por ejemplo "Principiante" o "Avanzado", y se las asigna a varios alumnos. Cada alumno recibe una copia que el coach puede ajustar sin tocar la original.
 
-Código: `copyPreviousWeek` y `assignTemplate` en `src/data/store.ts`.
+### 7. Avisar quién no está registrando
 
-### 6. Avisar quién no está registrando
+La home del coach muestra para cada alumno cuántas veces entrenó esta semana, qué rutina le toca y "Último registro hace X días", resaltado cuando pasan más de 3.
 
-El dolor original es que el coach no sabe qué hicieron. La home del coach muestra un punto de color por día de la semana para cada alumno y "Último registro hace X días", resaltado cuando pasan más de 3.
+### 8. Un formato de CSV fijo, con plantilla
 
-Código: `src/pages/coach/CoachHome.tsx`.
-
-### 7. Un formato de CSV fijo, con plantilla
-
-Las planillas de cada coach son distintas, y tratar de adivinar las columnas no tiene fin. El formato es fijo, una fila por ejercicio:
+Una fila por ejercicio:
 
 ```
-alumno,fecha,rutina,ejercicio,series,reps,peso
+alumno,rutina,ejercicio,series,reps,peso
 ```
 
-Las filas con el mismo alumno, fecha y rutina se agrupan en una sola rutina. Hay un archivo de ejemplo para descargar y los errores se muestran por fila. Acepta un archivo subido o la URL de una planilla publicada como CSV.
-
-Código: `src/data/csv.ts`, `public/rutinas-ejemplo.csv`.
-
-### 8. Rutinas por fecha, no por día de la semana
-
-Cada rutina se asigna a una fecha concreta, no a "lunes" en general. Así queda un historial real hacia atrás y la semana que viene se carga aparte.
+Las filas con el mismo alumno y la misma rutina forman una rutina. El orden en que aparece cada rutina define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía.
 
 ## Fuera del MVP
 
+- Que el coach elija cuál es la próxima rutina de un alumno.
 - Registrar el peso de cada serie por separado, cuando las series no son iguales.
 - Notas y esfuerzo percibido (RPE) por ejercicio.
 - Que funcione sin conexión (PWA).
