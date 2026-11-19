@@ -33,3 +33,6 @@
 
 .lift-best { color: var(--text); }
 .lift-list li { display: flex; justify-content: space-between; padding: 10px 0; font-variant-numeric: tabular-nums; }
+
+.stat.stat-ok { border-color: var(--ok); background: var(--ok-bg); }
+.stat.stat-ok .stat-value { color: var(--ok); }

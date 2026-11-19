@@ -46,11 +46,25 @@ export function Stats() {
   const finished = weekSessions.filter((s) => sessionStatus(s) === 'done').length;
   const target = user.daysPerWeek ?? routinesOf(db, user.id).length;
 
-  // Missed days in a row, ending yesterday (or on the week's last day when looking at a past week).
-  const firstDay = sessions.length ? dayOf(sessions[sessions.length - 1].startedAt) : days[0];
+  const isCurrentWeek = days.includes(today());
+  const trainedToday = isCurrentWeek && trained.has(today());
+
+  // Past weeks: the longest run of missed days in that week, whatever happened after.
+  // Current week: the run the student is on now, back from yesterday; training today ends it.
   let missedStreak = 0;
-  for (let d = days[6] < today() ? days[6] : addDays(today(), -1); d >= firstDay && !trained.has(d); d = addDays(d, -1)) missedStreak++;
-  const isCurrentWeek = startOfWeek(date) === startOfWeek(today());
+  if (isCurrentWeek) {
+    if (!trainedToday) {
+      const firstSession = [...trained].sort()[0];
+      const from = firstSession && firstSession < days[0] ? firstSession : days[0];
+      for (let d = addDays(today(), -1); d >= from && !trained.has(d); d = addDays(d, -1)) missedStreak++;
+    }
+  } else {
+    let run = 0;
+    for (const d of days) {
+      run = !trained.has(d) && d < today() ? run + 1 : 0;
+      missedStreak = Math.max(missedStreak, run);
+    }
+  }
 
   const nav = <WeekNav date={date} onChange={(d) => setParams({ fecha: d }, { replace: true })} />;
   const dayState = (d: string) => (trained.has(d) ? 'trained' : d < today() ? 'missed' : 'upcoming');
@@ -91,7 +105,11 @@ export function Stats() {
         <Stat value={trainedThisWeek} label={isCurrentWeek ? 'días que entrenaste esta semana' : 'días que entrenaste esa semana'} />
         <Stat value={trainedThisMonth} label={`días que entrenaste en ${fromISO(date).toLocaleDateString('es-AR', { month: 'long' })}`} />
         <Stat value={target ? `${finished}/${target}` : finished} label="rutinas completadas" />
-        <Stat value={missedStreak} label="días seguidos sin ir" danger={missedStreak >= MISSED_ALERT} />
+        {trainedToday ? (
+          <Stat value="✓" label="entrenaste hoy" tone="ok" />
+        ) : (
+          <Stat value={missedStreak} label="días seguidos sin ir" tone={missedStreak >= MISSED_ALERT ? 'danger' : undefined} />
+        )}
       </div>
 
       {missedStreak > 0 && (
@@ -107,9 +125,9 @@ export function Stats() {
   );
 }
 
-function Stat({ value, label, danger }: { value: number | string; label: string; danger?: boolean }) {
+function Stat({ value, label, tone }: { value: number | string; label: string; tone?: 'danger' | 'ok' }) {
   return (
-    <div className={`card stat${danger ? ' stat-danger' : ''}`}>
+    <div className={`card stat${tone ? ` stat-${tone}` : ''}`}>
       <span className="stat-value">{value}</span>
       <span className="small muted">{label}</span>
     </div>

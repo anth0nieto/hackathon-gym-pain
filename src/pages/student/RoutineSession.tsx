@@ -7,7 +7,7 @@ import { fmt, fmtLog } from '../../components/ExerciseSummary';
 import { RestTimer, REST_MS } from '../../components/RestTimer';
 import { Timer } from '../../components/Timer';
 import {
-  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, plannedExercises, routinesOf, saveLog, sessionStatus, startSession, useDB,
+  cancelSession, clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, plannedExercises, routinesOf, saveLog, sessionStatus, startSession, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { humanDuration, sessionDuration } from '../../lib/duration';
@@ -97,6 +97,15 @@ export function RoutineSession() {
       {session && sessionStatus(session) === 'open' && (
         <button className="btn btn-block" onClick={() => { finishSession(session.id); navigate(`/alumno/sesion/${session.id}`, { replace: true }); }}>
           Finalizar rutina
+        </button>
+      )}
+      {session && sessionStatus(session) === 'open' && !past && (
+        <button
+          type="button"
+          className="btn btn-block btn-cancel"
+          onClick={() => { cancelSession(session.id); navigate('/alumno', { replace: true }); }}
+        >
+          Cancelar rutina
         </button>
       )}
       {restUntil !== null && (
