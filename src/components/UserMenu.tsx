@@ -1,17 +1,31 @@
-import { useRef } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { initials } from '../lib/initials';
 import type { User } from '../types';
 import './UserMenu.css';
 
-/** Avatar button that opens a small modal with the user's name and "Cerrar sesión". */
-export function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
+interface Props {
+  user: User;
+  onLogout: () => void;
+  /** What the opening button shows; the user's initials by default. */
+  trigger?: ReactNode;
+  triggerClassName?: string;
+}
+
+/** A button that opens a small modal asking whether to log out, with the user's name. */
+export function UserMenu({ user, onLogout, trigger, triggerClassName }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const close = () => dialog.current?.close();
 
   return (
     <>
-      <button type="button" className="avatar avatar-btn" aria-label={`Cuenta de ${user.name}`} onClick={() => dialog.current?.showModal()}>
-        {initials(user.name)}
+      <button
+        type="button"
+        className={triggerClassName ?? 'avatar avatar-btn'}
+        aria-label={trigger ? undefined : `Cuenta de ${user.name}`}
+        aria-haspopup="dialog"
+        onClick={() => dialog.current?.showModal()}
+      >
+        {trigger ?? initials(user.name)}
       </button>
       <dialog
         ref={dialog}
@@ -22,6 +36,7 @@ export function UserMenu({ user, onLogout }: { user: User; onLogout: () => void 
         <div className="user-menu-body">
           <span className="avatar avatar-lg" aria-hidden="true">{initials(user.name)}</span>
           <strong className="user-menu-name">{user.name}</strong>
+          <p className="muted">¿Querés cerrar sesión?</p>
           <button type="button" className="btn btn-block btn-danger" onClick={() => { close(); onLogout(); }}>
             Cerrar sesión
           </button>

@@ -125,6 +125,8 @@ code { font-size: 0.85em; }
 .btn-secondary:hover:not(:disabled), .btn-ghost:hover:not(:disabled) { background: var(--secondary); }
 .btn-secondary { background: var(--secondary); color: var(--primary); }
 .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-danger, .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
+.btn-danger:hover:not(:disabled) { filter: brightness(0.9); }
 .btn-block { width: 100%; }
 .btn-link { background: none; border: 0; padding: 4px 0; color: var(--primary); cursor: pointer; align-self: flex-start; }
 .btn-link.muted { color: var(--muted); }
@@ -248,8 +250,11 @@ code { font-size: 0.85em; }
 .sidebar-link:hover { background: rgba(255, 255, 255, 0.07); }
 .sidebar-link.active { background: var(--glass-bg); border-color: var(--glass-border); box-shadow: inset 3px 0 0 var(--accent); }
 .sidebar-count { min-width: 24px; padding: 2px 8px; border-radius: 999px; background: #fff; color: var(--nav-bg); font-size: 0.75rem; font-weight: 700; text-align: center; }
-.sidebar-user { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding: 0 14px; font-size: 0.9rem; }
-.sidebar-user .btn-link { color: inherit; opacity: 0.8; align-self: center; }
+.sidebar-user { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 0 14px; font-size: 0.9rem; }
+.sidebar-user-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sidebar-logout { color: inherit; opacity: 0.8; align-self: center; }
+.sidebar-logout:hover { opacity: 1; }
+.sidebar-user .avatar-sm { width: 32px; height: 32px; font-size: 0.75rem; background: var(--primary); }
 .coach-main { min-width: 0; padding: 32px 40px 64px; }
 .coach-main > .stack { max-width: 760px; }
 .coach-main > .page-wide { max-width: 1200px; }
@@ -319,7 +324,7 @@ details.card[open] > summary { margin-bottom: 10px; }
   .sidebar { min-width: 0; z-index: 10; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 16px; }
   .sidebar-brand { padding: 0; }
   .sidebar-logo { height: 24px; margin: 0; }
-  .sidebar-brand span, .sidebar-user span { display: none; }
+  .sidebar-brand span, .sidebar-user-name { display: none; }
   .sidebar-nav { order: 3; width: 100%; min-width: 0; flex-direction: row; overflow-x: auto; }
   .sidebar-link { padding: 8px 12px; font-size: 0.9rem; white-space: nowrap; }
   .sidebar-user { margin: 0 0 0 auto; padding: 0; }

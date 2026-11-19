@@ -10,4 +10,3 @@
 .user-menu-body { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 20px 16px; }
 .user-menu-name { font-size: 1.1rem; text-align: center; }
 .user-menu .btn-link { align-self: center; }
-.btn-danger { background: var(--danger); color: #fff; }
