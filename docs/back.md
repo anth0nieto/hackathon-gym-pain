@@ -8,7 +8,8 @@ El esquema está en `supabase/schema.sql` y los tipos en `src/types.ts`. Las reg
 
 | Tabla | Qué guarda |
 |---|---|
-| `users` | Coach y alumnos. Los alumnos tienen `dni` y `daysPerWeek`. |
+| `gyms` | Los gimnasios, que crea el admin |
+| `users` | Coaches y alumnos. Los alumnos tienen `dni`, `daysPerWeek` y `gymId`, el gimnasio donde entrenan. Los coaches tienen `username`, `password` y `gymIds`, los gimnasios donde trabajan. |
 | `templates` | La biblioteca "Mis rutinas" del coach |
 | `routines` | Las rutinas de cada alumno, con `position` 1, 2, 3…, sus ejercicios sugeridos y `override`, los ejercicios de un cambio para la próxima vez |
 | `sessions` | Cada vez que el alumno entrenó una rutina: `startedAt`, `finishedAt`, y una copia de `position`, `routineName` y los `exercises` planificados ese día |
@@ -37,7 +38,9 @@ const routine = dueRoutine(db, user.id);
 | `sessionsThisWeek(db, studentId)` | Sesiones empezadas desde el lunes |
 | `lastActivity(db, studentId)` | Fecha ISO de su último registro, o `undefined` |
 | `studentByDni(db, dni)` | El alumno con ese DNI, o `undefined`. Acepta el DNI con puntos o espacios. |
-| `getUser(db, id)` / `studentsOf(db, coachId)` | Un usuario, o los alumnos de un coach |
+| `getUser(db, id)` / `studentsOf(db, coachId, gymId?)` | Un usuario, o los alumnos de un coach. Con `gymId`, solo los de ese gimnasio. |
+| `coaches(db)` / `gymsSorted(db)` / `gymsOf(db, coach)` | Los coaches, los gimnasios, o los gimnasios asignados a un coach, por nombre |
+| `coachByLogin(db, username, password)` | El coach con ese usuario y contraseña, o `undefined` |
 | `templatesOf(db, coachId)` | "Mis rutinas" del coach, ordenadas por nombre |
 | `progressOf(db, studentId)` | Para cada ejercicio hecho, el peso de cada sesión, de la más vieja a la más nueva |
 | `nextPosition(db, studentId)` | El número que tendría una rutina nueva del alumno |
@@ -61,7 +64,7 @@ saveLog(session?.id ?? startSession(user.id, routine), exercise, 'done', values)
 
 | Acción | Qué hace |
 |---|---|
-| `saveStudent({ id?, name, dni, daysPerWeek, coachId })` | Crea un alumno, o lo actualiza si recibe `id`. Devuelve `'dni-taken'` sin guardar si otro usuario ya tiene ese DNI. Si no, devuelve `'ok'`. |
+| `saveStudent({ id?, name, dni, daysPerWeek, coachId, gymId })` | Crea un alumno, o lo actualiza si recibe `id`. Devuelve `'dni-taken'` sin guardar si otro usuario ya tiene ese DNI. Si no, devuelve `'ok'`. |
 | `deleteStudent(id)` | Borra el alumno con sus rutinas, sesiones y registros |
 | `saveRoutine(routine)` | Crea o actualiza una rutina. Para una nueva, usá `position: nextPosition(db, studentId)`. |
 | `moveRoutine(id, -1 \| 1)` | Intercambia la rutina con la anterior o la siguiente |
@@ -72,11 +75,23 @@ saveLog(session?.id ?? startSession(user.id, routine), exercise, 'done', values)
 | `replaceRoutines(routines, newStudents?)` | Crea `newStudents` y reemplaza las rutinas de los alumnos incluidos. Lo usa la importación de CSV. |
 | `saveTemplate(template)` / `deleteTemplate(id)` | Crea, actualiza o borra una de "Mis rutinas" |
 
+## Acciones del admin
+
+| Acción | Qué hace |
+|---|---|
+| `saveGym({ id, name })` | Crea o renombra un gimnasio |
+| `saveCoach({ id?, name, username, password, gymIds })` | Crea un coach, o lo actualiza si recibe `id`. Devuelve `'username-taken'` sin guardar si otro coach ya tiene ese usuario. |
+
+## Gimnasio actual del coach
+
+El coach trabaja en un gimnasio a la vez y lo cambia desde la barra lateral. `useGym()` de `src/session.tsx` devuelve `{ gym, gyms, setGymId }`. Lo elegido queda guardado en el dispositivo. Las pantallas del coach muestran solo los alumnos de `gym`, y los alumnos nuevos, también los del CSV, se crean en ese gimnasio. El QR de cada gimnasio abre `/?gym=<id>`, y el login muestra el nombre del gimnasio.
+
 ## Login
 
 | Rol | Cómo entra |
 |---|---|
-| Coach | Usuario `coach`, contraseña `coach123`. Están fijos en `src/pages/Login.tsx` y entran como el usuario `c1`. |
+| Admin | Usuario `admin`, contraseña `admin123`, fijos en `ADMIN` de `src/session.tsx`. No está en la base. Entra a `/admin`. |
+| Coach | Con el usuario y la contraseña que le creó el admin. `c1` (Antonella Rocuzzo) entra con `coach` / `coach123`. |
 | Alumno | Con su DNI: `const s = studentByDni(db, dni); if (s) login(s.id);`. `login` viene de `useSession()`. |
 
 Todos los alumnos tienen rutinas cargadas. Juan, Ana y Martín además tienen historial de las últimas semanas para la demo. Martín dejó de entrenar hace 12 días.

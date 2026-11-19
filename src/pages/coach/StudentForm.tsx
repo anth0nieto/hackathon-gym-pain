@@ -2,11 +2,12 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { deleteStudent, getUser, normalizeDni, saveStudent, useDB } from '../../data/store';
 import { uid } from '../../lib/id';
-import { useCurrentUser } from '../../session';
+import { useCurrentUser, useGym } from '../../session';
 
 export function StudentForm() {
   const db = useDB();
   const coach = useCurrentUser();
+  const { gym } = useGym();
   const navigate = useNavigate();
   const { studentId } = useParams();
   const existing = getUser(db, studentId);
@@ -24,7 +25,7 @@ export function StudentForm() {
     e.preventDefault();
     if (!valid) return;
     const id = existing?.id ?? uid();
-    const result = saveStudent({ id, name, dni, daysPerWeek: days, coachId: coach.id });
+    const result = saveStudent({ id, name, dni, daysPerWeek: days, coachId: coach.id, gymId: existing?.gymId ?? gym!.id });
     setDniTaken(result === 'dni-taken');
     if (result === 'ok') navigate(`/coach/alumno/${id}`);
   };

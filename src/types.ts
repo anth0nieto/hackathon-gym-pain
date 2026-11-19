@@ -1,4 +1,9 @@
-export type Role = 'coach' | 'student';
+export type Role = 'admin' | 'coach' | 'student';
+
+export interface Gym {
+  id: string;
+  name: string;
+}
 
 export interface User {
   id: string;
@@ -8,6 +13,13 @@ export interface User {
   dni?: string;
   /** Students only: how many days a week they train, which is how many routines they should have. */
   daysPerWeek?: number;
+  /** Students only: the gym they train at. */
+  gymId?: string;
+  /** Coaches only: the gyms the admin assigned them. */
+  gymIds?: string[];
+  /** Coaches only: login created by the admin. */
+  username?: string;
+  password?: string;
 }
 
 export interface Prescription {

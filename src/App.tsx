@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { CoachLayout } from './components/CoachLayout';
 import { Layout } from './components/Layout';
 import { Login } from './pages/Login';
+import { AdminHome } from './pages/admin/AdminHome';
 import { AddRoutine } from './pages/coach/AddRoutine';
 import { AssignTemplate } from './pages/coach/AssignTemplate';
 import { CoachHome } from './pages/coach/CoachHome';
@@ -44,6 +45,7 @@ export function App() {
             <Route path="plantillas/:templateId" element={<TemplateEditor />} />
             <Route path="plantillas/:templateId/asignar" element={<AssignTemplate />} />
           </Route>
+          <Route path="admin" element={<RequireRole role="admin"><AdminHome /></RequireRole>} />
           <Route index element={<Login />} />
           <Route element={<Layout />}>
             <Route path="alumno" element={<RequireRole role="student"><StudentDay /></RequireRole>} />

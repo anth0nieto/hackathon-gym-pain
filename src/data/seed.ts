@@ -1,10 +1,12 @@
-import type { PlannedExercise, Routine, RoutineTemplate, User } from '../types';
+import type { Gym, PlannedExercise, Routine, RoutineTemplate, User } from '../types';
+
+export const seedGyms: Gym[] = [{ id: 'g1', name: 'Forza' }];
 
 export const seedUsers: User[] = [
-  { id: 'c1', name: 'Coach Laura', role: 'coach' },
-  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1', dni: '30111222', daysPerWeek: 3 },
-  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1', dni: '35333444', daysPerWeek: 2 },
-  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1', dni: '40555666', daysPerWeek: 3 },
+  { id: 'c1', name: 'Antonella Rocuzzo', role: 'coach', username: 'coach', password: 'coach123', gymIds: ['g1'] },
+  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1', gymId: 'g1', dni: '30111222', daysPerWeek: 3 },
+  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1', gymId: 'g1', dni: '35333444', daysPerWeek: 2 },
+  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1', gymId: 'g1', dni: '40555666', daysPerWeek: 3 },
 ];
 
 const ex = (id: string, name: string, sets: number, reps: number, weight: number): PlannedExercise => ({ id, name, sets, reps, weight });

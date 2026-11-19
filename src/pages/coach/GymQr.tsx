@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode';
+import { useGym } from '../../session';
 
-/** The single QR posted at the gym. It opens the app; each student then enters with their DNI. */
+/** The QR posted at the coach's current gym. It opens the app with the gym's name; each student then enters with their DNI. */
 export function GymQr() {
-  const [url, setUrl] = useState(`${window.location.origin}/`);
+  const { gym } = useGym();
+  const [base, setBase] = useState(`${window.location.origin}/`);
+  const url = `${base.replace(/\/?$/, '/')}?gym=${gym!.id}`;
   const [svg, setSvg] = useState('');
   const isLocal = /localhost|127\.0\.0\.1/.test(url);
 
@@ -15,12 +18,12 @@ export function GymQr() {
   return (
     <div className="stack">
       <Link to="/coach" className="btn-link no-print">‹ Alumnos</Link>
-      <h1 className="no-print">QR del gimnasio</h1>
+      <h1 className="no-print">QR de {gym!.name}</h1>
       <p className="muted no-print">Imprimilo y pegalo en el gimnasio. Es el mismo para todos: cada alumno lo escanea y entra con su DNI.</p>
 
       <label className="field no-print">
         <span>Dirección de la app</span>
-        <input value={url} onChange={(e) => setUrl(e.target.value)} />
+        <input value={base} onChange={(e) => setBase(e.target.value)} />
       </label>
       {isLocal && (
         <p className="notice no-print">
@@ -33,7 +36,8 @@ export function GymQr() {
           <source srcSet="/brand/forza-logo-dark.svg" media="screen and (prefers-color-scheme: dark)" />
           <img className="qr-logo" src="/brand/forza-logo-light.svg" alt="Forza" />
         </picture>
-        <h2>Registrá tu entrenamiento</h2>
+        <h2>{gym!.name}</h2>
+        <p>Registrá tu entrenamiento</p>
         <div className="qr" aria-label={`Código QR para ${url}`} dangerouslySetInnerHTML={{ __html: svg }} />
         <p className="muted">Escaneá el código y entrá con tu DNI</p>
       </section>

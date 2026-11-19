@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, studentsOf, useDB, type ActivityStatus } from '../../data/store';
 import { fold } from '../../lib/text';
-import { useCurrentUser } from '../../session';
+import { useCurrentUser, useGym } from '../../session';
 import type { User } from '../../types';
 import { initials } from '../../lib/initials';
 
@@ -24,13 +24,14 @@ const PAGE_SIZE = 20;
 export function CoachHome() {
   const db = useDB();
   const coach = useCurrentUser();
+  const { gym } = useGym();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [page, setPage] = useState(0);
 
   // Whoever stopped training longest ago goes first; never registered counts as the longest.
-  const rows = studentsOf(db, coach.id)
+  const rows = studentsOf(db, coach.id, gym?.id)
     .map((s) => ({
       s,
       activity: activityOf(db, s.id),

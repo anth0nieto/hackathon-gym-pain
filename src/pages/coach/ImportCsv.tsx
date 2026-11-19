@@ -2,11 +2,12 @@ import { useState, type DragEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { CSV_COLUMNS, OPTIONAL_COLUMNS, parseRoutinesCsv, type CsvResult } from '../../data/csv';
 import { getUser, replaceRoutines, studentsOf, useDB } from '../../data/store';
-import { useCurrentUser } from '../../session';
+import { useCurrentUser, useGym } from '../../session';
 
 export function ImportCsv() {
   const db = useDB();
   const coach = useCurrentUser();
+  const { gym } = useGym();
   const [url, setUrl] = useState('');
   const [result, setResult] = useState<CsvResult | null>(null);
   const [done, setDone] = useState(false);
@@ -14,7 +15,7 @@ export function ImportCsv() {
 
   const parse = (text: string) => {
     setDone(false);
-    setResult(parseRoutinesCsv(text, coach.id, studentsOf(db, coach.id)));
+    setResult(parseRoutinesCsv(text, coach.id, gym!.id, studentsOf(db, coach.id)));
   };
 
   const nameOf = (id: string) => getUser(db, id)?.name ?? result?.newStudents.find((s) => s.id === id)?.name;

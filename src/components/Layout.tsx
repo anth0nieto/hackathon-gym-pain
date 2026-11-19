@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import { useSession } from '../session';
+import { homeOf, useSession } from '../session';
 import { StudentTabBar } from './StudentTabBar';
 import { UserMenu } from './UserMenu';
 
@@ -9,7 +9,7 @@ export function Layout() {
   return (
     <div className="app">
       <header className="topbar">
-        <Link to={user?.role === 'coach' ? '/coach' : '/alumno'} className="brand">
+        <Link to={user ? homeOf(user.role) : '/'} className="brand">
           <picture>
             <source srcSet="/brand/forza-logo-dark.svg" media="(prefers-color-scheme: dark)" />
             <img className="brand-logo" src="/brand/forza-logo-light.svg" alt="Forza" />

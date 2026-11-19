@@ -1,9 +1,7 @@
 import { useState, type FormEvent } from 'react';
-import { Navigate } from 'react-router-dom';
-import { studentByDni, useDB } from '../data/store';
-import { useSession } from '../session';
-
-const COACH = { id: 'c1', user: 'coach', password: 'coach123' };
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { coachByLogin, studentByDni, useDB } from '../data/store';
+import { ADMIN, homeOf, useSession } from '../session';
 
 /** Students arrive from the gym QR, so the DNI form comes first; the coach login sits below. */
 export function Login() {
@@ -11,7 +9,9 @@ export function Login() {
   const { user, login } = useSession();
   const [dniError, setDniError] = useState(false);
   const [coachError, setCoachError] = useState(false);
-  if (user) return <Navigate to={user.role === 'coach' ? '/coach' : '/alumno'} replace />;
+  // The gym QR opens /?gym=<id>, so the student sees which gym they're entering.
+  const gym = db.gyms.find((g) => g.id === useSearchParams()[0].get('gym'));
+  if (user) return <Navigate to={homeOf(user.role)} replace />;
 
   function loginStudent(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,13 +20,16 @@ export function Login() {
     if (student) login(student.id);
   }
 
-  // Demo only: the coach credentials ship in the bundle. Replace with Supabase Auth before real use.
-  function loginCoach(e: FormEvent<HTMLFormElement>) {
+  // Demo only: coach passwords are readable with the publishable key and the admin's ship in the bundle.
+  // Replace with Supabase Auth before real use.
+  function loginStaff(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    const ok = form.get('user') === COACH.user && form.get('password') === COACH.password;
-    setCoachError(!ok);
-    if (ok) login(COACH.id);
+    const username = String(form.get('user') ?? '');
+    const password = String(form.get('password') ?? '');
+    const id = username === ADMIN.username && password === ADMIN.password ? ADMIN.id : coachByLogin(db, username, password)?.id;
+    setCoachError(!id);
+    if (id) login(id);
   }
 
   return (
@@ -37,6 +40,7 @@ export function Login() {
       </header>
 
       <main className="login-main">
+        {gym && <p className="login-kicker">{gym.name}</p>}
         <h1 className="login-title">Registrá tu entrenamiento</h1>
         <p className="login-kicker">Entrá con tu DNI y mirá la rutina que te toca hoy.</p>
 
@@ -59,7 +63,7 @@ export function Login() {
 
         <details className="glass login-card login-coach">
           <summary>Soy coach</summary>
-          <form className="login-coach-form" onSubmit={loginCoach}>
+          <form className="login-coach-form" onSubmit={loginStaff}>
             <input name="user" placeholder="Usuario" autoComplete="username" required />
             <input name="password" type="password" placeholder="Contraseña" autoComplete="current-password" required />
             {coachError && <p className="login-error">Usuario o contraseña incorrectos.</p>}
