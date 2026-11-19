@@ -40,3 +40,4 @@
 .rest-spacer { height: 72px; }
 .set-row.is-checked .btn-step:disabled { opacity: 0.35; cursor: default; }
 .set-row.is-checked .stepper input { background: var(--ok-bg); }
+.btn.btn-cancel { background: var(--border); color: var(--muted); }

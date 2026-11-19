@@ -287,6 +287,23 @@ export function finishSession(sessionId: string) {
   });
 }
 
+/**
+ * Undoes a session started by mistake: deletes it with everything marked in it, so the routine is due again.
+ * If the coach's one-off change was used up when it started, it comes back.
+ */
+export function cancelSession(sessionId: string) {
+  const session = getSession(db, sessionId);
+  if (!session) return;
+  const routine = db.routines.find((r) => r.id === session.routineId);
+  const usedOverride = routine && !routine.override && JSON.stringify(session.exercises) !== JSON.stringify(routine.exercises);
+  commit({
+    ...db,
+    sessions: db.sessions.filter((s) => s.id !== sessionId),
+    logs: db.logs.filter((l) => l.sessionId !== sessionId),
+    routines: usedOverride ? db.routines.map((r) => (r.id === routine.id ? { ...r, override: session.exercises } : r)) : db.routines,
+  });
+}
+
 /** Saves one exercise as done or skipped. Saving it again replaces the previous values. */
 export function saveLog(
   sessionId: string,

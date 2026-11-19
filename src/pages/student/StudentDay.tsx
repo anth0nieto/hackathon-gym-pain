@@ -94,12 +94,14 @@ function WeekProgress({ done, total }: { done: number; total: number }) {
 function SessionCard({ session, total }: { session: Session; total: number }) {
   const ms = sessionDuration(session);
   return (
-    <Link to={`/alumno/sesion/${session.id}`} className="card card-link row-between">
-      <span>
-        Rutina {session.position} de {total} · {session.routineName}
-        {ms !== undefined && <span className="muted small"> · {humanDuration(ms)}</span>}
-      </span>
-      <StatusBadge status={sessionStatus(session)} />
+    <Link to={`/alumno/sesion/${session.id}`} className="card card-link">
+      <div className="row-between">
+        <span>
+          Rutina {session.position} de {total} · {session.routineName}
+          {ms !== undefined && <span className="muted small"> · {humanDuration(ms)}</span>}
+        </span>
+        <StatusBadge status={sessionStatus(session)} />
+      </div>
     </Link>
   );
 }

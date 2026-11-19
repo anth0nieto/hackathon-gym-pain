@@ -1,9 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
 import { WeekNav } from '../../components/WeekNav';
 import { logsOf, routinesOf, sessionStatus, sessionsOf, useDB } from '../../data/store';
-import { dayOf, fromISO, isValidISO, startOfWeek, today, weekDays } from '../../lib/dates';
+import { addDays, dayOf, fromISO, isValidISO, startOfWeek, today, weekDays } from '../../lib/dates';
 import { humanDuration, sessionDuration } from '../../lib/duration';
 import { useCurrentUser } from '../../session';
+import './stats.css';
 
 const MISSED_ALERT = 3;
 
@@ -31,13 +32,27 @@ export function Stats() {
   const dayState = (d: string) => (trainedDays.has(d) ? 'trained' : d < today() ? 'missed' : 'upcoming');
   const missed = days.filter((d) => dayState(d) === 'missed');
 
-  let streak = 0;
-  let longestMissedStreak = 0;
-  for (const d of days) {
-    streak = dayState(d) === 'missed' ? streak + 1 : 0;
-    longestMissedStreak = Math.max(longestMissedStreak, streak);
+  const isCurrentWeek = days.includes(today());
+  const trainedToday = isCurrentWeek && trainedDays.has(today());
+
+  // Past weeks: the longest run of missed days in that week, whatever happened after.
+  // Current week: the run the student is on now, back from yesterday; training today ends it.
+  let missedStreak = 0;
+  if (isCurrentWeek) {
+    if (!trainedToday) {
+      const everTrained = new Set(sessionsOf(db, user.id).map((s) => dayOf(s.startedAt)));
+      const firstSession = [...everTrained].sort()[0];
+      const from = firstSession && firstSession < days[0] ? firstSession : days[0];
+      for (let d = addDays(today(), -1); d >= from && !everTrained.has(d); d = addDays(d, -1)) missedStreak++;
+    }
+  } else {
+    let run = 0;
+    for (const d of days) {
+      run = dayState(d) === 'missed' ? run + 1 : 0;
+      missedStreak = Math.max(missedStreak, run);
+    }
   }
-  const alert = longestMissedStreak >= MISSED_ALERT;
+  const alert = missedStreak >= MISSED_ALERT;
 
   const durations = finished.map(sessionDuration).filter((ms): ms is number => ms !== undefined);
   const average = durations.length ? durations.reduce((a, b) => a + b, 0) / durations.length : undefined;
@@ -81,11 +96,19 @@ export function Stats() {
         <Stat value={trainedDays.size} label="días que entrenaste" />
         <Stat value={finished.length} label="rutinas completadas" />
         <Stat value={skippedExercises} label="ejercicios salteados" />
-        <Stat value={missed.length} label="días que no fuiste" danger={alert} />
+        {trainedToday ? (
+          <Stat value="✓" label="entrenaste hoy" tone="ok" />
+        ) : (
+          <Stat value={missed.length} label="días que no fuiste" tone={alert ? 'danger' : undefined} />
+        )}
       </div>
 
       {alert && (
-        <p className="notice danger">Faltaste {longestMissedStreak} días seguidos esta semana. ¡Volvé cuando puedas!</p>
+        <p className="notice danger">
+          {isCurrentWeek
+            ? `Llevás ${missedStreak} días seguidos sin entrenar. ¡Volvé cuando puedas!`
+            : `Esa semana faltaste ${missedStreak} días seguidos.`}
+        </p>
       )}
       {average !== undefined && (
         <p className="muted small">Tardaste en promedio {humanDuration(average)} por rutina.</p>
@@ -94,9 +117,9 @@ export function Stats() {
   );
 }
 
-function Stat({ value, label, danger }: { value: number; label: string; danger?: boolean }) {
+function Stat({ value, label, tone }: { value: number | string; label: string; tone?: 'danger' | 'ok' }) {
   return (
-    <div className={`card stat${danger ? ' stat-danger' : ''}`}>
+    <div className={`card stat${tone ? ` stat-${tone}` : ''}`}>
       <span className="stat-value">{value}</span>
       <span className="small muted">{label}</span>
     </div>

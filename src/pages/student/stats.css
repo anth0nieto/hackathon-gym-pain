@@ -1,0 +1,2 @@
+.stat.stat-ok { border-color: var(--ok); background: var(--ok-bg); }
+.stat.stat-ok .stat-value { color: var(--ok); }
