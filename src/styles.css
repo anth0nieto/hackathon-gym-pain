@@ -490,11 +490,11 @@ details[open] > summary { margin-bottom: 8px; }
 .login-btn:active { transform: scale(0.99); }
 .login-error { color: #fcd34d; font-size: 0.85rem; }
 
-.login-coach { padding: 14px 20px; }
-.login-coach summary { opacity: 0.8; }
-.login-coach[open] summary { margin-bottom: 12px; }
-.login-coach-form { display: flex; flex-direction: column; gap: 10px; }
-.login-coach .login-btn { background: rgba(255, 255, 255, 0.12); }
+.login-btn-ghost {
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; text-decoration: none;
+}
+.login-btn-ghost:hover { background: rgba(255, 255, 255, 0.16); }
 
 .theme-toggle {
   display: grid; place-items: center;

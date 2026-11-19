@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { CoachLayout } from './components/CoachLayout';
 import { Layout } from './components/Layout';
-import { Login } from './pages/Login';
+import { Login, StaffLogin } from './pages/Login';
 import { AdminHome } from './pages/admin/AdminHome';
 import { AddRoutine } from './pages/coach/AddRoutine';
 import { AssignTemplate } from './pages/coach/AssignTemplate';
@@ -47,6 +47,7 @@ export function App() {
           </Route>
           <Route path="admin" element={<RequireRole role="admin"><AdminHome /></RequireRole>} />
           <Route index element={<Login />} />
+          <Route path="login" element={<StaffLogin />} />
           <Route element={<Layout />}>
             <Route path="alumno" element={<RequireRole role="student"><StudentDay /></RequireRole>} />
             <Route path="alumno/entrenar" element={<RequireRole role="student"><RoutineSession key="due" /></RequireRole>} />

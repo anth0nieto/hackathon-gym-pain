@@ -90,6 +90,8 @@ El coach trabaja en un gimnasio a la vez y lo cambia desde la barra lateral. `us
 
 ## Login
 
+`/` es el login del alumno, con DNI. Coaches y admin entran en `/login`, con un botón desde `/`.
+
 | Rol | Cómo entra |
 |---|---|
 | Admin | Usuario `admin`, contraseña `admin123`, fijos en `ADMIN` de `src/session.tsx`. No está en la base. Entra a `/admin`. |
