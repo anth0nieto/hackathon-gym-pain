@@ -235,7 +235,7 @@ code { font-size: 0.85em; }
   background: var(--nav-bg); color: var(--nav-text);
 }
 .sidebar-brand { padding: 0 14px; }
-.sidebar-brand strong { display: block; font-size: 1.5rem; letter-spacing: -0.02em; }
+.sidebar-logo { display: block; height: 30px; width: auto; margin-bottom: 6px; }
 .sidebar-brand span { font-size: 0.85rem; opacity: 0.75; }
 .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
 .sidebar-link {
@@ -287,7 +287,7 @@ code { font-size: 0.85em; }
   .coach-app { grid-template-columns: minmax(0, 1fr); }
   .sidebar { min-width: 0; z-index: 10; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 16px; }
   .sidebar-brand { padding: 0; }
-  .sidebar-brand strong { font-size: 1.15rem; }
+  .sidebar-logo { height: 24px; margin: 0; }
   .sidebar-brand span, .sidebar-user span { display: none; }
   .sidebar-nav { order: 3; width: 100%; min-width: 0; flex-direction: row; overflow-x: auto; }
   .sidebar-link { padding: 8px 12px; font-size: 0.9rem; white-space: nowrap; }

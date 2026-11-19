@@ -22,7 +22,7 @@ export function CoachLayout() {
     <div className="coach-app">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <strong>Forza</strong>
+          <img className="sidebar-logo" src="/brand/forza-logo-dark.svg" alt="Forza" />
           <span>Panel del coach</span>
         </div>
         <nav className="sidebar-nav">

@@ -4,6 +4,10 @@ Todo el estilo de la app vive en `src/styles.css`. No hay librería de component
 
 La base es el login. Toma el azul de Docker (`#1D63ED`) y su azul marino (`#00084D`). Las superficies oscuras (login y menú lateral del coach) llevan tarjetas translúcidas. El contenido va sobre fondo claro, con tarjetas blancas.
 
+## Marca
+
+La app se llama **Forza**. El logo y sus reglas están en [marca.md](marca.md). Usá los archivos de `public/brand/` tal cual, sin redibujarlos: `forza-logo-dark.svg` sobre `--nav-bg` (login y menú lateral) y `forza-logo-light.svg` sobre fondo claro.
+
 ## Reglas
 
 1. **Nunca escribas un color en un componente.** Usá una variable: `var(--primary)`, no `#1d63ed`. Si falta un color, agregá la variable en `:root` y en el bloque de modo oscuro.
@@ -184,7 +188,7 @@ En pantallas de más de 860 px se ve la tabla. En celular se oculta y se ven las
 
 | Pantalla | Archivo | Qué copiar |
 |---|---|---|
-| Login | `src/pages/Login.tsx` | Fondo `--nav-bg` con `.login-glow`, tarjetas `.glass`, botón principal a todo el ancho |
-| Panel del coach | `src/components/CoachLayout.tsx` | Menú lateral `--nav-bg` que en celular pasa a ser una barra arriba |
+| Login | `src/pages/Login.tsx` | Logo oscuro, fondo `--nav-bg` con `.login-glow`, tarjetas `.glass`, botón principal a todo el ancho |
+| Panel del coach | `src/components/CoachLayout.tsx` | Logo oscuro y menú lateral `--nav-bg` que en celular pasa a ser una barra arriba |
 | Lista con filtros | `src/pages/coach/CoachHome.tsx` | `.page-head`, `.toolbar` con `.chips` y buscador, `.table-card`, paginación `.pager` |
 | Formulario | `src/pages/coach/StudentForm.tsx` | `.stack` con `.field`, un `.btn-block` y un `.btn-link.danger` para borrar |
