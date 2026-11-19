@@ -119,3 +119,7 @@ export const getExercise = (id: string) => byId.get(id);
 /** The catalog exercise behind a planned one: by `exerciseId`, or by name for exercises typed by hand. */
 export const exerciseFor = (planned: Pick<PlannedExercise, 'name' | 'exerciseId'>) =>
   (planned.exerciseId && byId.get(planned.exerciseId)) || byName.get(normalize(planned.name));
+
+/** Identifies the same exercise across routines: the catalog id when known, otherwise the normalized name. */
+export const exerciseKey = (planned: Pick<PlannedExercise, 'name' | 'exerciseId'>) =>
+  exerciseFor(planned)?.id ?? normalize(planned.name);

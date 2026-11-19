@@ -11,6 +11,7 @@ import {
 import { dayOf, formatDay } from '../../lib/dates';
 import { humanDuration, sessionDuration } from '../../lib/duration';
 import { exerciseFor } from '../../data/exercises';
+import { lastWeight } from '../../data/history';
 import { useCurrentUser } from '../../session';
 import type { ExerciseLog, PlannedExercise, Prescription } from '../../types';
 
@@ -81,6 +82,7 @@ export function RoutineSession() {
           key={e.id}
           exercise={e}
           log={logFor(db, session?.id, e.id)}
+          lastWeight={lastWeight(db, user.id, e, session?.id)}
           sessionFor={sessionFor}
           demoOpen={demoOpen.has(e.id)}
           onToggleDemo={() => toggleDemo(e.id)}
@@ -99,15 +101,18 @@ export function RoutineSession() {
 interface CardProps {
   exercise: PlannedExercise;
   log?: ExerciseLog;
+  /** What the student lifted the last time they did this exercise, in any routine. */
+  lastWeight?: number;
   sessionFor: () => string;
   demoOpen: boolean;
   onToggleDemo: () => void;
   onMarked: () => void;
 }
 
-function ExerciseCard({ exercise, log, sessionFor, demoOpen, onToggleDemo, onMarked }: CardProps) {
+function ExerciseCard({ exercise, log, lastWeight, sessionFor, demoOpen, onToggleDemo, onMarked }: CardProps) {
   const demo = exerciseFor(exercise);
-  const initial: Prescription = log ?? exercise;
+  const prefill: Prescription = { sets: exercise.sets, reps: exercise.reps, weight: lastWeight ?? exercise.weight };
+  const initial: Prescription = log ?? prefill;
   const [values, setValues] = useState<Prescription>({ sets: initial.sets, reps: initial.reps, weight: initial.weight });
   const [editing, setEditing] = useState(!log);
   const update = (k: keyof Prescription) => (n: number) => setValues((v) => ({ ...v, [k]: n }));
@@ -128,7 +133,7 @@ function ExerciseCard({ exercise, log, sessionFor, demoOpen, onToggleDemo, onMar
           </div>
           <div className="row">
             <button className="btn-link" onClick={() => setEditing(true)}>Editar</button>
-            <button className="btn-link muted" onClick={() => { clearLog(log.sessionId, exercise.id); setValues(exercise); setEditing(true); }}>
+            <button className="btn-link muted" onClick={() => { clearLog(log.sessionId, exercise.id); setValues(prefill); setEditing(true); }}>
               Deshacer
             </button>
           </div>
@@ -150,6 +155,9 @@ function ExerciseCard({ exercise, log, sessionFor, demoOpen, onToggleDemo, onMar
           <h3>{exercise.name}</h3>
           <span className="muted small">Sugerido {fmt(exercise)}</span>
         </div>
+      )}
+      {lastWeight !== undefined && lastWeight !== exercise.weight && (
+        <p className="small muted">La última vez levantaste <strong>{lastWeight} kg</strong></p>
       )}
       {demo && demoOpen && <ExerciseDemo exercise={demo} textCollapsed />}
       <div className="steppers">
