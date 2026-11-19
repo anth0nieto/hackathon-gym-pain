@@ -43,8 +43,8 @@ export function App() {
             <Route path="plantillas/:templateId" element={<TemplateEditor />} />
             <Route path="plantillas/:templateId/asignar" element={<AssignTemplate />} />
           </Route>
+          <Route index element={<Login />} />
           <Route element={<Layout />}>
-            <Route index element={<Login />} />
             <Route path="alumno" element={<RequireRole role="student"><StudentDay /></RequireRole>} />
             <Route path="alumno/entrenar" element={<RequireRole role="student"><RoutineSession key="due" /></RequireRole>} />
             <Route path="alumno/stats" element={<RequireRole role="student"><Stats /></RequireRole>} />
