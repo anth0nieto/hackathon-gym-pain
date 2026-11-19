@@ -326,3 +326,6 @@ code { font-size: 0.85em; }
 .stat-value { font-size: 2rem; font-weight: 700; line-height: 1; }
 .stat-danger { border-color: var(--danger); }
 .stat-danger .stat-value { color: var(--danger); }
+
+details > summary { cursor: pointer; font-weight: 600; }
+details[open] > summary { margin-bottom: 8px; }
