@@ -1,39 +1,97 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { StatusBadge } from '../../components/StatusBadge';
-import { dueRoutine, openSession, sessionStatus, sessionsOf, useDB } from '../../data/store';
-import { dayOf, formatDay } from '../../lib/dates';
+import { WeekNav } from '../../components/WeekNav';
+import { WeekStrip, type DayMark } from '../../components/WeekStrip';
+import { dueRoutine, openSession, routinesOf, sessionStatus, sessionsOf, useDB } from '../../data/store';
+import { dayOf, formatDay, isValidISO, startOfWeek, today } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
+import type { Session } from '../../types';
 
-/** Student home: the routine they have to do now, and the ones they already did. */
+/**
+ * Student home: a week calendar. Routines have no date, so a day shows what was trained that day;
+ * today and upcoming days show the routine that comes next in the rotation.
+ */
 export function StudentDay() {
   const db = useDB();
   const user = useCurrentUser();
+  const [params, setParams] = useSearchParams();
+  const raw = params.get('fecha');
+  const date = raw && isValidISO(raw) ? raw : today();
+  const select = (d: string) => setParams({ fecha: d }, { replace: true });
+
+  const routines = routinesOf(db, user.id);
+  const total = routines.length;
+  const sessions = sessionsOf(db, user.id);
   const due = dueRoutine(db, user.id);
-  const started = openSession(db, user.id)?.routineId === due?.id;
-  const history = sessionsOf(db, user.id);
+  const open = openSession(db, user.id);
+
+  const sessionsOn = (d: string) => sessions.filter((s) => dayOf(s.startedAt) === d);
+  const markOf = (d: string): DayMark => {
+    const day = sessionsOn(d);
+    if (!day.length) return 'none';
+    return day.some((s) => sessionStatus(s) === 'open') ? 'open' : 'done';
+  };
+
+  const weekStart = startOfWeek(date);
+  const doneThisWeek = sessions.filter((s) => startOfWeek(dayOf(s.startedAt)) === weekStart).length;
+  const isPast = date < today();
+  const isToday = date === today();
+  const daySessions = sessionsOn(date).filter((s) => !(isToday && s.id === open?.id));
+
+  if (total === 0) return <p className="empty">Tu coach todavía no te armó rutinas.</p>;
 
   return (
     <div className="stack">
-      {!due && <p className="empty">Tu coach todavía no te armó rutinas.</p>}
-      {due && (
+      <WeekNav date={date} onChange={select} />
+      <WeekProgress done={doneThisWeek} total={total} />
+      <WeekStrip date={date} onSelect={select} markOf={markOf} />
+
+      <h2 className="day-title">{isToday ? `Hoy, ${formatDay(date)}` : formatDay(date)}</h2>
+
+      {daySessions.map((s) => <SessionCard key={s.id} session={s} total={total} />)}
+
+      {!isPast && due && (
         <section className="card stack-sm">
-          <p className="muted small">Te toca</p>
-          <h1>Rutina {due.position} · {due.name}</h1>
+          <p className="muted small">{isToday ? (open ? 'Estás haciendo' : 'Te toca') : 'Tu próxima rutina'}</p>
+          <h1>Rutina {due.position} de {total} · {due.name}</h1>
           <p className="muted">{due.exercises.map((e) => e.name).join(' · ')}</p>
-          <Link to="/alumno/entrenar" className="btn btn-block">{started ? 'Seguir' : 'Empezar'}</Link>
+          {isToday ? (
+            <Link to="/alumno/entrenar" className="btn btn-block">{open ? 'Seguir' : 'Empezar'}</Link>
+          ) : (
+            <p className="muted small">Las rutinas van en orden: el día que vengas, hacés la que sigue.</p>
+          )}
         </section>
       )}
-      {history.length > 0 && (
-        <section className="stack-sm">
-          <h2>Lo que hiciste</h2>
-          {history.map((s) => (
-            <Link key={s.id} to={`/alumno/sesion/${s.id}`} className="card card-link row-between">
-              <span>{formatDay(dayOf(s.startedAt))} · Rutina {s.position} · {s.routineName}</span>
-              <StatusBadge status={sessionStatus(s)} />
-            </Link>
-          ))}
-        </section>
+
+      {isPast && daySessions.length === 0 && (
+        <div className="empty">
+          <p className="empty-icon">🛋️</p>
+          <p><strong>Día libre</strong></p>
+          <p className="small">No entrenaste este día.</p>
+        </div>
       )}
     </div>
+  );
+}
+
+function WeekProgress({ done, total }: { done: number; total: number }) {
+  return (
+    <div className="week-progress">
+      <span className="small muted">{done >= total ? '¡Semana completa!' : `${done} de ${total} rutinas esta semana`}</span>
+      <div className="row">
+        {Array.from({ length: Math.max(total, done) }, (_, i) => (
+          <span key={i} className={`dot ${i < done ? 'dot-done' : 'dot-pending'}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SessionCard({ session, total }: { session: Session; total: number }) {
+  return (
+    <Link to={`/alumno/sesion/${session.id}`} className="card card-link row-between">
+      <span>Rutina {session.position} de {total} · {session.routineName}</span>
+      <StatusBadge status={sessionStatus(session)} />
+    </Link>
   );
 }

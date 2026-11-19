@@ -167,3 +167,32 @@ code { font-size: 0.85em; }
 .choice.is-selected { border-color: var(--primary); }
 .divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 0.85rem; }
 .divider::before, .divider::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
+
+.daynav { display: flex; align-items: center; gap: 8px; }
+.daynav-label { flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.daynav-label .btn-link { align-self: center; font-size: 0.85rem; }
+
+.dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--idle); display: inline-block; }
+.dot-none { border-color: transparent; }
+.dot-pending { background: transparent; border-color: var(--idle); }
+.dot-open { background: var(--warn); border-color: var(--warn); }
+.dot-done { background: var(--ok); border-color: var(--ok); }
+
+.week-progress { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+
+.weekstrip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.weekstrip-day {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 0; min-height: 72px;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface); cursor: pointer;
+}
+.weekstrip-name { font-size: 0.75rem; color: var(--muted); text-transform: capitalize; }
+.weekstrip-num { font-size: 1.1rem; font-weight: 700; }
+.weekstrip-day.is-today .weekstrip-num { color: var(--primary); }
+.weekstrip-day.is-selected { background: var(--primary); border-color: var(--primary); }
+.weekstrip-day.is-selected .weekstrip-name,
+.weekstrip-day.is-selected .weekstrip-num { color: var(--primary-text); }
+.weekstrip-day.is-selected .dot-done,
+.weekstrip-day.is-selected .dot-open { border-color: var(--primary-text); }
+.empty-icon { font-size: 2rem; }

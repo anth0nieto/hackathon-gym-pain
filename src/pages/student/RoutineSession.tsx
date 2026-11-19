@@ -4,7 +4,7 @@ import { Stepper } from '../../components/Stepper';
 import { StatusBadge } from '../../components/StatusBadge';
 import { fmt } from '../../components/ExerciseSummary';
 import {
-  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, saveLog, sessionStatus, startSession, useDB,
+  clearLog, dueRoutine, finishSession, getSession, logFor, logsOf, openSession, routinesOf, saveLog, sessionStatus, startSession, useDB,
 } from '../../data/store';
 import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
@@ -32,13 +32,14 @@ export function RoutineSession() {
     routine?.exercises ?? logs.map((l) => ({ id: l.exerciseId, name: l.exerciseName, sets: l.sets, reps: l.reps, weight: l.weight }));
   const position = session?.position ?? routine!.position;
   const name = session?.routineName ?? routine!.name;
+  const total = routinesOf(db, user.id).length;
   const sessionFor = () => session?.id ?? startSession(user.id, routine!);
 
   return (
     <div className="stack">
-      <Link to="/alumno" className="btn-link">‹ Inicio</Link>
+      <Link to={past ? `/alumno?fecha=${dayOf(past.startedAt)}` : '/alumno'} className="btn-link">‹ Inicio</Link>
       <div className="row-between">
-        <h1>Rutina {position} · {name}</h1>
+        <h1>Rutina {position}{total ? ` de ${total}` : ''} · {name}</h1>
         {session && <StatusBadge status={sessionStatus(session)} />}
       </div>
       {past && <p className="muted small">{formatDay(dayOf(past.startedAt))}</p>}
