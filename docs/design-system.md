@@ -187,6 +187,14 @@ Reemplaza al selector de archivos nativo. Se toca para abrir el selector o se ar
 
 `src/components/UserMenu.tsx` abre un `<dialog>` nativo con el avatar, el nombre, la pregunta ("¿Querés cerrar sesión?"), un `.btn-danger` para confirmar y "Cancelar". Se cierra con Cancelar, con Escape o tocando afuera. Por defecto se abre con el avatar. Con `trigger` se abre con otro botón, como "Salir" en el menú del coach.
 
+### Formulario en un diálogo
+
+`.modal` es un `<dialog>` nativo para formularios que no tienen que estar siempre a la vista, como crear o editar un coach. Se abre con `showModal()`, se cierra con ✕, Cancelar, Escape o tocando afuera, y abajo lleva "Cancelar" (`.btn-ghost`) y la acción principal. Ejemplo en `src/pages/admin/AdminHome.tsx`.
+
+### Selección múltiple con etiquetas
+
+Para elegir varias opciones de una lista corta, como los gimnasios de un coach, usá `.chip` con `aria-pressed` dentro de `.tag-list`, no checkboxes. La activa lleva `.is-active` y una ✓.
+
 ### Tabla y tarjetas en celular
 
 ```html
