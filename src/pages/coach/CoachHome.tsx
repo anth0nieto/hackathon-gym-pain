@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { activityOf, dueRoutine, routinesOf, sessionsThisWeek, studentsOf, useDB, type ActivityStatus } from '../../data/store';
 import { useCurrentUser } from '../../session';
 import type { User } from '../../types';
+import { initials } from '../../lib/initials';
 
 /** Lowercase without accents, so "martin" finds "Martín". */
 const fold = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
 
-const initials = (name: string) => name.split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('');
 
 const STATUS: Record<ActivityStatus, { label: string; tone: string }> = {
   ok: { label: 'Al día', tone: 'ok' },

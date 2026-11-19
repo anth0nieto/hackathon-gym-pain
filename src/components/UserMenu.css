@@ -1,0 +1,13 @@
+.avatar-btn { border: 0; cursor: pointer; width: 36px; height: 36px; }
+.avatar-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.avatar-lg { width: 64px; height: 64px; font-size: 1.25rem; }
+.user-menu {
+  width: min(320px, calc(100vw - 32px));
+  padding: 0; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text);
+}
+.user-menu::backdrop { background: rgba(15, 23, 42, 0.45); }
+.user-menu-body { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 20px 16px; }
+.user-menu-name { font-size: 1.1rem; text-align: center; }
+.user-menu .btn-link { align-self: center; }
+.btn-danger { background: var(--danger); color: #fff; }
