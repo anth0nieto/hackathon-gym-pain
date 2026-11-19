@@ -29,6 +29,10 @@ export function GymQr() {
       )}
 
       <section className="card qr-sheet stack-sm">
+        <picture>
+          <source srcSet="/brand/forza-logo-dark.svg" media="screen and (prefers-color-scheme: dark)" />
+          <img className="qr-logo" src="/brand/forza-logo-light.svg" alt="Forza" />
+        </picture>
         <h2>Registrá tu entrenamiento</h2>
         <div className="qr" aria-label={`Código QR para ${url}`} dangerouslySetInnerHTML={{ __html: svg }} />
         <p className="muted">Escaneá el código y entrá con tu DNI</p>

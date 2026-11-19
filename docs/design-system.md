@@ -89,6 +89,7 @@ La fuente es la del sistema (`system-ui`): San Francisco en iPhone, Roboto en An
 <a class="btn btn-secondary">Mis rutinas</a>
 <button class="btn btn-ghost">Cancelar</button>
 <button class="btn-link">Editar</button>
+<button class="btn btn-danger">Cerrar sesión</button>
 <button class="btn-link danger">Borrar</button>
 ```
 
@@ -98,6 +99,7 @@ La fuente es la del sistema (`system-ui`): San Francisco en iPhone, Roboto en An
 | `.btn-secondary` | Acción secundaria. Fondo celeste y texto azul |
 | `.btn-ghost` | Acción terciaria. Solo borde |
 | `.btn-block` | Ocupa todo el ancho |
+| `.btn-danger` | Acción destructiva que se confirma, como "Cerrar sesión". Rojo |
 | `.btn-link` | Acción en línea, como "Editar". Con `.muted` o `.danger` cambia de color |
 
 ### Inputs
@@ -167,6 +169,23 @@ Para separar secciones largas de una misma pantalla, así no hay que scrollear h
 ### Paginación
 
 `.pager` con el rango a la izquierda ("1–20 de 107") y dos `.chip` para moverse. Se usa en listas que pueden pasar de una pantalla: alumnos, historial y selección de alumnos.
+
+### Zona para soltar archivos
+
+```html
+<label class="dropzone">
+  <input type="file" accept=".csv" class="visually-hidden" />
+  <span class="dropzone-icon">↑</span>
+  <strong>Arrastrá tu CSV acá</strong>
+  <span class="muted small">o hacé click para elegirlo</span>
+</label>
+```
+
+Reemplaza al selector de archivos nativo. Se toca para abrir el selector o se arrastra un archivo encima. Agregá `.is-dragging` mientras el archivo está encima, `.has-file` cuando ya hay uno válido y `.has-error` si no se pudo leer. Ejemplo en `src/pages/coach/ImportCsv.tsx`.
+
+### Diálogo de confirmación
+
+`src/components/UserMenu.tsx` abre un `<dialog>` nativo con el avatar, el nombre, la pregunta ("¿Querés cerrar sesión?"), un `.btn-danger` para confirmar y "Cancelar". Se cierra con Cancelar, con Escape o tocando afuera. Por defecto se abre con el avatar. Con `trigger` se abre con otro botón, como "Salir" en el menú del coach.
 
 ### Tabla y tarjetas en celular
 

@@ -275,7 +275,12 @@ export function finishSession(sessionId: string) {
 }
 
 /** Saves one exercise as done or skipped. Saving it again replaces the previous values. */
-export function saveLog(sessionId: string, exercise: PlannedExercise, status: ExerciseLog['status'], values: Prescription) {
+export function saveLog(
+  sessionId: string,
+  exercise: PlannedExercise,
+  status: ExerciseLog['status'],
+  values: Prescription & Pick<ExerciseLog, 'setDetails'>,
+) {
   const log: ExerciseLog = {
     sessionId,
     exerciseId: exercise.id,
@@ -393,10 +398,14 @@ export function deleteRoutine(id: string) {
   commit({ ...db, routines: remaining.map((r) => renumbered.get(r.id) ?? r) });
 }
 
-/** Replaces the routines of every student present in `routines` (CSV import). History is kept. */
-export function replaceRoutines(routines: Routine[]) {
+/** Creates `newStudents` and replaces the routines of every student present in `routines` (CSV import). History is kept. */
+export function replaceRoutines(routines: Routine[], newStudents: User[] = []) {
   const students = new Set(routines.map((r) => r.studentId));
-  commit({ ...db, routines: [...db.routines.filter((r) => !students.has(r.studentId)), ...routines] });
+  commit({
+    ...db,
+    users: [...db.users, ...newStudents],
+    routines: [...db.routines.filter((r) => !students.has(r.studentId)), ...routines],
+  });
 }
 
 export function saveTemplate(template: RoutineTemplate) {
@@ -441,7 +450,7 @@ export function assignPlan(plan: Plan, studentId: string) {
     exercises: r.exercises.map((e) => ({
       id: uid(),
       exerciseId: e.exerciseId,
-      name: getExercise(e.exerciseId)!.name,
+      name: getExercise(e.exerciseId)!.alias,
       sets: e.sets,
       reps: e.reps,
       weight: 0,

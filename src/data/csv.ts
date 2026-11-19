@@ -3,6 +3,8 @@ import { uid } from '../lib/id';
 import { exerciseFor } from './exercises';
 
 export const CSV_COLUMNS = ['alumno', 'rutina', 'ejercicio', 'series', 'reps', 'peso'] as const;
+/** With `dni`, a student who isn't in the app yet gets created; `dias` is how many days a week they train. */
+export const OPTIONAL_COLUMNS = ['dni', 'dias'] as const;
 
 function parseRows(text: string): string[][] {
   const rows: string[][] = [];
@@ -32,27 +34,47 @@ const toNumber = (s: string) => Number(s.trim().replace(',', '.'));
 
 export interface CsvResult {
   routines: Routine[];
+  /** Students in the CSV who aren't in the app yet; importing creates them. */
+  newStudents: User[];
   errors: string[];
 }
+
+const digits = (s: string) => s.replace(/\D/g, '');
 
 export function parseRoutinesCsv(text: string, coachId: string, students: User[]): CsvResult {
   const rows = parseRows(text);
   const errors: string[] = [];
-  if (rows.length < 2) return { routines: [], errors: ['El CSV está vacío.'] };
+  if (rows.length < 2) return { routines: [], newStudents: [], errors: ['El CSV está vacío.'] };
 
   const header = rows[0].map((h) => h.trim().toLowerCase());
-  const col = Object.fromEntries(CSV_COLUMNS.map((c) => [c, header.indexOf(c)])) as Record<(typeof CSV_COLUMNS)[number], number>;
+  type Column = (typeof CSV_COLUMNS)[number] | (typeof OPTIONAL_COLUMNS)[number];
+  const col = Object.fromEntries([...CSV_COLUMNS, ...OPTIONAL_COLUMNS].map((c) => [c, header.indexOf(c)])) as Record<Column, number>;
   const missing = CSV_COLUMNS.filter((c) => col[c] === -1);
-  if (missing.length) return { routines: [], errors: [`Faltan columnas: ${missing.join(', ')}`] };
+  if (missing.length) return { routines: [], newStudents: [], errors: [`Faltan columnas: ${missing.join(', ')}`] };
 
   const byKey = new Map<string, Routine>();
+  const newStudents: User[] = [];
   rows.slice(1).forEach((r, i) => {
     const line = i + 2;
-    const get = (c: (typeof CSV_COLUMNS)[number]) => (r[col[c]] ?? '').trim();
+    const get = (c: Column) => (col[c] === -1 ? '' : (r[col[c]] ?? '').trim());
 
+    // With a DNI, only the DNI identifies the student (two people can share a name); without one, the name does.
+    // A student with a DNI who isn't in the app yet gets created.
+    const dni = digits(get('dni'));
     const who = get('alumno').toLowerCase();
-    const student = students.find((s) => s.name.toLowerCase() === who || s.id.toLowerCase() === who);
-    if (!student) return errors.push(`Fila ${line}: no encuentro al alumno "${get('alumno')}".`);
+    const days = get('dias') ? Number(get('dias')) : undefined;
+    if (days !== undefined && !(Number.isInteger(days) && days >= 1 && days <= 7)) {
+      return errors.push(`Fila ${line}: "dias" tiene que ser un número del 1 al 7.`);
+    }
+    const known = [...students, ...newStudents];
+    let student = dni
+      ? known.find((s) => s.dni === dni)
+      : known.find((s) => s.name.toLowerCase() === who || s.id.toLowerCase() === who);
+    if (!student && dni && who) {
+      student = { id: uid(), name: get('alumno'), role: 'student', coachId, dni, daysPerWeek: days };
+      newStudents.push(student);
+    }
+    if (!student) return errors.push(`Fila ${line}: no encuentro al alumno "${get('alumno')}". Agregá su DNI en la columna "dni" para crearlo.`);
 
     const name = get('ejercicio');
     if (!name) return errors.push(`Fila ${line}: falta el ejercicio.`);
@@ -69,8 +91,12 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
       const position = [...byKey.values()].filter((x) => x.studentId === student.id).length + 1;
       byKey.set(key, { id: uid(), coachId, studentId: student.id, position, name: routineName, exercises: [] });
     }
-    byKey.get(key)!.exercises.push({ id: uid(), exerciseId: exercise.id, name: exercise.name, sets, reps, weight });
+    // Keep the coach's own wording ("Sentadilla"); exerciseId is what links it to the exercise list.
+    byKey.get(key)!.exercises.push({ id: uid(), exerciseId: exercise.id, name, sets, reps, weight });
   });
 
-  return { routines: [...byKey.values()], errors };
+  const routines = [...byKey.values()];
+  // A new student without "dias" trains as many days as routines they got.
+  for (const s of newStudents) s.daysPerWeek ??= routines.filter((r) => r.studentId === s.id).length;
+  return { routines, newStudents, errors };
 }

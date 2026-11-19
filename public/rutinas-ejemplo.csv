@@ -1,13 +1,26 @@
-alumno,rutina,ejercicio,series,reps,peso
-Juan Pérez,Piernas,Squat con mancuernas,4,10,16
-Juan Pérez,Piernas,Prensa,3,12,120
-Juan Pérez,Piernas,Sillón cuádriceps,3,12,30
-Juan Pérez,Piernas,Sillón femoral,3,12,30
-Juan Pérez,Empuje,Press de banco plano con barra,4,8,50
-Juan Pérez,Empuje,Press militar,3,10,25
-Juan Pérez,Empuje,Fondos,3,10,0
-Juan Pérez,Empuje,Transnuca con mancuerna,3,12,12
-Ana Gómez,Full body,Prensa,4,10,80
-Ana Gómez,Full body,Press en banco plano con mancuernas,4,10,12
-Ana Gómez,Full body,Remo con mancuerna,3,10,14
-Ana Gómez,Full body,Vuelos laterales,3,12,6
+alumno,dni,dias,rutina,ejercicio,series,reps,peso
+Valentina Ríos,31997000,3,Piernas,Sentadilla,4,10,30
+Valentina Ríos,31997000,3,Piernas,Prensa,4,10,130
+Valentina Ríos,31997000,3,Piernas,Camilla femoral,4,10,35
+Valentina Ríos,31997000,3,Piernas,Sillón cuádriceps,4,10,42.5
+Valentina Ríos,31997000,3,Piernas,Gemelos,4,15,17.5
+Valentina Ríos,31997000,3,Empuje,Press banca,4,10,55
+Valentina Ríos,31997000,3,Empuje,Press inclinado,4,10,17.5
+Valentina Ríos,31997000,3,Empuje,Press militar,4,10,30
+Valentina Ríos,31997000,3,Empuje,Vuelos laterales,4,15,7.5
+Valentina Ríos,31997000,3,Empuje,Fondos,4,8,
+Valentina Ríos,31997000,3,Tirón,Dominadas,4,8,
+Valentina Ríos,31997000,3,Tirón,Jalón al pecho,4,10,47.5
+Valentina Ríos,31997000,3,Tirón,Remo con mancuerna,4,10,20
+Valentina Ríos,31997000,3,Tirón,Curl de bíceps,4,10,12.5
+Valentina Ríos,31997000,3,Tirón,Martillo,4,10,12.5
+Lucía Benítez,46704936,2,Full body A,Sentadilla,3,12,17.5
+Lucía Benítez,46704936,2,Full body A,Press banca,3,12,27.5
+Lucía Benítez,46704936,2,Full body A,Jalón al pecho,3,12,25
+Lucía Benítez,46704936,2,Full body A,Vuelos laterales,3,15,5
+Lucía Benítez,46704936,2,Full body A,Curl de bíceps,3,12,7.5
+Lucía Benítez,46704936,2,Full body B,Prensa,3,12,70
+Lucía Benítez,46704936,2,Full body B,Press inclinado,3,12,12.5
+Lucía Benítez,46704936,2,Full body B,Remo sentado,3,12,27.5
+Lucía Benítez,46704936,2,Full body B,Press militar,3,12,17.5
+Lucía Benítez,46704936,2,Full body B,Transnuca,3,12,7.5

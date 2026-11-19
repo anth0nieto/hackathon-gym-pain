@@ -81,15 +81,19 @@ El coach arma rutinas una vez, por ejemplo "Principiante" o "Avanzado", y se las
 
 La home del coach muestra para cada alumno cuántas veces entrenó esta semana, qué rutina le toca y "Último registro hace X días", resaltado cuando pasan más de 3.
 
-### 9. Un formato de CSV fijo, con plantilla
+### 9. Un formato de CSV fijo, que también crea alumnos
 
 Una fila por ejercicio:
 
 ```
-alumno,rutina,ejercicio,series,reps,peso
+alumno,dni,dias,rutina,ejercicio,series,reps,peso
 ```
 
-Las filas con el mismo alumno y la misma rutina forman una rutina. El orden en que aparece cada rutina define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía.
+`dni` y `dias` son opcionales. Con el DNI, los alumnos que todavía no están en la app se crean al importar, así un coach que viene de Sheets importa todo de una vez. Si la fila trae DNI, el alumno se identifica solo por el DNI, porque dos personas pueden llamarse igual. Sin DNI, se busca por nombre.
+
+Las filas con el mismo alumno y la misma rutina forman una rutina. El orden en que aparece cada rutina define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía. Los ejercicios se escriben como los llama el coach ("Press banca", "Sentadilla", "Camilla femoral") y tienen que estar en la lista de ejercicios.
+
+Para la demo está `public/planilla-coach-demo.csv`: la planilla de un coach con 24 alumnos y 77 rutinas. Se genera con `scripts/planilla-demo.py`.
 
 ## Fuera del MVP
 

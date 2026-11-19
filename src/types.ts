@@ -65,11 +65,22 @@ export interface Session {
 
 export type ExerciseStatus = 'done' | 'skipped';
 
+/** One set as the student did it. */
+export interface SetDetail {
+  reps: number;
+  weight: number;
+}
+
+/**
+ * `sets`, `reps` and `weight` summarize the exercise: how many sets, and the reps and weight of the last one.
+ * `setDetails` has every set, for when they differ.
+ */
 export interface ExerciseLog extends Prescription {
   sessionId: string;
   exerciseId: string;
   exerciseName: string;
   status: ExerciseStatus;
+  setDetails?: SetDetail[] | null;
   updatedAt: string;
 }
 
