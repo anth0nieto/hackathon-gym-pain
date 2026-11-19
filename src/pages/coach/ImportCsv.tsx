@@ -37,7 +37,7 @@ export function ImportCsv() {
       <Link to="/coach" className="btn-link">‹ Alumnos</Link>
       <h1>Importar rutinas</h1>
       <p className="muted">
-        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>. Una fila por ejercicio. Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía.{' '}
+        Columnas: <code>{CSV_COLUMNS.join(', ')}</code>. Una fila por ejercicio. Las filas con el mismo alumno y rutina forman una rutina, y el orden en que aparecen define si es la 1, la 2 o la 3. Importar reemplaza las rutinas que ese alumno tenía. Cada ejercicio tiene que estar en la <Link to="/coach/ejercicios">lista de ejercicios</Link>.{' '}
         <a href="/rutinas-ejemplo.csv" download>Bajar ejemplo</a>
       </p>
 

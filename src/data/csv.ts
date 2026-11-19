@@ -1,5 +1,6 @@
 import type { Routine, User } from '../types';
 import { uid } from '../lib/id';
+import { exerciseFor } from './exercises';
 
 export const CSV_COLUMNS = ['alumno', 'rutina', 'ejercicio', 'series', 'reps', 'peso'] as const;
 
@@ -55,6 +56,8 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
 
     const name = get('ejercicio');
     if (!name) return errors.push(`Fila ${line}: falta el ejercicio.`);
+    const exercise = exerciseFor({ name });
+    if (!exercise) return errors.push(`Fila ${line}: "${name}" no está en la lista de ejercicios.`);
 
     const [sets, reps, weight] = [toNumber(get('series')), toNumber(get('reps')), toNumber(get('peso') || '0')];
     if ([sets, reps, weight].some((n) => isNaN(n) || n < 0)) return errors.push(`Fila ${line}: series/reps/peso deben ser números.`);
@@ -66,7 +69,7 @@ export function parseRoutinesCsv(text: string, coachId: string, students: User[]
       const position = [...byKey.values()].filter((x) => x.studentId === student.id).length + 1;
       byKey.set(key, { id: uid(), coachId, studentId: student.id, position, name: routineName, exercises: [] });
     }
-    byKey.get(key)!.exercises.push({ id: uid(), name, sets, reps, weight });
+    byKey.get(key)!.exercises.push({ id: uid(), exerciseId: exercise.id, name: exercise.name, sets, reps, weight });
   });
 
   return { routines: [...byKey.values()], errors };

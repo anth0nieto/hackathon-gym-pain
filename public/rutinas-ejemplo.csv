@@ -1,13 +1,13 @@
 alumno,rutina,ejercicio,series,reps,peso
-Juan Pérez,Piernas,Sentadilla,4,8,60
+Juan Pérez,Piernas,Squat con mancuernas,4,10,16
 Juan Pérez,Piernas,Prensa,3,12,120
-Juan Pérez,Piernas,Estocadas,3,10,12
-Juan Pérez,Piernas,Camilla femoral,3,12,30
-Juan Pérez,Empuje,Press banca,4,8,50
+Juan Pérez,Piernas,Sillón cuádriceps,3,12,30
+Juan Pérez,Piernas,Sillón femoral,3,12,30
+Juan Pérez,Empuje,Press de banco plano con barra,4,8,50
 Juan Pérez,Empuje,Press militar,3,10,25
 Juan Pérez,Empuje,Fondos,3,10,0
-Juan Pérez,Empuje,Tríceps en polea,3,12,20
-Ana Gómez,Full body,Peso muerto,4,6,70
-Ana Gómez,Full body,Press banca,4,8,40
-Ana Gómez,Full body,Remo con barra,3,10,35
-Ana Gómez,Full body,Plancha,3,1,0
+Juan Pérez,Empuje,Transnuca con mancuerna,3,12,12
+Ana Gómez,Full body,Prensa,4,10,80
+Ana Gómez,Full body,Press en banco plano con mancuernas,4,10,12
+Ana Gómez,Full body,Remo con mancuerna,3,10,14
+Ana Gómez,Full body,Vuelos laterales,3,12,6
