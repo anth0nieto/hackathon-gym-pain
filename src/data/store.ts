@@ -118,6 +118,14 @@ export const useDB = () => useSyncExternalStore(subscribe, () => db);
 
 export const getUser = (d: DB, id?: string | null) => d.users.find((u) => u.id === id);
 
+/** Keeps only digits, so "30.111.222" and "30111222" are the same DNI. */
+export const normalizeDni = (dni: string) => dni.replace(/\D/g, '');
+
+export const studentByDni = (d: DB, dni: string) => {
+  const wanted = normalizeDni(dni);
+  return wanted ? d.users.find((u) => u.role === 'student' && u.dni === wanted) : undefined;
+};
+
 export const studentsOf = (d: DB, coachId: string) =>
   d.users.filter((u) => u.role === 'student' && u.coachId === coachId);
 
@@ -151,6 +159,28 @@ export function lastActivity(d: DB, studentId: string): string | undefined {
 }
 
 // ---------- actions ----------
+
+/** Creates or updates a student. Returns 'dni-taken' without saving if another user has that DNI. */
+export function saveStudent(student: { id?: string; name: string; dni: string; coachId: string }): 'ok' | 'dni-taken' {
+  const dni = normalizeDni(student.dni);
+  const id = student.id ?? uid();
+  if (db.users.some((u) => u.dni === dni && u.id !== id)) return 'dni-taken';
+  const user: User = { id, name: student.name.trim(), role: 'student', coachId: student.coachId, dni };
+  const exists = db.users.some((u) => u.id === id);
+  commit({ ...db, users: exists ? db.users.map((u) => (u.id === id ? user : u)) : [...db.users, user] });
+  return 'ok';
+}
+
+/** Deletes a student with their routines and logs. */
+export function deleteStudent(id: string) {
+  const routineIds = new Set(db.routines.filter((r) => r.studentId === id).map((r) => r.id));
+  commit({
+    ...db,
+    users: db.users.filter((u) => u.id !== id),
+    routines: db.routines.filter((r) => !routineIds.has(r.id)),
+    logs: db.logs.filter((l) => !routineIds.has(l.routineId)),
+  });
+}
 
 export function saveRoutine(routine: Routine) {
   const exists = db.routines.some((r) => r.id === routine.id);

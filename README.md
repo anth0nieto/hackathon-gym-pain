@@ -2,7 +2,7 @@
 
 Web responsive para que el coach cargue rutinas y el alumno las registre desde el celular.
 
-Problema, solución y decisiones de diseño: [docs/producto.md](docs/producto.md).
+Problema, solución y decisiones de diseño: [docs/producto.md](docs/producto.md). Funciones del back para las pantallas: [docs/back.md](docs/back.md).
 
 Antes de levantarla, copiá `.env.example` a `.env.local` y completá la URL y la clave publishable de Supabase. Pedíselas a Anthony.
 

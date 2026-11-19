@@ -3,9 +3,9 @@ import { addDays, startOfWeek, today } from '../lib/dates';
 
 export const seedUsers: User[] = [
   { id: 'c1', name: 'Coach Laura', role: 'coach' },
-  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1' },
-  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1' },
-  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1' },
+  { id: 's1', name: 'Juan Pérez', role: 'student', coachId: 'c1', dni: '30111222' },
+  { id: 's2', name: 'Ana Gómez', role: 'student', coachId: 'c1', dni: '35333444' },
+  { id: 's3', name: 'Martín Ruiz', role: 'student', coachId: 'c1', dni: '40555666' },
 ];
 
 export function seedRoutines(): Routine[] {
