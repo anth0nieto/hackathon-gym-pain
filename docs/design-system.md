@@ -153,6 +153,21 @@ Los `input` y `select` ya tienen alto, borde y anillo de foco azul. `.field` agr
 
 Muestran la cantidad de cada filtro. Marcá el activo con `.is-active` y con `aria-pressed`.
 
+### Pestañas
+
+```html
+<div class="tabs" role="tablist">
+  <button class="tab is-active" role="tab" aria-selected="true">Rutinas · 4</button>
+  <button class="tab" role="tab" aria-selected="false">Historial · 16</button>
+</div>
+```
+
+Para separar secciones largas de una misma pantalla, así no hay que scrollear hasta la última. Guardá la pestaña activa en la URL (`?tab=historial`), así al volver de otra pantalla abre en la misma. Ejemplo en `src/pages/coach/StudentPlan.tsx`.
+
+### Paginación
+
+`.pager` con el rango a la izquierda ("1–20 de 107") y dos `.chip` para moverse. Se usa en listas que pueden pasar de una pantalla: alumnos, historial y selección de alumnos.
+
 ### Tabla y tarjetas en celular
 
 ```html

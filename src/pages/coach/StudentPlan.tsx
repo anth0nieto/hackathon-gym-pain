@@ -1,4 +1,5 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { ExerciseSummary } from '../../components/ExerciseSummary';
 import { StatusBadge } from '../../components/StatusBadge';
 import {
@@ -8,10 +9,18 @@ import { dayOf, formatDay } from '../../lib/dates';
 import { useCurrentUser } from '../../session';
 import type { PlannedExercise } from '../../types';
 
+const TABS = ['rutinas', 'progreso', 'historial'] as const;
+type Tab = (typeof TABS)[number];
+const HISTORY_PAGE = 5;
+
 export function StudentPlan() {
   const db = useDB();
   const coach = useCurrentUser();
   const { studentId } = useParams();
+  // The tab lives in the URL, so coming back from editing a routine lands on the same tab.
+  const [params, setParams] = useSearchParams();
+  const tab: Tab = TABS.find((t) => t === params.get('tab')) ?? 'rutinas';
+  const [historyPage, setHistoryPage] = useState(0);
   const student = getUser(db, studentId);
   if (!student || student.coachId !== coach.id) return <Navigate to="/coach" replace />;
 
@@ -30,7 +39,24 @@ export function StudentPlan() {
         <Link to={`/coach/alumno/${student.id}/editar`} className="btn-link">Editar datos</Link>
       </div>
 
-      <section className="stack-sm">
+      <div className="tabs" role="tablist" aria-label="Secciones del alumno">
+        {TABS.map((t) => (
+          <button
+            key={t}
+            role="tab"
+            id={`tab-${t}`}
+            aria-selected={tab === t}
+            aria-controls={`panel-${t}`}
+            className={`tab ${tab === t ? 'is-active' : ''}`}
+            onClick={() => setParams(t === 'rutinas' ? {} : { tab: t }, { replace: true })}
+          >
+            {t === 'rutinas' ? `Rutinas · ${routines.length}` : t === 'progreso' ? 'Progreso' : `Historial · ${sessions.length}`}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'rutinas' && (
+      <section className="stack-sm" role="tabpanel" id="panel-rutinas" aria-labelledby="tab-rutinas">
         <div className="row-between">
           <h2>Rutinas</h2>
           <div className="row">
@@ -76,10 +102,12 @@ export function StudentPlan() {
           );
         })}
       </section>
+      )}
 
-      {progress.length > 0 && (
-        <section className="stack-sm">
-          <h2>Progreso</h2>
+      {tab === 'progreso' && (
+        <section className="stack-sm" role="tabpanel" id="panel-progreso" aria-labelledby="tab-progreso">
+          {progress.length === 0 && <p className="empty">Todavía no hay pesos registrados.</p>}
+          {progress.length > 0 && (
           <article className="card">
             <ul className="exsum-list">
               {progress.map((p) => (
@@ -91,13 +119,14 @@ export function StudentPlan() {
               ))}
             </ul>
           </article>
+          )}
         </section>
       )}
 
-      <section className="stack-sm">
-        <h2>Historial</h2>
+      {tab === 'historial' && (
+      <section className="stack-sm" role="tabpanel" id="panel-historial" aria-labelledby="tab-historial">
         {sessions.length === 0 && <p className="empty">Todavía no entrenó.</p>}
-        {sessions.map((s) => {
+        {sessions.slice(historyPage * HISTORY_PAGE, (historyPage + 1) * HISTORY_PAGE).map((s) => {
           const planned: PlannedExercise[] = s.exercises.length
             ? s.exercises
             : logsOf(db, s.id).map((l) => ({ id: l.exerciseId, name: l.exerciseName, sets: l.sets, reps: l.reps, weight: l.weight }));
@@ -113,7 +142,19 @@ export function StudentPlan() {
             </article>
           );
         })}
+        {sessions.length > HISTORY_PAGE && (
+          <nav className="pager" aria-label="Páginas del historial">
+            <span className="muted small">
+              {historyPage * HISTORY_PAGE + 1}–{Math.min((historyPage + 1) * HISTORY_PAGE, sessions.length)} de {sessions.length}
+            </span>
+            <div className="row">
+              <button className="chip" disabled={historyPage === 0} onClick={() => setHistoryPage(historyPage - 1)}>‹ Más nuevas</button>
+              <button className="chip" disabled={(historyPage + 1) * HISTORY_PAGE >= sessions.length} onClick={() => setHistoryPage(historyPage + 1)}>Más viejas ›</button>
+            </div>
+          </nav>
+        )}
       </section>
+      )}
     </div>
   );
 }
