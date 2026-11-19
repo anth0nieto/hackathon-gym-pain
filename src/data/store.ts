@@ -1,11 +1,14 @@
 import { useSyncExternalStore } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import type { ExerciseLog, Prescription, Routine, RoutineStatus, RoutineTemplate, User } from '../types';
 import { seedRoutines, seedTemplates, seedUsers } from './seed';
 import { addDays, weekDays } from '../lib/dates';
 import { uid } from '../lib/id';
 
-// Swap this module for a real backend (Supabase, API) keeping the same exports:
-// localStorage only shares data between tabs of the same browser.
+// Actions update the in-memory snapshot first and then write the diff to Supabase,
+// so selectors stay synchronous. Columns are camelCase, matching src/types.ts.
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
 export interface DB {
   users: User[];
@@ -14,40 +17,95 @@ export interface DB {
   logs: ExerciseLog[];
 }
 
-const KEY = 'gym-pain-db-v1';
+type Table = keyof DB;
+type Row = Record<string, unknown>;
+
+// Insert order respects foreign keys; deletes run in reverse.
+const TABLES: Table[] = ['users', 'templates', 'routines', 'logs'];
+const PRIMARY_KEY: Record<Table, string[]> = {
+  users: ['id'],
+  templates: ['id'],
+  routines: ['id'],
+  logs: ['routineId', 'exerciseId'],
+};
+
+const rows = (d: DB, t: Table) => d[t] as unknown as Row[];
+const keyOf = (t: Table, row: Row) => PRIMARY_KEY[t].map((k) => row[k]).join('|');
+
+const EMPTY: DB = { users: [], routines: [], templates: [], logs: [] };
 const listeners = new Set<() => void>();
+let db: DB = EMPTY;
 
 function fresh(): DB {
   return { users: seedUsers, routines: seedRoutines(), templates: seedTemplates, logs: [] };
 }
 
-function load(): DB {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) return { ...fresh(), ...(JSON.parse(raw) as Partial<DB>) };
-  } catch {
-    /* corrupt or blocked storage: fall back to seed */
-  }
-  return fresh();
+function emit(next: DB) {
+  db = next;
+  listeners.forEach((l) => l());
 }
 
-let db: DB = load();
+// ponytail: reads every table whole, on start and on any remote change. Fine for one coach;
+// filter by coach and patch from the realtime payload when the data grows.
+async function fetchAll(): Promise<DB> {
+  const results = await Promise.all(TABLES.map((t) => supabase.from(t).select('*')));
+  const failed = results.find((r) => r.error);
+  if (failed?.error) throw failed.error;
+  const [users, templates, routines, logs] = results.map((r) => r.data ?? []);
+  return { users, templates, routines, logs } as DB;
+}
+
+async function refresh() {
+  try {
+    emit(await fetchAll());
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/** Writes only what changed: actions keep untouched rows by reference, so a new reference means upsert. */
+async function persist(prev: DB, next: DB) {
+  for (const t of TABLES) {
+    const before = new Set(rows(prev, t));
+    const changed = rows(next, t).filter((r) => !before.has(r));
+    if (changed.length) {
+      const { error } = await supabase.from(t).upsert(changed);
+      if (error) throw error;
+    }
+  }
+  for (const t of [...TABLES].reverse()) {
+    const kept = new Set(rows(next, t).map((r) => keyOf(t, r)));
+    for (const r of rows(prev, t)) {
+      if (kept.has(keyOf(t, r))) continue;
+      const { error } = await supabase.from(t).delete().match(Object.fromEntries(PRIMARY_KEY[t].map((k) => [k, r[k]])));
+      if (error) throw error;
+    }
+  }
+}
+
+/** Loads the snapshot, seeds an empty database, and follows changes made from other devices. */
+export async function loadDB() {
+  let next = await fetchAll();
+  if (next.users.length === 0) {
+    await persist(EMPTY, fresh());
+    next = await fetchAll();
+  }
+  emit(next);
+  supabase
+    .channel('db')
+    .on('postgres_changes', { event: '*', schema: 'public' }, () => void refresh())
+    .subscribe();
+}
 
 function commit(next: DB) {
-  db = next;
-  try {
-    localStorage.setItem(KEY, JSON.stringify(db));
-  } catch {
-    /* storage unavailable: keep in memory */
-  }
-  listeners.forEach((l) => l());
+  const prev = db;
+  emit(next);
+  persist(prev, next).catch((e) => {
+    console.error(e);
+    alert('No se pudo guardar. Revisá la conexión y probá de nuevo.');
+    void refresh();
+  });
 }
-
-window.addEventListener('storage', (e) => {
-  if (e.key !== KEY) return;
-  db = load();
-  listeners.forEach((l) => l());
-});
 
 const subscribe = (l: () => void) => {
   listeners.add(l);

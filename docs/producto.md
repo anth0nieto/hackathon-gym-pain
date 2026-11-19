@@ -85,4 +85,4 @@ Cada rutina se asigna a una fecha concreta, no a "lunes" en general. Así queda 
 - Registrar el peso de cada serie por separado, cuando las series no son iguales.
 - Notas y esfuerzo percibido (RPE) por ejercicio.
 - Que funcione sin conexión (PWA).
-- Un backend compartido: hoy los datos viven en `localStorage`, que solo se comparte entre pestañas del mismo navegador. Para usarlo entre dispositivos hay que reemplazar `src/data/store.ts`, por ejemplo con Supabase.
+- Login real y reglas de acceso por usuario en Supabase. Hoy la clave publishable lee y escribe todo, y la contraseña del coach está en el código.

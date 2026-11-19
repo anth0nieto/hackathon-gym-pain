@@ -5,6 +5,7 @@ export interface User {
   name: string;
   role: Role;
   coachId?: string;
+  dni?: string;
 }
 
 export interface Prescription {
