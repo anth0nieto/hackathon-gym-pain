@@ -13,10 +13,10 @@ const MISSED_ALERT = 3;
 const RECENT = 3;
 
 const UPCOMING_MESSAGES = [
-  { icon: '💪', title: 'Esta semana todavía no empezó', text: 'Lo que hagas hoy es lo que vas a ver acá. ¡A seguir sumando!' },
-  { icon: '🔥', title: 'Una semana nueva te espera', text: 'La constancia le gana al talento. Un entrenamiento a la vez.' },
-  { icon: '🚀', title: 'Tu próxima semana está en blanco', text: 'Cada rutina que completes la va a ir llenando de verde.' },
-  { icon: '🏆', title: 'Se viene otra semana', text: 'No hace falta que sea perfecta, alcanza con que vayas.' },
+  { title: 'Esta semana todavía no empezó', text: 'Lo que hagas hoy es lo que vas a ver acá. ¡A seguir sumando!' },
+  { title: 'Una semana nueva te espera', text: 'La constancia le gana al talento. Un entrenamiento a la vez.' },
+  { title: 'Tu próxima semana está en blanco', text: 'Cada rutina que completes la va a ir llenando de verde.' },
+  { title: 'Se viene otra semana', text: 'No hace falta que sea perfecta, alcanza con que vayas.' },
 ];
 
 const COMEBACK = [
@@ -64,7 +64,6 @@ export function Stats() {
         <h1>Mi actividad</h1>
         {nav}
         <div className="empty">
-          <p className="empty-icon">{message.icon}</p>
           <p><strong>{message.title}</strong></p>
           <p className="small">{message.text}</p>
           {routines > 0 && <p className="small muted">Te esperan {plural(routines, 'rutina', 'rutinas')} por semana.</p>}

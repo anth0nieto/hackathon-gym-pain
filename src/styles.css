@@ -232,7 +232,6 @@ code { font-size: 0.85em; }
 .weekstrip-day.is-selected .weekstrip-num { color: var(--primary-text); }
 .weekstrip-day.is-selected .dot-done,
 .weekstrip-day.is-selected .dot-open { border-color: var(--primary-text); }
-.empty-icon { font-size: 2rem; }
 
 .qr-sheet { align-items: center; text-align: center; padding: 24px; }
 .qr { width: min(280px, 70vw); }
@@ -380,14 +379,9 @@ details.card[open] > summary { margin-bottom: 10px; }
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
   padding: 6px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
-  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  border: 1px solid;
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-    0 10px 30px rgba(0, 0, 0, 0.18);
 }
 .tabbar-item {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
@@ -403,9 +397,6 @@ details.card[open] > summary { margin-bottom: 10px; }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .tabbar-item:active { transform: scale(0.94); }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .tabbar { background: var(--surface); }
-}
 
 .timer {
   display: flex; justify-content: space-between; align-items: center;
@@ -498,3 +489,104 @@ details[open] > summary { margin-bottom: 8px; }
 .theme-toggle:hover { border-color: var(--primary); color: var(--primary); }
 .sidebar-theme { width: 32px; height: 32px; border-color: rgba(255, 255, 255, 0.2); background: transparent; color: inherit; }
 .sidebar-theme:hover { border-color: currentColor; color: inherit; }
+
+/* ---------- Glass and finish ---------- */
+:root {
+  --frost-bg: rgba(255, 255, 255, 0.66);
+  --frost-border: rgba(15, 23, 42, 0.08);
+  --frost-highlight: rgba(255, 255, 255, 0.75);
+  --frost-shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.02);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --frost-bg: rgba(19, 28, 46, 0.58);
+    --frost-border: rgba(255, 255, 255, 0.08);
+    --frost-highlight: rgba(255, 255, 255, 0.10);
+    --frost-shadow: 0 12px 34px rgba(0, 0, 0, 0.40);
+    --card-shadow: none;
+  }
+}
+:root[data-theme='dark'] {
+  --frost-bg: rgba(19, 28, 46, 0.58);
+  --frost-border: rgba(255, 255, 255, 0.08);
+  --frost-highlight: rgba(255, 255, 255, 0.10);
+  --frost-shadow: 0 12px 34px rgba(0, 0, 0, 0.40);
+  --card-shadow: none;
+}
+
+h1, h2, .page-title, .stat-value { letter-spacing: -0.02em; }
+h1 { font-weight: 750; }
+.stat-value, .timer-value { font-variant-numeric: tabular-nums; }
+
+.card { box-shadow: var(--card-shadow); }
+
+/* Topbar: content scrolls under it. */
+.topbar {
+  background: var(--frost-bg);
+  border-bottom: 1px solid var(--frost-border);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Bottom bar: same glass as the topbar. */
+.tabbar {
+  background: var(--frost-bg);
+  border-color: var(--frost-border);
+  box-shadow: inset 0 1px 0 var(--frost-highlight), var(--frost-shadow);
+}
+
+/* Session timer: sticky while training, so the exercises slide under it. */
+.timer {
+  background: color-mix(in srgb, var(--primary) 14%, var(--frost-bg));
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 var(--frost-highlight), var(--frost-shadow);
+}
+
+/* Account menu: a glass sheet over a blurred page. */
+.user-menu {
+  background: var(--frost-bg);
+  border-color: var(--frost-border);
+  border-radius: 24px;
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: inset 0 1px 0 var(--frost-highlight), var(--frost-shadow);
+}
+.user-menu::backdrop {
+  background: rgba(2, 6, 23, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* "Te toca": the one thing to do today, lit from the corner. */
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 22px;
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--primary) 26%, transparent), transparent 60%),
+    color-mix(in srgb, var(--surface) 80%, transparent);
+  box-shadow: inset 0 1px 0 var(--frost-highlight), var(--frost-shadow);
+}
+.eyebrow {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--primary);
+}
+.hero-title { font-size: 2rem; line-height: 1.1; }
+.hero-exercises { color: var(--muted); line-height: 1.5; }
+.btn-start { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 6px 18px color-mix(in srgb, var(--primary) 35%, transparent); }
+
+/* The day's sessions on the home screen: one card, one row each. */
+.session-list { padding: 0 16px; }
+.session-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; color: inherit; }
+.session-row + .session-row { border-top: 1px solid var(--border); }
+.session-row:active { opacity: 0.7; }
+.session-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar, .tabbar, .timer, .user-menu { background: var(--surface); }
+}
